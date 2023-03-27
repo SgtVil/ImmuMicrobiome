@@ -1,0 +1,120 @@
+######################## ALDEX2 pipeline ##################################
+library(ALDEx2)
+data("selex")
+ps= subset_samples(ps, Group!="Donor" & Group!="Unknown")
+ps_rare= subset_samples(ps_rare, Group!="Donor" & Group!="Unknown")
+
+res= list()
+
+donor_res_ASV= list()
+for(donor in donorlist){
+  ps_test= subset_samples(ps, Donor== donor)
+  dim(tax_table(ps_test))
+  for (i in grouplist){
+    norm_ps= subset_samples(ps_test, Group!=i)
+    otu= as.matrix(t(otu_table(norm_ps)))
+    row.names(otu)<- gen
+    conds= as.matrix(sample_data(norm_ps)[,"Group"])
+    x.clr= aldex.clr(otu, conds = conds )
+    x= aldex.ttest(x.clr, paired.test = F)
+    x1 = aldex.effect(x.clr)
+    x_fin= data.frame(x, x1)
+    res[[i]]= x_fin
+    
+    x.clr=NULL
+  }
+  donor_res_ASV[[donor]]= res
+}
+
+
+
+pdf("differential_abundance_ASV.pdf", width = 20, height = 20)
+par(mar = c(3, 20, 3, 10))
+
+for(donor in donorlist){
+  theme_set(theme_minimal()+theme(panel.grid = element_blank(), legend.position = "bottom", 
+                                  axis.title.y = element_blank(), axis.text.y = element_text(size = 20),
+                                  legend.text = element_text(size = 40), axis.title.x = element_blank(), 
+                                  axis.text.x = element_text(size= 20), 
+                                  title = element_text(size = 40, face="bold")))
+  for(i in grouplist){
+    x=donor_res_ASV[[donor]]
+    x1= x[[i]]
+    x1= subset(x1, we.eBH<0.05)
+    name= c("CTRL","Atorvastatin","Rosuvastatin")
+    if(dim(x1)[1]!=0){
+      # x1$diff.btw= sort(x1$diff.btw)
+      # col= ifelse(x1$diff.btw>0, "red", "blue")
+      # barplot(x1$diff.btw, horiz=T, las=2, names.arg = rownames(x1),
+      #         main =donor, col = col, cex.names = 1.2, width = 0.8, ylim = c(0, length(x1)) )
+      # 
+      # mtext(text = name[name!=i][1], at=min(x1$diff.btw), line=2, side = 1, cex = 1.2)
+      # mtext(text = name[name!=i][2], at=max(x1$diff.btw), line=2, side = 1, cex = 1.2)
+      
+     p=  ggplot(x1, aes(y= diff.btw, x= reorder(rownames(x1),X = diff.btw), fill=diff.btw<0))+
+        geom_bar(stat = "identity", )+coord_flip()+
+        scale_fill_manual(labels=c(name[name!=i][2],name[name!=i][1]),name=NULL,
+                          values = c("blue","red"))+ggtitle(label = donor)
+         
+     print(p)
+    }
+  }
+}
+
+dev.off()
+
+
+
+#################################################
+#same loop at genus level
+
+library(ALDEx2)
+
+Genus= tax_glom(ps, "Genus")
+Genus= subset_samples(Genus, Group!="Donor" & Group!="Unknown")
+
+res= list()
+donor_res= list()
+for(v in donorlist){
+  ps_test= subset_samples(Genus, Donor== v)
+  for (i in grouplist){
+    
+    
+    norm_ps= subset_samples(ps_test, Group!=i)
+    otu= as.matrix(t(otu_table(norm_ps)))
+    row.names(otu)<- paste(tax_table(norm_ps)[,"Genus"], sep = "_")
+    conds= as.matrix(sample_data(norm_ps)[,"Group"])
+    x.clr= aldex.clr(otu, conds = conds )
+    x= aldex.ttest(x.clr, paired.test = F)
+    x1 = aldex.effect(x.clr)
+    x_fin= data.frame(x, x1)
+    res[[i]]= x_fin
+    aldex.plot(x_fin, type= "MA", test = "welch")+title(main=paste(v, i, sep = " "))
+    x.clr=NULL
+  }
+  donor_res_genus[[v]]= res
+}
+
+pdf("differential_genus.pdf", width = 15, height = 12)
+par(mar = c(3, 20, 3, 5))
+
+for(donor in donorlist){
+  for(i in grouplist){
+    x=donor_res[[donor]]
+    x1= x[[i]]
+    x1= subset(x1, we.eBH<0.05)
+    name= c("CTRL","Atorvastatin","Rosuvastatin")
+    if(dim(x1)[1]!=0){
+      x1$diff.btw= sort(x1$diff.btw)
+      col= ifelse(x1$diff.btw>0, "red", "blue")
+      barplot(x1$diff.btw, horiz=T, las=1, names.arg = rownames(x1),
+              main =donor, col = col, cex.names = 1.2, width = 0.8, ylim = c(0, length(x1)))
+      
+      mtext(text = name[name!=i][1], at=min(x1$diff.btw), line=2, side = 1, cex = 1.2, )
+      mtext(text = name[name!=i][2], at=max(x1$diff.btw), line=2, side = 1, cex = 1.2)
+    }
+  }
+}
+
+
+dev.off()

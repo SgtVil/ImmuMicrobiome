@@ -1,0 +1,34 @@
+#' @export
+prepare_non_physeq = function(obj, model="plsda", ncomp=10, prop= 0.5, train= T, ...){
+  if(class(obj)!="list") stop("Your object is not a list. Please give a list of two with a numeric matrix or data.frame and a data.frame of variables to test the model")
+
+  x= obj[[1]] %>% as.matrix
+  x= x[, apply(x, 2, function(x)sum(x)>0)] # remove variables that have 0 sum
+  y= obj[[2]] %>% as.data.frame()
+
+  data = pre_process(x, y)
+
+  train_y=NULL
+  train_x=NULL
+  pred_y = NULL
+  pred_x = NULL
+  # prepare training and testing data
+  if(train== T){
+    for(i in names(data$y)){
+      index = caret::createDataPartition(data$y[[i]], list = F, p = 0.5)
+      train_y[[i]]= data$y[[i]][index]
+      train_x[[i]]= data$x[[i]][index,]
+
+      pred_y[[i]]= data$y[[i]][-index]
+      pred_x[[i]]= data$x[[i]][-index,]
+    }
+  }
+  if(train==F){
+    for(i in names(data$y)){
+    train_y[[i]]= data$y[[i]]
+    train_x[[i]]= data$x[[i]]
+    }
+  }
+
+  return(list(train_y= train_y, train_x= train_x, pred_x =pred_x, pred_y= pred_y))
+}

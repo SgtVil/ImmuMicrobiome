@@ -1,0 +1,135 @@
+#' Plot alpha diversity with numerous aspect.
+#'
+#'@param physeq (Required). A phyloseq object to analyse your data.
+#'(\code{\link{phyloseq-class}})
+#'@param distance A character string. The default is "wunifrac" from the phyloseq package.
+#'@param method Computation method to display beta-diversity. Default : \code{"PCoA"}
+#'@param group A character string from your metadata. Select one variable you want to segregate your data by.
+#'@param color_vector A color vector by which you want plot. Make sure the colovector is sufficient for your parameters.
+#'Default :"cyan4","brown","deepskyblue", "black","red"
+#'@param factor_to_plot (Optionnal). A character string you want as title.
+#'@param second_factor_to_plot (Optionnal). A second factor.
+#'@param lwd Line width.
+#'@param clabel Label size.
+#'@param cpoint Point size
+#'@param addaxes Plot axis or not. Logical.
+#'@param axesell Plot axesell. See \code{\link{ade4}}.
+#'@param csub Title size.
+#'
+#'@importFrom vegan metaMDS
+#'@importFrom vegan vegdist
+#'@importFrom phyloseq sample_data
+#'@importFrom phyloseq distance
+#'@importFrom phyloseq tax_table
+#'@importFrom phyloseq otu_table
+#'@importFrom ade4 scatter
+#'@importFrom ade4 s.class
+#'@importFrom vegan orditorp
+#'
+beta_diversity= function(physeq,  distance= "wunifrac", nf= 5, method= "PCoA",
+                              group=NULL, color_vector= c("cyan4","brown","deepskyblue", "black","red"),
+                              factor_to_plot= NULL, second_factor_to_plot= NULL, lwd=1, cpoint=2,
+                              clabel=1, addaxes= F, axesell=T, csub= 2, font=2)
+{
+  old <- par()
+  fac= sample_data(physeq)[,group]
+  group= as.factor(fac[[1]])
+  if(is.null(access(physeq, "tax_table"))){
+    stop("Need a phyloseq object")}
+
+
+  if(distance== "wunifrac" & is.null(access(physeq, "phy_tree"))){
+    d= phyloseq:: distance(physeq, method="bray")
+    print("No phylogenetic tree in this phyloseq object, bray-curtis distance selected.")
+  }
+  else{
+    d= phyloseq:: distance(physeq, method= distance )
+
+  }
+  if(is.null(group)){
+    stop("Need factor to segregate result.")
+  }
+
+  par(lwd=lwd, font=font)
+  if(length(colnames(tax_table(physeq))<8))
+  {
+    cat("pasted ASV vector. \n")
+    taxa_names(physeq)<- paste(tax_table(physeq)[,"Genus"],
+      as.vector(paste("ASV_", c(1:length(tax_table(physeq)[, ncol(tax_table(physeq))])))))
+  }
+
+ # if(length(method)==1){
+
+    if( method== "PCoA"){
+      # par(mfrow=c(1,1))
+      p= dudi.pco(d, scannf = F, nf=nf)
+      s.class(p$li, fac= group, sub= paste(method, factor_to_plot, second_factor_to_plot),
+              col = color_vector, grid = F, axesell = axesell, addaxes = addaxes, cpoint=cpoint, clabel=clabel, csub=csub, )
+ cat("Inertia. \n")
+ return( head(p$eig/sum(p$eig)*100,5))
+
+    }
+    if(method=="BCA"){
+
+
+      cat("Do you want PCA or PCoA based BCA ? Press [PCA] or [PCoA]. \n")
+     Answer= readline(prompt="")
+      if(Answer== "PCoA"){
+        p= dudi.pco(d, scannf=F, nf=nf)
+        b= bca(p, scannf=F, fac= group)
+        par(mfrow=c(1,2))
+
+        s.class(b$ls, fac= group, sub=  paste(method, factor_to_plot, second_factor_to_plot),
+                col = color_vector, grid = F, axesell = axesell, addaxes = addaxes, cpoint=cpoint, clabel=clabel, csub= csub
+                )
+        scatter(b, clabel=0.2, posieig="none")
+        cat("Inertia. \n")
+        return( head(p$eig/sum(p$eig)*100,5))
+        par(mfrow=c(1,1))
+      }
+     if(Answer=="PCA"){
+       otu= as(otu_table(reverseASV(physeq)), 'matrix')
+       p= dudi.pca(otu, scannf = F, nf=nf, scale = T, center = T)
+       b= bca(p, scannf=F, fac= group)
+       par(mfrow=c(1,2))
+
+       s.class(b$ls, fac= group, sub=  paste(method, factor_to_plot, second_factor_to_plot),
+               col = color_vector, grid = F, axesell = axesell, addaxes = addaxes, cpoint=cpoint, clabel=clabel, csub= csub,
+               add.plot = F)
+       scatter(b, clab.row = 0.5, clab.col = 0.5, posieig = "none")
+       cat("Inertia. \n")
+       return( head(p$eig/sum(p$eig)*100,5))
+       reset.par()
+     }
+
+    }
+    if(method=="NMDS"){
+      # par(mfrow=c(1,1))
+      otu= as(otu_table(reverseASV(physeq)), 'matrix')
+      m= metaMDS(otu )
+      s.class(m$points, fac=group, sub=  paste(method, factor_to_plot, second_factor_to_plot),
+              col = color_vector, grid = F, axesell = axesell, addaxes = addaxes,
+              cpoint=cpoint, clabel=clabel, csub= csub)
+      orditorp(m, display="species")
+
+    }
+    if(method== "PCA"){
+      par(mfrow=c(1,1))
+      otu= as(otu_table(reverseASV(physeq)), 'matrix')
+      p= dudi.pca(otu, scannf = F, nf=nf, scale = T, center = T)
+      s.class(p$li, fac= group, sub=  paste(method, factor_to_plot, second_factor_to_plot),
+              col = color_vector, grid = F, axesell = axesell, addaxes = addaxes, cpoint=cpoint, clabel=clabel, csub= csub)
+      cat("Inertia. \n")
+      return( head(p$eig/sum(p$eig)*100,5))
+    }
+  #}
+  # on.exit(old, add=T)
+}
+############################################################################
+#'Similar to veganifyOTU from phyloseq.
+#'@keywords internal
+reverseASV= function(physeq){
+if(taxa_are_rows(physeq)){physeq <- t(physeq)}
+return(physeq)
+}
+##########################################################################

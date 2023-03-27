@@ -1,0 +1,52 @@
+normalization= function(physeq, method= "clr", verbose=TRUE){
+  if (!identical(all.equal(otu_table(physeq), round(otu_table(physeq))), TRUE))
+    stop("Need a count table, not the relative abundance one, pls use the raw physeq object")
+  o= as(otu_table(physeq), "matrix")
+  m= sample_data(physeq)
+
+  if(taxa_are_rows(physeq)==FALSE){
+    o= t(o)
+    cat("transformation.\n")
+  }
+  x = apply(o, 2, sum)
+
+  if(max(x)/min(x)>=10){
+    cat("Carefull ! There is a lot of depth difference in your data \n", "You sould consider rarfying \n")
+    print(summary(x))
+  }
+
+  if(method=="voom"){
+   y= voom(o, design= design)
+   fit= lmFit(y, design = design)
+   v = eBayes(fit)
+   return(phyloseq(otu_table(v, taxa_are_rows = T), sample_data(physeq), tax_table(physeq)))
+  }
+
+  if(method=="clr"){
+   v= aldex.clr(o)
+   return(phyloseq(otu_table(as.matrix(v), taxa_are_rows = T), sample_data(physeq), tax_table(physeq)))
+  }
+
+  if(method=="CSS"){
+    ADF= AnnotatedDataFrame(data.frame(sample_data(physeq)))
+    TDF= AnnotatedDataFrame(data.frame(OTUname= taxa_names(physeq), row.names = taxa_names(physeq)))
+      b= newMRexperiment(counts = o, phenoData = ADF, featureData = TDF)
+      x =cumNorm(b, cumNormStatFast(b))
+      v=MRcounts(x, norm = T)
+      return(phyloseq(otu_table(as.matrix(v), taxa_are_rows = T), sample_data(physeq), tax_table(physeq)))
+                  }
+
+
+      if(method=="TMM"){
+        cat("edgeR selected \n")
+        o= o+1
+        x = edgeR::DGEList(counts=o, remove.zeros=TRUE)
+        z = edgeR::calcNormFactors(x, method="TMM" )
+        z1 = estimateCommonDisp(z)
+        v = estimateTagwiseDisp(z1)
+        return(phyloseq(otu_table(as.matrix(v), taxa_are_rows = T), sample_data(physeq), tax_table(physeq)))
+      }
+
+  }
+
+

@@ -1,0 +1,512 @@
+geom_point(aes(size=rab.all), fill=
+ifelse(x[[1]]$diff.btw<0 & x[[1]]$we.eBH<0.05, "#117744",
+ifelse(x[[1]]$diff.btw>0 & x[[1]]$we.eBH<0.05, "#771155","black")), shape=21)+
+geom_hline(yintercept = -log10(0.05))+
+geom_label_repel(aes(label=ifelse(we.eBH<0.05,Genus, "")), max.overlaps = 40)
+return(list(all_features= x_fin, signif_features= x, barplot=p1, volcano= p2))
+}
+res= tmp %>%
+differential_abundance( group="SampleType", col1 = "brown", col2="darkgreen")
+physeq
+x_fin
+x.clr
+r= aldex.clr(otu, conds = conds)
+data("GlobalPatterns")
+physeq=GlobalPatterns
+conds= as_vector(sample_data(physeq)[,group])
+physeq=tmp
+conds= as_vector(sample_data(physeq)[,group])
+group="SampleType"
+conds= as_vector(sample_data(physeq)[,group])
+x_clr= aldex.clr(otu, conds = conds)
+taxa_names(physeq)= paste(tax_table(physeq)[,"Genus"], 1:dim(tax_table(physeq))[1])
+if(taxa_are_rows(physeq)){
+otu= as.matrix(otu_table(physeq))
+} else {
+otu= as.matrix(t(otu_table(physeq)))
+}
+conds= as_vector(sample_data(physeq)[,group])
+x_clr= aldex.clr(otu, conds = conds)
+x= aldex.ttest(x_clr, paired.test = paired)
+x= aldex.ttest(x_clr, paired.test = F)
+x1 = aldex.effect(x_clr, useMC = cores )
+x1 = aldex.effect(x_clr, useMC = 10 )
+x_fin= data.frame(x, x1)
+x= x_fin[x_fin$we.eBH<0.05 | x_fin$wi.eBH<0.05,]
+x %>%
+rownames_to_column("taxa")
+x %>%
+rownames_to_column("taxa")%>%
+separate(taxa, into = c("Family", "Genus"), sep = "_", remove = F)
+x %>%
+rownames_to_column("taxa")%>%
+# separate(taxa, into = c("Family", "Genus"), sep = "_", remove = F)%>%
+ggplot(aes(diff.btw, -log10(we.eBH)))+
+geom_point(aes(size=rab.all), fill=
+ifelse(x[[1]]$diff.btw<0 & x[[1]]$we.eBH<0.05, "#117744",
+ifelse(x[[1]]$diff.btw>0 & x[[1]]$we.eBH<0.05, "#771155","black")), shape=21)+
+geom_hline(yintercept = -log10(0.05))+
+geom_label_repel(aes(label=ifelse(we.eBH<0.05, Genus, "")), max.overlaps = 40)
+x[[1]]
+x %>%
+rownames_to_column("taxa")%>%
+# separate(taxa, into = c("Family", "Genus"), sep = "_", remove = F)%>%
+ggplot(aes(diff.btw, -log10(we.eBH)))+
+geom_point(aes(size=rab.all), fill=
+ifelse(x$diff.btw<0 & x$we.eBH<0.05, "#117744",
+ifelse(x$diff.btw>0 & x$we.eBH<0.05, "#771155","black")), shape=21)+
+geom_hline(yintercept = -log10(0.05))+
+geom_label_repel(aes(label=ifelse(we.eBH<0.05, Genus, "")), max.overlaps = 40)
+library(ggrepel)
+x %>%
+rownames_to_column("taxa")%>%
+# separate(taxa, into = c("Family", "Genus"), sep = "_", remove = F)%>%
+ggplot(aes(diff.btw, -log10(we.eBH)))+
+geom_point(aes(size=rab.all), fill=
+ifelse(x$diff.btw<0 & x$we.eBH<0.05, "#117744",
+ifelse(x$diff.btw>0 & x$we.eBH<0.05, "#771155","black")), shape=21)+
+geom_hline(yintercept = -log10(0.05))+
+geom_label_repel(aes(label=ifelse(we.eBH<0.05, Genus, "")), max.overlaps = 40)
+p2= x %>%
+rownames_to_column("taxa")%
+p2= x %>%
+rownames_to_column("taxa")
+colnames(ps)
+colnames(p2)
+x %>%
+rownames_to_column("taxa")%>%
+# separate(taxa, into = c("Family", "Genus"), sep = "_", remove = F)%>%
+ggplot(aes(diff.btw, -log10(we.eBH)))+
+geom_point(aes(size=rab.all), fill=
+ifelse(x$diff.btw<0 & x$we.eBH<0.05, "#117744",
+ifelse(x$diff.btw>0 & x$we.eBH<0.05, "#771155","black")), shape=21)+
+geom_hline(yintercept = -log10(0.05))+
+geom_label_repel(aes(label=ifelse(we.eBH<0.05, taxa, "")), max.overlaps = 40)
+x_fin %>%
+rownames_to_column("taxa")%>%
+# separate(taxa, into = c("Family", "Genus"), sep = "_", remove = F)%>%
+ggplot(aes(diff.btw, -log10(we.eBH)))+
+geom_point(aes(size=rab.all), fill=
+ifelse(x_fin$diff.btw<0 & x_fin$we.eBH<0.05, "#117744",
+ifelse(x_fin$diff.btw>0 & x_fin$we.eBH<0.05, "#771155","black")), shape=21)+
+geom_hline(yintercept = -log10(0.05))+
+geom_label_repel(aes(label=ifelse(we.eBH<0.05, taxa, "")), max.overlaps = 40)
+x_fin %>%
+rownames_to_column("taxa")%>%
+# separate(taxa, into = c("Family", "Genus"), sep = "_", remove = F)%>%
+ggplot(aes(diff.btw, -log10(we.eBH)))+
+geom_point(aes(size=rab.all), fill=
+ifelse(x_fin$diff.btw<0 & x_fin$we.eBH<0.05, col1,
+ifelse(x_fin$diff.btw>0 & x_fin$we.eBH<0.05, col2,"black")), shape=21)+
+geom_hline(yintercept = -log10(0.05))+
+geom_label_repel(aes(label=ifelse(we.eBH<0.05, taxa, "")), max.overlaps = 40)+
+labs(y= "-log10(p.value) BH corrected", size="Mean relative abundance")
+#' @param col1 First column used to name the taxa in the plot. Default is Genus level.
+#' @param col2 Second column used to name the taxa in the plot. Default is the last column of your tax_table. It is recommended to use an ASV or OTU number for each taxa.
+#' @return A list of three elements.
+#' \item{all_features} {A dataframe containing all taxa tested with their respective values.}
+#' \item{signif_features}{A dataframe containing only taxa significant for eBH test. }
+#' \item{barplot}{Differential abundance plotted witha barplot}
+#' \item{volcano}{Differential abundance plotted witha volcano plot}
+#' @export
+#' @import ALDEx2, ggrepel
+#'
+differential_abundance <- function(physeq, group, paired= F, col1="Genus", col2=NULL, cores=F){
+theme_set(theme_minimal()+
+theme(panel.grid = element_blank(), legend.position = "bottom",
+axis.title.y = element_blank(), axis.text.y = element_text(size = 20),
+legend.text = element_text(size = 40), axis.title.x = element_blank(),
+axis.text.x = element_text(size= 20),
+title = element_text(size = 40, face="bold")))
+taxa_names(physeq)= paste(tax_table(physeq)[,"Genus"], 1:dim(tax_table(physeq))[1])
+if(taxa_are_rows(physeq)){
+otu= as.matrix(otu_table(physeq))
+} else {
+otu= as.matrix(t(otu_table(physeq)))
+}
+conds= as_vector(sample_data(physeq)[,group])
+x_clr= aldex.clr(otu, conds = conds)
+x= aldex.ttest(x_clr, paired.test = paired)
+x1 = aldex.effect(x_clr, useMC = cores )
+x_fin= data.frame(x, x1)
+x= x_fin[x_fin$we.eBH<0.05 | x_fin$wi.eBH<0.05,]
+name= unique(conds)
+p1=  ggplot(x, aes(y= diff.btw,
+x= reorder(rownames(x), X = diff.btw),
+fill=diff.btw<0))+
+geom_bar(stat = "identity", )+coord_flip()+
+scale_fill_manual(labels= c(name[1], name[2]), name=NULL,
+values = c(col1,col2))
+p2= x_fin %>%
+rownames_to_column("taxa")%>%
+# separate(taxa, into = c("Family", "Genus"), sep = "_", remove = F)%>%
+ggplot(aes(diff.btw, -log10(we.eBH)))+
+geom_point(aes(size=rab.all), fill=
+ifelse(x_fin$diff.btw<0 & x_fin$we.eBH<0.05, col1,
+ifelse(x_fin$diff.btw>0 & x_fin$we.eBH<0.05, col2,"black")), shape=21)+
+geom_hline(yintercept = -log10(0.05))+
+geom_label_repel(aes(label=ifelse(we.eBH<0.05, taxa, "")), max.overlaps = 40)+
+labs(y= "-log10(p.value) BH corrected", size="Mean relative abundance")
+return(list(all_features= x_fin, signif_features= x, barplot=p1, volcano= p2))
+}
+res= tmp %>%
+differential_abundance( group="SampleType", col1 = "brown", col2="darkgreen")
+res$barplot
+res$volcano
+devtools::document()
+devtools::document()
+devtools::document()
+loadNamespace(package = ALDEx2)
+BiocManager::install("ALDEx2")
+BiocManager::install("ALDEx2", force=T)
+?loadNamespace
+loadNamespace("ALDEx2", lib.loc = .libPaths())
+loadNamespace("ALDEx2", lib.loc = c(lib.loc,.libPaths()))
+packageVersion("ADLDeX2")
+packageVersion("ADLEx2")
+packageVersion("ALDEx2")
+devtools::document()
+loadNamespace("ALDEx2", lib.loc = c(lib.loc,.libPaths()), versionCheck = VI)
+loadNamespace("ALDEx2", lib.loc = c(lib.loc,.libPaths()), versionCheck = vI)
+loadNamespace("ALDEx2", lib.loc = c(lib.loc,.libPaths()), versionCheck = 1.28)
+loadNamespace("ALDEx2", lib.loc = c(lib.loc,.libPaths()), versionCheck = 1.28.1)
+loadNamespace("ALDEx2", lib.loc = c(lib.loc,.libPaths()))
+devtools::document()
+BiocManager::install("ALDEx2", force=T, checkBuilt = T)
+install.packages(c("ade4", "bigmemory", "clue", "DT", "effectsize", "flextable", "fontawesome", "future", "ggiraph", "ggplot2", "ggpubr", "ggrepel", "ggstatsplot", "gmp", "insight", "lpSolve", "markdown", "openxlsx", "pbapply", "pbkrtest", "ragg", "rbibutils", "RcppArmadillo", "RcppGSL", "recipes", "rstatix", "s2", "spatial", "statsExpressions", "tuneR", "vctrs"))
+install.packages(c("ade4", "bigmemory", "clue", "DT", "effectsize", "flextable", "fontawesome", "future", "ggiraph", "ggplot2", "ggpubr", "ggrepel", "ggstatsplot", "gmp", "insight", "lpSolve", "markdown", "openxlsx", "pbapply", "pbkrtest", "ragg", "rbibutils", "RcppArmadillo", "RcppGSL", "recipes", "rstatix", "s2", "spatial", "statsExpressions", "tuneR", "vctrs"))
+library(phyloseq)
+library(Microbiome)
+library(caret)
+?trainControl
+Microbiome::`.__T__[[<-:base`
+Microbiome::.__C__IgASeq
+isS3method(igaseq)
+isS3method("igaseq")
+isS4("igaseq")
+class("igaseq")
+class("ig_seq")
+class(ig_seq)
+isS4("ig_seq")
+isS4(ig_seq)
+devtools::document()
+?train
+data("enterotype")
+screen_models(enterotype)
+screen_models(obj = enterotype)
+devtools::document()
+screen_models(enterotype)
+#' @export
+screen_models_obj = function(obj, model="plsda", cores=10, ncomp=10,
+number=10, repeats=3, prop=0.5, train=T, ... ){
+# extract phyloseq sub objects
+x = as(otu_table(obj), "matrix")
+x= x[,apply(otu_table(obj), 2, function(x)sum(x)>0)]
+y= as(phyloseq::sample_data(obj), "data.frame")
+data = pre_process(x, y)
+train_y=NULL
+train_x=NULL
+pred_y = NULL
+pred_x = NULL
+# prepare training and testing data
+if(train== T){
+for(i in 1:length(data$y)){
+index = caret::createDataPartition(data$y[[i]], list = F, p = 0.5)
+train_y[[i]]= data$y[[i]][index]
+train_x[[i]]= data$x[[i]][index,]
+pred_y[[i]]= data$y[[i]][-index]
+pred_x[[i]]= data$x[[i]][-index,]
+}
+}
+if(train==F){
+for(i in 1:length(data$y)){
+train_y[[i]]= data$y[[i]]
+train_x[[i]]= data$x[[i]]
+}
+}
+if(model == "plsda"){ # run plsda
+res= mclapply(X = 1:length(train_y),
+FUN = function(i){
+x = train_x[[i]]
+y = train_y[[i]]
+index = caret::createDataPartition(train_y[[i]], list = F, p =prop)
+train=NULL
+train$y= train_y[[i]][index]
+train$x= train_x[[i]][index,]
+pred= NULL
+pred$y= train_y[[i]][-index]
+pred$x= train_x[[i]][-index,]
+mixOmics::plsda(X =train$x, Y=train$y,  ncomp=ncomp, near.zero.var = T ) },
+mc.cores = cores)
+} else {
+control = trainControl(method="repeatedcv", number = number, repeats=repeats)
+res = mclapply(X= 1:length(train_y),
+FUN = function(i){
+index = caret::createDataPartition(train_y[[i]], list = F, p = prop)
+train=NULL
+train$y= train_y[[i]][index]
+train$x= train_x[[i]][index,]
+pred= NULL
+pred$y= train_y[[i]][-index]
+pred$x= train_x[[i]][-index,]
+caret::train(x=train$x, y=train$y, method= model, metric="Accuracy")},
+mc.cores= cores)
+}
+names(res)= names(train_y)
+return(list(model=res, Y= data$y, X= data$x,
+train_y= train_y, train_x= train_x,
+pred_y=pred_y, pred_x=pred_x))
+# return(list(train_y, train_x))
+}
+screen_models(enterotype)
+#' @export
+screen_models_physeq = function(obj, model="plsda", cores=10, ncomp=10,
+number=10, repeats=3, prop=0.5, train=T, ... ){
+# extract phyloseq sub objects
+x = as(otu_table(obj), "matrix")
+x= x[,apply(otu_table(obj), 2, function(x)sum(x)>0)]
+y= as(phyloseq::sample_data(obj), "data.frame")
+data = pre_process(x, y)
+train_y=NULL
+train_x=NULL
+pred_y = NULL
+pred_x = NULL
+# prepare training and testing data
+if(train== T){
+for(i in 1:length(data$y)){
+index = caret::createDataPartition(data$y[[i]], list = F, p = 0.5)
+train_y[[i]]= data$y[[i]][index]
+train_x[[i]]= data$x[[i]][index,]
+pred_y[[i]]= data$y[[i]][-index]
+pred_x[[i]]= data$x[[i]][-index,]
+}
+}
+if(train==F){
+for(i in 1:length(data$y)){
+train_y[[i]]= data$y[[i]]
+train_x[[i]]= data$x[[i]]
+}
+}
+if(model == "plsda"){ # run plsda
+res= mclapply(X = 1:length(train_y),
+FUN = function(i){
+x = train_x[[i]]
+y = train_y[[i]]
+index = caret::createDataPartition(train_y[[i]], list = F, p =prop)
+train=NULL
+train$y= train_y[[i]][index]
+train$x= train_x[[i]][index,]
+pred= NULL
+pred$y= train_y[[i]][-index]
+pred$x= train_x[[i]][-index,]
+mixOmics::plsda(X =train$x, Y=train$y,  ncomp=ncomp, near.zero.var = T ) },
+mc.cores = cores)
+} else {
+control = trainControl(method="repeatedcv", number = number, repeats=repeats)
+res = mclapply(X= 1:length(train_y),
+FUN = function(i){
+index = caret::createDataPartition(train_y[[i]], list = F, p = prop)
+train=NULL
+train$y= train_y[[i]][index]
+train$x= train_x[[i]][index,]
+pred= NULL
+pred$y= train_y[[i]][-index]
+pred$x= train_x[[i]][-index,]
+caret::train(x=train$x, y=train$y, method= model, metric="Accuracy")},
+mc.cores= cores)
+}
+names(res)= names(train_y)
+return(list(model=res, Y= data$y, X= data$x,
+train_y= train_y, train_x= train_x,
+pred_y=pred_y, pred_x=pred_x))
+# return(list(train_y, train_x))
+}
+screen_models(enterotype)
+devtools::document()
+devtools::document()
+remove.packages("ALDEx2", lib="~/R/x86_64-pc-linux-gnu-library/4.2")
+BiocManager::install("ADLEx2")
+BiocManager::install("ALDEx2")
+BiocManager::install("ALDEx2", force=T)
+library(ALDEx2)
+detach("package:ALDEx2", unload = TRUE)
+devtools::document()
+rm(screen_models_physeq())
+rm(screen_models_physeq)
+devtools::document()
+screen_models(enterotype)
+devtools::document()
+screen_models(enterotype)
+?screen_model
+class(enterotpe)
+class(enterotype)
+devtools::::document()
+devtools::document()
+library(Microbiome)
+devtools
+devtools::document()
+library(Microbiome)
+devtools::document()
+devtools::document()
+devtools::document()
+library(Microbiome)
+?screen_models
+?screen_models
+?slide_z
+?predict_models
+devtools::document()
+devtools::document()
+devtools::document()
+?screen_models
+library(Microbiome)
+?screen_models
+?predict_models
+?screen
+?screen_models
+devtools::document()
+?screen_models
+?log_ratio
+?log_ratio
+devtools::document()
+library(Microbiome)
+?screen_models
+?train
+getModelInfo("glmnet")
+devtools::document()
+?screen_models
+devtools::document()
+?screen_models
+library(Microbiome)
+?screen_models
+?train
+.libPaths()
+devtools::document()
+?screen_models
+?screen_models
+devtools::document()
+?screen_models
+?screen_models
+library(Microbiome)
+?screen_models
+?plsda
+?screen_models
+devtools::document()
+?log_ratio
+devtools::document()
+library(Microbiome)
+?screen_models
+?screen_models
+devtools::document()
+?screen_models
+devtools::document()
+?screen_models
+devtools::document()
+?screen_models
+library(Microbiome)
+?screen_models
+?cross_validate_data
+?log_ratio
+devtools::document()
+library(Microbiome)
+?log_ratio
+?cross_validate_data
+devtools::document()
+?cross_validate_data
+library(Microbiome)
+?log_ratio
+?cross_validate_data
+?neg_dispersion
+phyloseq::phyloseq_class
+phyloseq::phyloseq-class
+?`phyloseq-class`
+?predict_models
+res = screen_models(enterotype, model="glmnet", cores = 1, number = 3, repeats = 3)
+install.packages("changer")
+library(ImmuMicrobiome)
+layout(matrix(c(1,2,3),
+nrow = 1,
+ncol = 3,
+byrow = TRUE))
+for(i in c("Illumina", "Sanger", "Pyro454")){
+print(i)
+enterotype %>%
+subset_samples(SeqTech==i)%>%
+beta_diversity(dist="bray", method="PCoA", group="Enterotype",
+color_vector =c("#777711", "#117777", "#DD7788"),
+factor_to_plot = paste("Enterotypes using \n",i, "sequencing"), lwd = 2, cpoint = 2)
+}
+i
+enterotype %>%
+subset_samples(SeqTech==i)%>%
+beta_diversity(dist="bray", method="PCoA", group="Enterotype",
+color_vector =c("#777711", "#117777", "#DD7788"),
+factor_to_plot = paste("Enterotypes using \n",i, "sequencing"), lwd = 2, cpoint = 2)
+tinytex::install_tinytex()
+rmarkdown::find_pandoc(cache = FALSE)
+installed.packages()
+library(ImmuMicrobiome)
+?slide_z
+devtools
+devtools::document()
+devtools::document()
+library(ImmuMicrobiome)
+enterotype %>% subset_samples(SeqTech=="Illumina")%>%cross_validate_data(y="Enterotype")
+tmp = enterotype %>% subset_samples(SeqTech=="Illumina")%>%
+screen_models()
+tmp$model
+cross_validate_data(tmp, y="Enterotype")
+library(ImmuMicrobiome)
+cross_validate_data(tmp, y="Enterotype")
+devtools::document()
+library(ImmuMicrobiome)
+tmp = enterotype %>% subset_samples(SeqTech=="Illumina")%>%
+screen_models()
+cross_validate_data(tmp, y="Enterotype")
+cross_validate_data(tmp, y="Enterotype", cores = 10)
+tmp$X$Enterotype
+tmp$Y$Enterotype
+#'
+#' @import foreach
+#' @return A list containing
+#' \item{model}{The [caret::train()] value}
+#' \item{pred_model}{The prediction of the model}
+#' \item{conf_matrix}{The confusion matrix and associated values, see [caret::confusionMatrix()].
+#' \item{density}{A density plot to assess the overall accuracy of the different models based on different training data.}
+#' @export
+#'
+#' @examples TBD
+cross_validate_data = function(obj, y, model="plsda", repetition= 1000, cores=1, ncomp=10, number=10,
+repeats=3,  prop= 0.5, ...){
+data= obj$X$y
+variables= obj$Y$y
+# register cores
+cl= makeCluster(cores)
+doParallel::registerDoParallel(cl)
+control <- trainControl(method = "repeatedcv", number = 10, repeats = 3, search = "random")
+conf=foreach(1:repetition) %dopar% {
+index = caret::createDataPartition(data, list = F, p = prop)
+train=NULL
+train$y= variables[index]
+train$x= data[index,]
+pred= NULL
+pred$y= variables[-index]
+pred$x= data[-index,]
+if(model=="plsda")   model =caret::plsda(x = train$x,  y= as.factor(train$y), ncomp=20, ... )
+if(model=="glmnet") model= train(train$x, train$y, method="glmnet", trControl=control, ...)
+if(model=="rf") message("Random Forest algorithm takes to long to cross validate like this")
+pred_model= predict(model, newdata= pred$x)
+conf= confusionMatrix(pred_model, factor(pred$y))
+}
+stopCluster(cl)
+res= sapply(conf, "[[",3, simplify = T) %>% as.data.frame() %>% t
+max(res[,1])
+return(list(model= model,
+pred_model= pred_model,
+conf_matrix = conf,
+density= density(res[,1])%>% plot))
+}
+cross_validate_data(tmp, y="Enterotype", cores = 10)
+devtools::document()
+rm(cross_validate_data())
+rm(cross_validate_data)
+devtools::document()

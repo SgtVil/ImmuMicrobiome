@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1584371595025.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2930854711",
+    "id" : "EF4145A0",
+    "lastKnownWriteTime" : 1584383054,
+    "last_content_update" : 1584383054609,
+    "path" : "~/Documents/Microbiome/R/differential_abundance.R",
+    "project_path" : "R/differential_abundance.R",
+    "properties" : {
+        "cursorPosition" : "12,0",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

@@ -1,0 +1,28 @@
+{
+    "id": "487D433D",
+    "path": null,
+    "project_path": null,
+    "type": "object_explorer",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1677600295048.0,
+    "source_on_save": false,
+    "relative_order": 16,
+    "properties": {
+        "id": "07c4ee320f314535b927a8fe57c9fffe",
+        "name": "prep_data$train_y[[i]]",
+        "title": "prep_data$train_y[[i]]",
+        "language": "R",
+        "source_window_id": "",
+        "Source": "Source"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 94467972088944,
+    "encoding": "",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1677600295048,
+    "read_only": false,
+    "read_only_alternatives": []
+}

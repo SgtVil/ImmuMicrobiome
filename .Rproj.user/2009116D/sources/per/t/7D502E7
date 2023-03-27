@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1576624612731.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1536739464",
+    "id" : "7D502E7",
+    "lastKnownWriteTime" : 1576625034,
+    "last_content_update" : 1576625034582,
+    "path" : "~/Documents/Microbiome/R/phylo_heatmap.R",
+    "project_path" : "R/phylo_heatmap.R",
+    "properties" : {
+        "cursorPosition" : "14,19",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

@@ -1,0 +1,26 @@
+{
+    "id": "E5C24FAD",
+    "path": "~/Documents/ImmuMicrobiome/R/cross_validate_data.R",
+    "project_path": "R/cross_validate_data.R",
+    "type": "r_source",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1676906065381.0,
+    "source_on_save": false,
+    "relative_order": 10,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "51,26",
+        "scrollLine": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1677089570,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1677089570664,
+    "read_only": false,
+    "read_only_alternatives": []
+}

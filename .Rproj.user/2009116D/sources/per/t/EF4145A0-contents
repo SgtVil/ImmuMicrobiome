@@ -1,0 +1,43 @@
+
+#' Find differential abundance within a dataset.
+#'
+#' @param physeq Phyloseq object to computeanalysis.
+#' @param group The group to perform analysis. Make sure the vector is of length 2. If not please subset your data.
+#' @param paired Are the data paired.
+#' @param col1 First column used to name the taxa in the plot. Default is Genus level.
+#' @param col2 Second column used to name the taxa in the plot. Default is the last column of your tax_table. It is recommended to use an ASV or OTU number for each taxa.
+#' @return A list of three elements. The first one is a dataframe containing all taxa tested with their respective values. The second one is a dataframe containing only taxa significative for eBH test. The last one is the plot.
+#' @importFrom Aldex2
+#' @importFrom ggplot2
+#' @importFrom phyloseq
+differential_abundance <- function(physeq, group, paired= F, col1="Genus", col2=ncol(tax_table(ps))){
+
+  otu= as.matrix(t(otu_table(physeq)))
+  if(ncol(tax_table(physeq))>=2){
+    row.names(otu)<- paste(tax_table(physeq)[,col1], tax_table(physeq)[,col2], sep=" ")
+  } else {
+    rownames(otu)<- tax_table(physeq)}
+
+  conds= as.matrix(sample_data(physeq)[,group])
+  x.clr= aldex.clr(otu, conds = conds )
+  x= aldex.ttest(x.clr, paired.test = paired)
+  x1 = aldex.effect(x.clr)
+  x_fin= data.frame(x, x1)
+
+  x= x_fin[x_fin$we.eBH<0.05,]
+
+ name= data.frame(unique(sample_data(ps1)[,group]))
+ theme_set(theme_minimal()+theme(panel.grid = element_blank(), legend.position = "bottom",
+                                 axis.title.y = element_blank(), axis.text.y = element_text(size = 20),
+                                 legend.text = element_text(size = 40), axis.title.x = element_blank(),
+                                 axis.text.x = element_text(size= 20),
+                                 title = element_text(size = 40, face="bold")))
+ p=  ggplot(x, aes(y= diff.btw, x= reorder(rownames(x),X = diff.btw), fill=diff.btw<0))+
+   geom_bar(stat = "identity", )+coord_flip()+
+   scale_fill_manual(labels= c(name[1,], name[2,]), name=NULL,
+                     values = c("blue","red"))
+ return(list(x_fin, x, p))
+
+}
+
+

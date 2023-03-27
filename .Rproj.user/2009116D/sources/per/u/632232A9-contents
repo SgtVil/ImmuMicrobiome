@@ -1,0 +1,6 @@
+ps1= subset_samples(enterotype,SeqTech=="Illumina" & Enterotype!="3")
+length(unique(ps1@sam_data$Enterotype))
+tax_table(ps1)= cbind(tax_table(ps1), 1:dim(tax_table(ps1))[1])
+x= differential_abundance(ps1, group="Enterotype", paired = F,)
+ncol(tax_table(ps1))>=2
+colnames(tax_table(ps1))

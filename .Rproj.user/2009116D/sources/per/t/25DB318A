@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1576619323307.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3588415089",
+    "id" : "25DB318A",
+    "lastKnownWriteTime" : 1579030163,
+    "last_content_update" : 1579030163,
+    "path" : "~/Documents/Microbiome/R/beta_diversity.R",
+    "project_path" : "R/beta_diversity.R",
+    "properties" : {
+        "cursorPosition" : "14,43",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
