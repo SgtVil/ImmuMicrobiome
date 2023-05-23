@@ -2,8 +2,7 @@
 % Please edit documentation in R/beta_dispersion.R
 \name{beta_dispersion}
 \alias{beta_dispersion}
-\title{This a wrapper function to plot beta diversity directly from a phyloseq
-object. This is based on the base package and mostly \link{vegan}.}
+\title{Make an unconstrained analysis of beta diversity.}
 \usage{
 beta_dispersion(
   physeq,
@@ -15,6 +14,7 @@ beta_dispersion(
   group = NULL,
   color_vector = c("cyan4", "brown", "deepskyblue", "black", "red"),
   legend_title = NULL,
+  title = NULL,
   lwd = 1,
   conf = 0.9,
   cex = 2,
@@ -31,11 +31,17 @@ beta_dispersion(
   permanova = F,
   where = "topleft",
   inset = 0.2,
+  boxplot = T,
+  pca = T,
   ...
 )
 }
 \arguments{
 \item{physeq}{A phyloseq object.}
+
+\item{axis_x}{Which component for axis x. Default = 1}
+
+\item{axis_y}{Which component for axis y. Default = 2}
 
 \item{dist}{Either a distance mecthod given as string or a distance object.
 Default= "bray".}
@@ -51,13 +57,27 @@ supports only "PCoA".}
 
 \item{legend_title}{Optionnal. A legend title.}
 
-\item{lwd, cex, font, pch, ylimits, xlimits}{Parameters imported from base plotting}
+\item{lwd}{Line width}
 
 \item{conf}{Interval of confidence for the ellipses. Default= 0.9.}
 
+\item{cex}{Text size}
+
+\item{font}{Font type}
+
+\item{pch}{Shape type}
+
 \item{draw}{Either draw lines or polygon. Default = "lines".}
 
+\item{ylimits}{Limits for Y axis, if not specified they will be automatically set}
+
+\item{xlimits}{Limits for X axis, if not specified they will be automatically set}
+
+\item{text}{Should the labels be printed}
+
 \item{ncol}{Number of columns for the legend. Default = 1.}
+
+\item{species}{Not implemented yet}
 
 \item{x.intersp}{character interspacing factor for horizontal (x) spacing between symbol and legend text.}
 
@@ -69,9 +89,9 @@ supports only "PCoA".}
 
 \item{inset}{Permanova legend adjustment see \link{legend}}
 
-\item{...}{Passed to other packages.}
+\item{boxplot}{Draw boxplot for each axis. Default = T}
 
-\item{textOptionnal.}{Labels to use for plotting. Default will be the name of the groups you gave.}
+\item{pca}{Argument for t-SNE, does the t-SNE needs to run on a PCA first or not ? Default=FALSE}
 }
 \description{
 This a wrapper function to plot beta diversity directly from a phyloseq
