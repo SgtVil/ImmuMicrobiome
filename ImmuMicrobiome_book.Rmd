@@ -1,5 +1,5 @@
 ---
-title: "Introductio to the immu_microbiome package"
+title: "Introduction to the ImmuMicrobiome package"
 author: "Rémy Villette"
 date: "`r Sys.Date()`"
 output:
@@ -28,33 +28,50 @@ knitr::opts_chunk$set(
 
 ```
 
-```{r setup, message=F, warning=F}
-library(Microbiome)
-library(phyloseq)
+```{r setup, message=F, warning=F, include=F}
+library(ImmuMicrobiome)
+
+tol21rainbow= c("#771155", "#AA4488", "#CC99BB", "#114477",
+                "#4477AA", "#77AADD", "#117777", "#44AAAA",
+                "#77CCCC", "#117744", "#44AA77", "#88CCAA",
+                "#777711", "#AAAA44", "#DDDD77", "#774411",
+                "#AA7744", "#DDAA77", "#771122", "#AA4455",
+                "#DD7788")
+theme_set(theme_bw()+
+            theme(text = element_text(size=15, face="bold")))
 ```
 
-
 # Introduction
-<div style="text-align: justify">
-This package is based on the code of Dr. Villette and Dr. Larsen. The package is written and maintained by Dr. Villette. This package is meant to facilitate microbiome exploration and ensuring nice plotting.\
+
+::: {style="text-align: justify"}
+This package is based on the code of Dr. Villette and Dr. Larsen. The
+package is written and maintained by Dr. Villette. This package is meant
+to facilitate microbiome exploration and ensuring nice plotting.\
 This package covers :
 
--   The dada2 pipeline with wrapper functions that ease the processing of multiple projects
+-   The dada2 pipeline with wrapper functions that ease the processing
+    of multiple projects
 
--   Some plotting functions for beta diversity, heatmap and differential abundance analysis using directly a phyloseq object
+-   Some plotting functions for beta diversity, heatmap and differential
+    abundance analysis using directly a phyloseq object
 
 -   A pipeline for IgASeq analysis
-
-</div>
+:::
 
 # Trim, denoise and align your sequences using dada2 pipeline
-<div style="text-align: justify">
-For convenience this will not be a reproducible example, dada2 takes too long to compute and knit. This part of the tutorial will present a run that we performed in house. The rest of the tutorial will be based on reproducible data.
-</div>
+
+::: {style="text-align: justify"}
+For convenience this will not be a reproducible example, dada2 takes too
+long to compute and knit. This part of the tutorial will present a run
+that we performed in house. The rest of the tutorial will be based on
+reproducible data.
+:::
 
 ## Get the files
-<div style="text-align: justify">
-We use here a wrapper function that will create a list of three for pair end :
+
+::: {style="text-align: justify"}
+We use here a wrapper function that will create a list of three for pair
+end :
 
 -   forward files
 
@@ -67,7 +84,8 @@ And for single end : -
 -   a list of files
 
 -   names of the files
-</div>
+:::
+
 ```{r eval=F}
 
 f_list = list_fastq("/home/bigbeast/Documents/tmp/2022-12 CIMMAP run ELISE", 
@@ -84,9 +102,14 @@ random=  lapply(f_list, "[",sample(1:255,30))
 ```
 
 ## Check the quality profile
-<div style="text-align: justify">
-We will use the function `qc_check`. This will take time as the `plotQualityProfile` isn't parallelized in dada2. This function will create two plots (for pair end) of `n` aggregated samples and only one plot if you are using single end.
-</div>
+
+::: {style="text-align: justify"}
+We will use the function `qc_check`. This will take time as the
+`plotQualityProfile` isn't parallelized in dada2. This function will
+create two plots (for pair end) of `n` aggregated samples and only one
+plot if you are using single end.
+:::
+
 ```{r eval=F}
 qc_check(flist, n=30)
 ```
@@ -176,69 +199,256 @@ dev.off()
 ```
 
 ## Filter and trim the fastq
-<div style="text-align: justify">
-We now have to remove the bad quality reads and trim the length. You will find a function to create the list of filtered files and one to make the filtered files.
-</div>
+
+::: {style="text-align: justify"}
+We now have to remove the bad quality reads and trim the length. You
+will find a function to create the list of filtered files and one to
+make the filtered files.
+:::
+
 ```{r eval=F}
 filt= filt_list(f_list) # create the list of filtered files
 
 filtered = filterAndTrim(fwd= fwd, filt = filtFs, rev=rv, filt.rev = filtRs, truncLen = c(260,240), trimLeft = 25, maxEE = c(3,5), multithread = 45)
 ```
 
-# Analyse your 16S data now
-<div style="text-align: justify">
-We will use the **enterotype** data to explore some of the plotting functions. Let's start with the beta diversity functions `beta_diversity` and `beta_dispersion`.
-</div>
+# Analyse your 16S / metabolomic data
+
+## Phyloseq object oriented functions
+
+We will use the **enterotype** data to explore some of the plotting
+functions. Let's start with the beta diversity functions
+`beta_diversity` and `beta_dispersion`.
+
 ```{r}
 data(enterotype)
 
 ```
 
-## Alpha diversity plots
+### Alpha diversity plots
 
-TBD
+Alpha diversity is an important facet of microbiome analysis. I've
+created wrapper function to plot either alpha diversity as boxplots or
+as line plots.
 
-## Beta diversity plots
-<div style="text-align: justify">
-You will have the choice between `beta_diversity` and `beta_dispersion` for your beta diversity plotting.
+```{r fig.show="hold", out.width="50%", message=F, warning=F}
+alpha_diversity(enterotype, measure="Shannon", x="Enterotype", group="SeqTech", plot_type="boxplot")
 
-\code{beta_diversity} will plot any of the following methods : PCoA, NMDS, PCA, BCA. More methods will be implemented later on. You will end up with a two dimensions projected using dots and ellipses. **The ellipses here are not confidence ellipses but a graphical summary**.
+alpha_diversity(enterotype, measure="Shannon", x="Enterotype", group="SeqTech", plot_type="line")
+```
 
-\code{beta_dispersion} will plot only PCoA for the moment, I need to work around some errors to implement more methods. This function will plot the two components of your choosing, **confidence ellipses** and boxplot for each axis and for each group. Each function will return a plot and a percentage of contribution for each component.
-</div>
+These plots are compatible with other aspects of ggplot, such as facets
+or stats. Stats are also implemented in this function but are very
+sparse.
+
+```{r fig.show="hold", out.width="50%",message=F, warning=F}
+alpha_diversity(enterotype, measure="Shannon", x="Enterotype", group="SeqTech", plot_type="boxplot", stat = T)
+
+library(ggpubr)
+enterotype %>% 
+  subset_samples(Enterotype!="NA")%>%
+alpha_diversity( measure="Shannon", x="Enterotype", group="Enterotype", plot_type="boxplot")+
+  stat_compare_means(comparisons = list(c("1", "2")))+
+  facet_grid(~SeqTech)
+```
+
+### Beta diversity plots
+
+::: {style="text-align: justify"}
+You will have the choice between `beta_diversity` and `beta_dispersion`
+for your beta diversity plotting.
+
+`beta_dispersion` will plot PCoA, NMDS, PCA, DCA, CA and t-SNE for the
+moment. This function will plot the two components of your choosing,
+**confidence ellipses** and boxplot for each axis and for each group.
+Each function will return a plot and a percentage of contribution for
+each component.
+
+`beta_diversity` will be removed progressively from this package. This
+function is redundant with `beta_dispersion`.
+:::
+
 ```{r message=F, warning=F}
-beta_diversity(enterotype, dist="bray", method="NMDS", group="SeqTech", permanova = F)
+beta_diversity(enterotype, dist="bray", method="PCoA", group="SeqTech", permanova = F)
 
 beta_dispersion(enterotype, dist = "bray", method = "PCoA", group = "SeqTech")
 ```
 
-You can play with the parameters of each function like the following plots :
+#### Multiple dimension reductions {style="text-align: justify"}
+
+There are unconstrained and constrained approaches to beta diversity.
+Unconstrained analysis, more common in literature, are either based on:
+
+-   dissimilarity matrix (PCoA, NMDS, DCA)
+-   directly on the raw matrix (PCA, CA)
+-   t-SNE that can use both dissimilarity matrix or the raw matrix
+
+##### Unconstrained models {.tabset}
+
+You can play with the parameters of each function like the following
+plots :
+
+###### PCoA
 
 ```{r message=F, warning=F}
-beta_diversity(enterotype, dist="bray", method="PCoA", group="SeqTech",
-               color_vector =c("#777711", "#117777", "#DD7788"),
-               factor_to_plot = "Sequencing technologies \n impact 16S results", 
-               lwd = 2, cpoint = 2, permanova = T)
-
 beta_dispersion(enterotype, dist = "bray", method = "PCoA", group = "SeqTech",
                 color_vector = c("#777711", "#117777", "#DD7788"),
                 legend_title = "Sequencing tech", lwd = 2, 
                 font = 2, draw = "polygon", text = T, permanova = T, 
                 y.intersp = 0.7)
+```
+
+###### t-SNE
+
+```{r message=F, warning=F}
+beta_dispersion(enterotype, dist = "bray", method = "tsne", group = "SeqTech",
+                color_vector = c("#777711", "#117777", "#DD7788"),
+                legend_title = "Sequencing tech without boxplots", lwd = 2, 
+                font = 2, draw = "polygon", text = T, permanova = T, 
+                y.intersp = 0.7,
+                boxplot = F, where = "bottom")
+```
+
+###### NMDS
+
+```{r message=F, warning=F}
+beta_dispersion(enterotype, dist = "bray", method = "NMDS", group = "SeqTech",
+                color_vector = c("#777711", "#117777", "#DD7788"),
+                legend_title = "Sequencing tech without boxplots", lwd = 2, 
+                font = 2, draw = "polygon", text = T, permanova = T, 
+                y.intersp = 0.7,
+                boxplot = F, where = "bottom")
+```
+
+###### DCA
+
+```{r message=F, warning=F}
+beta_dispersion(enterotype, dist = "bray", method = "DCA", group = "SeqTech",
+                color_vector = c("#777711", "#117777", "#DD7788"),
+                legend_title = "Sequencing tech without boxplots", lwd = 2, 
+                font = 2, draw = "polygon", text = T, permanova = T, 
+                y.intersp = 0.7,
+                boxplot = F, where = "bottom")
+```
+
+###### PCA
+
+```{r}
+beta_dispersion(enterotype, dist = "bray", method = "PCA", group = "SeqTech",
+                color_vector = c("#777711", "#117777", "#DD7788"),
+                legend_title = "Sequencing tech without boxplots", lwd = 2, 
+                font = 2, draw = "polygon", text = T, permanova = T, 
+                y.intersp = 0.7,
+                boxplot = F, where = "bottom")
+```
+
+###### CA
+
+```{r message=F, warning=F}
+beta_dispersion(enterotype, dist = "bray", method = "CA", group = "SeqTech",
+                color_vector = c("#777711", "#117777", "#DD7788"),
+                legend_title = "Sequencing tech without boxplots", lwd = 2, 
+                font = 2, draw = "polygon", text = T, permanova = T, 
+                y.intersp = 0.7,
+                boxplot = F, where = "bottom")
+```
+
+##### Constrained models {.tabset}
+
+Constrained analysis are multiple regression of the unconstrained
+approaches. They allow to fit the ecological data or sample data to the
+community data. Alternatively, you can fit other omic data to your beta
+diversity analysis. We have two different classes of constrained
+analysis :\
+
+-   `rda` is a regression of a PCA
+-   `cca` is a regression of a CA
+-   `dbRDA` is a RDA based on a dissimilarity matrix\
+    The function will return a plot, same as `beta_dispersion`, and also
+    the result of the constrained analysis.
+
+Vegan authors have implemented a very nice feature if you want to make
+your own representation instead of using mine. You can set use
+`scores(res, tidy=T)` to return a dataframe compatible with ggplot2.
+
+###### CCA
+
+```{r}
+res= constrained_beta_dispersion(enterotype,
+                            model= "SeqTech+Gender+Nationality+Age+ClinicalStatus",
+                            group="Enterotype", method = "CCA",
+                            boxplot =T, 
+                            text=T,
+                            color_vector = tol21rainbow)
+
 
 ```
 
-## Heatmap based on the phyloseq object
-<div style="text-align: justify">
-This function will perform a top taxa at the rank you choose and create a heatmap with annotations. For now only one annotation is supported.\
-The clusterisation is made using the `hclust`function and a Ward.D2 method. You can define the distance matrix that you want to use. It is important to note that the distance is made before any trimming of the data. This means that the distance matrix is made at the ASV/OTU level before doing the rank merging and topping, so the clusterization will represent your "true" data instead of a modified dataset.
+###### RDA
+
+```{r}
+res= constrained_beta_dispersion(enterotype,
+                            model= "SeqTech+Gender+Nationality+Age+ClinicalStatus",
+                            group="Enterotype", method = "RDA",
+                            boxplot =T, 
+                            text=T,
+                            color_vector = tol21rainbow)
+```
+
+###### dbRDA
+
+```{r}
+res= constrained_beta_dispersion(enterotype,
+                            model= "SeqTech+Gender+Nationality+Age+ClinicalStatus",
+                            group="Enterotype", method = "dbRDA",
+                            boxplot =T, 
+                            text=T,
+                            color_vector = tol21rainbow)
+```
+
+####  {.unnumbered}
+
+You can then use `anova` statistic test to decipher which factor or
+feature is significantly associated with your beta diversity
+
+```{r}
+anova(res, by="terms")
+```
+
+### Heatmap based on the phyloseq object
+
+::: {style="text-align: justify"} This function will perform a top taxa
+at a rank of your choosing and create a heatmap with annotations. For
+now only one annotation is supported.\
+The clustering is made using the `hclust`function and a Ward.D2 method.
+You can define the distance matrix that you want to use. It is important
+to note that the distance is made before any trimming of the data. This
+means that the distance matrix is made at the ASV/OTU level before doing
+the rank merging and topping, so the clustering will represent your
+"true" data instead of a modified dataset. In my personnal opinion, this
+is the only way of performing clustering or any type of generalized
+analysis : clustering, reducing or else on the ASV/OTU/MAG/... level and
+then aggregates for plotting.
+
+If you really want to cluster on other taxonomic level you should use
+`tax_glom` before using this function.
 
 ```{r message=F, fig.width=15, fig.height=10}
 phylo_heatmap(enterotype, top = 30, labels = "SeqTech", taxa_rank = "Genus", factor_to_plot ="Enterotype", split = 3, distance = "bray" )
 ```
 
-The idea behind these functions is : creating a more automatic pipeline enabling filtering and subseting of the phyloseq object without having to perform a temporary phyloseq object and a temporary distance object. With these function you can directly use the "pipe" introduce by `magrittr` and `dplyr.`\
-So you can use a `subset_samples` like the following and automatically plot your beta diversity without adding to much code.
+## 
+
+## Usage of various functions
+
+::: {style="text-align: justify"}
+The idea behind these functions is : creating a more automatic pipeline
+enabling filtering and subseting of the `phyloseq` object without having
+to perform a temporary `phyloseq` object and a temporary distance
+object. With these function you can directly use the "pipe" introduced
+by `magrittr`.\
+So you can use a `subset_samples` like the following and automatically
+plot your beta diversity without adding too much code.
 
 ```{r message=F, warning=F}
 enterotype %>%
@@ -249,7 +459,9 @@ enterotype %>%
                   where="bottomleft", cex = 3)
 ```
 
-Additionnaly, if you want to go further you can also serialized the code with a `for` loop or a `lapply` or even a parallel approach using `mclapply` or `doParallel`.
+Additionally, if you want to go further you can also serialized the code
+with a `for` loop or a `lapply` or even a parallel approach using
+`mclapply` or `doParallel`.
 
 ```{r message= F, warning=F, fig.height=5}
 layout(matrix(c(1,2,3),
@@ -265,77 +477,184 @@ for(i in c("Illumina", "Sanger", "Pyro454")){
 }
 
 ```
-</div>
+:::
+
 ## Differential abundance testing {.tabset}
+
+Differential abundance testing is quite complicated because of the
+number of different statistical approaches existing in the literature. I
+personally use ALDEx2 and SIAMCAT a lot. The first because it is usually
+highly regarded and the second for the overall easiness of the package.
+For now `differential_abundance` implement only `ALDEx2` approach.
+
+The function will return two datasets (all taxa and one with only the
+significant taxa) and two plots representing the taxa significantly
+represented in one of the two conditions. This function only covers two
+by two analysis.
 
 ```{r message=F}
 data("GlobalPatterns")
 tmp= GlobalPatterns %>%
   subset_samples(SampleType=="Feces" | SampleType=="Soil")%>%
+  subset_taxa(Genus!="NA")%>%
   tax_glom("Genus")
+taxa_names(tmp)= paste0(tax_table(tmp)[,'Genus'], 1:length(tax_table(tmp)[,"Genus"]))
+
 res= tmp %>% 
-  differential_abundance( group="SampleType", col1 = "brown", col2="darkgreen")
+  differential_abundance( group="SampleType", col1 = "brown", col2="darkgreen", plot = T)
 
 ```
+
 ### Results
-```{r}
+
+```{r paged.print=TRUE}
 head(res$all_features)
 ```
+
 ### Barplot results
+
 ```{r}
 res$barplot
 ```
 
 ### Volcano plot results
+
 ```{r}
 res$volcano
 ```
 
 TBD
 
-## Model testing
-<div style="text-align: justify">
-Last but not least : machine learning. Machine learning is used in general to predict outcome or predict class assignation between health and disease status. For this purpose we developed wrapper functions to screen models more easily. Most of the code is actually generated using **caret** [https://topepo.github.io/caret/] package. \
+## Model testing {style="text-align: justify"}
 
-For now the functions implement *randomForest*, *glmnet* and *plsda* models, other model might work but I didn't test them yet. 
+<div style="text-align: justify">
+
+Last but not least : machine learning. Machine learning is used in
+general to predict outcome or predict class assignation between health
+and disease status. For this purpose we developed wrapper functions to
+screen models more easily. Most of the code is actually generated using
+**caret** [<https://topepo.github.io/caret/>] package.\
+
+For now the functions implement *randomForest*, *glmnet* and *plsda*
+models, other model might work but I didn't test them yet.
 
 ### Screen models on your raw data
-<div style="text-align: justify">
-This function accepts either <phyloseq> objects or a list containing a matrix of taxa for example and a dataframe with the variables to test. 
+
+::: {style="text-align: justify"}
+This function accepts either <phyloseq> objects or a list containing a
+matrix of taxa for example and a dataframe with the variables to test.
+
 ```{r}
-res = screen_models(enterotype, model="glmnet", cores = 1, number = 3, repeats = 3)
+# res = screen_models(enterotype, model="glmnet", cores = 1, number = 3, repeats = 3)
+```
+:::
+
+## Non phyloseq object oriented functions
+
+::: {style="text-align: justify"}
+I also created functions to make classical analysis on non phyloseq
+objects. A classical type of data are metabolomics or flow cytometry
+datasets. These datasets can easily make use of dimension reduction,
+analyse of variance, model testing.
+
+### Reduction of dimensions on non phyloseq objects
+
+```{r eval=F}
+plot_reduction()
+
+plot_constrained_reduction()
 ```
 
+The first function is an equivalent of \link{beta_dispersion} and the
+second one is an equivalent of \link{constrained_beta_dispersion}. Make
+sure to use data.frame with samples as rows.
 
-</div>
+```{r}
+data(metabolomic)
+plot_reduction(mat = metabolomic[,5:217], cat_data = metabolomic[,1:4], group = "birth_type", method = "DCA", boxplot = T, text = T, permanova = T )
+
+plot_constrained_reduction(mat = metabolomic[,5:217], cat_data = metabolomic[,1:4], model="birth_type+breastfeeding+sex", group = "birth_type")
+```
+:::
+
+### Analysis of variance
+
+::: {style="text-align: justify"}
+Here is an important part of any analysis : finding which factors
+explains the most variance. The principle is that we will get the
+variance for each features and the variance for each group. The group
+variance will be summed for the given factor and then we will use
+1-variance.factor/variance.total, which will give us the variance for
+each factors.
+
+On top of the variance, the function will calculate p.values using
+kurskal tests or wilcoxon test depending of the number of factors and a
+FDR correction. For now the function only supports non parametric tests.
+
+The function can take quite some time if you have a lot of samples,
+features and factors, you can use multi-threading here.
+
+```{r}
+variance = calculate_variance(meta = metabolomic[,2:4], feat = metabolomic[,5:217], cores = 10)
+
+```
+:::
+
+The function will produce a list of data.frame
+
 # IgA seq analysis pipeline
-<div style="text-align: justify">
-You've performed all your sortings and sequencing, you now have three samples coming from a single individual.\
-We created a pipeline analysis where you will use the **neg1** (9/10 of the neg fraction) and **neg2** (1/10 of the neg fraction) dispersion (centered and reduced) to create a normal dispersion, using a Z approach we will have a Z score for the `pos/neg1` based on the standard deviation of `neg1/neg2`.
+
+::: {style="text-align: justify"}
+You've performed all your sortings and sequencing, you now have three
+samples coming from a single individual.\
+We created a pipeline analysis where you will use the **neg1** (9/10 of
+the neg fraction) and **neg2** (1/10 of the neg fraction) dispersion
+(centered and reduced) to create a normal dispersion, using a Z approach
+we will have a Z score for the `pos/neg1` based on the standard
+deviation of `neg1/neg2`.
 
 Here we can see what the analysis will look like:
 
-
 ```{r echo=F}
-knitr::include_graphics("/home/remy/Images/Z test.png")
+knitr::include_graphics("/home/remy/Images/Science image/Z test.png")
 ```
 
--   The technical dispersion is assessed using `neg1/neg2`for the log2 ratio and the `neg1*neg2`abundance for log10 (black dot)
+-   The technical dispersion is assessed using `neg1/neg2`for the log2
+    ratio and the `neg1*neg2`abundance for log10 (black dot)
 
--   The biological dispersion is assessed `pos/neg1` for the log2 ratio and the `pos*neg1` abundance for log10 (orange dot)
+-   The biological dispersion is assessed `pos/neg1` for the log2 ratio
+    and the `pos*neg1` abundance for log10 (orange dot)
 
-We will then take windows of X ASV (for example 20) to create n Gaussian curve and n ...\
-The pipeline is based on three main functions that will call for other functions : seq_table, slide_z and collapse_IgAseq.
+We will then take windows of X ASV (for example 20) to create n Gaussian
+curve and n ...\
+The pipeline is based on three main functions that will call for other
+functions : seq_table, slide_z and collapse_IgAseq.
+:::
 
-</div>
 ## Make the seq_table list
-<div style="text-align: justify">
-First the seq_table function will take your phyloseq object and transform it to a list of data frames, one data frame for each samples coming from a single individual. For this function you will need to give physeq, sample_name corresponding to the name identifying the individual from which the sorted samples came, sorting_names the column where we find the samples such as : "sample1_pos", "sample1_neg1", "sample1_neg2". Then the cols_to_keep that need to stay for now on "all", it will collapse your sample_data in one column to allow you get it back later on.
 
-The function will tell you if there is some samples are alone, if you have duplicated samples you need to sort them out or the rest of the pipeline will block. You can take a look at the architecture of the new object, you will find the ASV sequence as rownames, the taxonomy collapsed with "\#" separator, the three samples having their own column and the sample_data collapse using also "\#" separator. The function will only take the ASV that are present in the samples.
+::: {style="text-align: justify"}
+First the seq_table function will take your phyloseq object and
+transform it to a list of data frames, one data frame for each samples
+coming from a single individual. For this function you will need to give
+physeq, sample_name corresponding to the name identifying the individual
+from which the sorted samples came, sorting_names the column where we
+find the samples such as : "sample1_pos", "sample1_neg1",
+"sample1_neg2". Then the cols_to_keep that need to stay for now on
+"all", it will collapse your sample_data in one column to allow you get
+it back later on.
 
-```{r eval=T}
- data("igaseq")
+The function will tell you if there is some samples are alone, if you
+have duplicated samples you need to sort them out or the rest of the
+pipeline will block. You can take a look at the architecture of the new
+object, you will find the ASV sequence as rownames, the taxonomy
+collapsed with "\#" separator, the three samples having their own column
+and the sample_data collapse using also "\#" separator. The function
+will only take the ASV that are present in the samples.
+
+```{r eval=F}
+data("igaseq")
+igaseq = transform_sample_counts(igaseq, function(x)x/sum(x))
 sample_names(igaseq)= sample_data(igaseq)$sample_sort
 
 seq.tab= seq_table(igaseq, sample_name = "sample_origin", sorting_names = "sample_sort", cols_to_keep = "all" )
@@ -343,29 +662,41 @@ seq.tab= seq_table(igaseq, sample_name = "sample_origin", sorting_names = "sampl
 
 ```{r eval=F}
 
-DT::datatable(seq$MO101, rownames = F)
+DT::datatable(seq.tab$MO101, rownames = F)
 
 ```
 
-The colnames will have the sample_names as given in the otu_table(), check that they correspond to your pos, neg1 and neg2.
+The colnames will have the sample_names as given in the otu_table(),
+check that they correspond to your pos, neg1 and neg2.
 
-Run the main function Now we will run the main function : slide_z. This function will take you seq_table object and run the Z function for each samples. If you are running this function for the first time use plot=T, if you already made the plots let it as FALSE it will make the loop a lot faster.
-
-</div>
+Run the main function Now we will run the main function : slide_z. This
+function will take you seq_table object and run the Z function for each
+samples. If you are running this function for the first time use plot=T,
+if you already made the plots let it as FALSE it will make the loop a
+lot faster.
+:::
 
 ## Deal with the zero values
-<div style="text-align: justify">
-In this approach we will use log2 ratio and log10 of abundances. As you know log2(0/x) or log2(x/0) can't be performed, so we need a way to deal with the zeros. We came up with two approach :
+
+::: {style="text-align: justify"}
+In this approach we will use log2 ratio and log10 of abundances. As you
+know log2(0/x) or log2(x/0) can't be performed, so we need a way to deal
+with the zeros. We came up with two approach :
 
 -   remove all ASV with a zero value
 
--   replace 0 by a random number between 0 and the min value found in one of the three samples
+-   replace 0 by a random number between 0 and the min value found in
+    one of the three samples
 
--   replace 0 by the minimum count in each samples, this probably the worst thing to do
+-   replace 0 by the minimum count in each samples, this probably the
+    worst thing to do
 
-In sample with few ASV, i.e meconiums, I strongly recommend using the random_generation while in adults samples the no_zero approach is performing better. For more complex samples the decision is up to you, you can use the function neg_dipsersion to visualize the two outcomes.
+In sample with few ASV, i.e meconiums, I strongly recommend using the
+random_generation while in adults samples the no_zero approach is
+performing better. For more complex samples the decision is up to you,
+you can use the function neg_dipsersion to visualize the two outcomes.
 
-```{r eval=T}
+```{r eval=F}
 neg_dispersion(seq.tab[[6]], positive_sorted_sample = "pos", negative_sorted_sample = "neg1", second_negative_sample = "neg2", type = "superposed")
 
 neg_dispersion(seq.tab[[6]], positive_sorted_sample = "pos", negative_sorted_sample = "neg1", second_negative_sample = "neg2",type = "facet all three")
@@ -377,20 +708,31 @@ neg_dispersion(seq.tab[[6]], positive_sorted_sample = "pos", negative_sorted_sam
 # mclapply(seq, neg_dispersion, mc.cores = 6, type="superposed")
 # dev.off()
 ```
+:::
 
-</div>
 ## Run the slide_z function
-<div style="text-align: justify">
-The first step will be to create log2 ratios and log10 abundance (log10 abundance of **pos** \* **neg1** for example) for each ASV between the **pos** and the **neg1** (log_2\_ratio - log10_abundance) and between the ***neg1*** and **neg2** (log2_neg_ratio - log10_neg_abundance). This will be done by the function `log_ratio` called by the `slide_z` function.\
-The function will also create an ellipse of confidence interval of your choosing, default being `confidence_interval=c(0.95,0.99, 0.999)`, this is done by the function `ellipse_me` also called by the \`slide_z\` function.
+
+::: {style="text-align: justify"}
+The first step will be to create log2 ratios and log10 abundance (log10
+abundance of **pos** \* **neg1** for example) for each ASV between the
+**pos** and the **neg1** (log_2_ratio - log10_abundance) and between the
+***neg1*** and **neg2** (log2_neg_ratio - log10_neg_abundance). This
+will be done by the function `log_ratio` called by the `slide_z`
+function.\
+The function will also create an ellipse of confidence interval of your
+choosing, default being `confidence_interval=c(0.95,0.99, 0.999)`, this
+is done by the function `ellipse_me` also called by the \`slide_z\`
+function.
 
 The output will be a list of S4 objects containing the following slots :
 
 -   ig_seq_all : containing all the samples and all the ASV
 
--   ig_up : containing all the samples and all the ASV that significantly enriched in the **IgA positive fraction**
+-   ig_up : containing all the samples and all the ASV that
+    significantly enriched in the **IgA positive fraction**
 
--   ig_down : containing all the samples and all the ASV that are significantly enriched in the **IgA negative fraction**
+-   ig_down : containing all the samples and all the ASV that are
+    significantly enriched in the **IgA negative fraction**
 
 In each slot you will find the following columns :
 
@@ -422,7 +764,7 @@ In each slot you will find the following columns :
 
 -   ellipse_level = the level of confidence
 
-```{r eval=T}
+```{r eval=F, message=FALSE, warning=FALSE}
 IgA_seq=list()
 
 system.time(for(i in names(seq.tab)){
@@ -430,12 +772,16 @@ system.time(for(i in names(seq.tab)){
   IgA_seq[[i]]= slide_z(seq.tab[[i]], positive_sorted_sample = "pos", negative_sorted_sample = "neg1", second_negative_sample = "neg2", deltaX = 30, slide_version = "slide_z_modern", alpha = 0.05, plot = F, zero_treatment = "random generation") 
 })
 ```
-</div>
-## Collapse the list of IgAseq into a single S4 object
-<div style="text-align: justify">
-We now need to collapse the list of IgA_seq objects into a single one, just use `collapse_IgAseq` and separate the columns that were pasted together.
+:::
 
-```{r eval=T, warning=F}
+## Collapse the list of IgAseq into a single S4 object
+
+::: {style="text-align: justify"}
+We now need to collapse the list of IgA_seq objects into a single one,
+just use `collapse_IgAseq` and separate the columns that were pasted
+together.
+
+```{r eval=F, warning=F}
 IgA_seq = collapse_IgAseq(IgA_seq)
 # DT:: datatable(IgA_seq@ig_seq_all, rownames = F)
 # View(IgA_seq)
@@ -449,12 +795,17 @@ IgA_all$alpha= ifelse(IgA_all$score>1.96, "positively significative", ifelse(IgA
 
 dim(IgA_all)
 ```
-</div>
+:::
+
 ## Plot like Gordon IgA seq
-<div style="text-align: justify">
-For the example we will plot the IgAseq data like Gordon's paper. We first make a wilcoxon test to decipher which genera are significantly different from zero. Then we plot as balloon plot using ggplot.
-</div>
-```{r eval=T}
+
+::: {style="text-align: justify"}
+For the example we will plot the IgAseq data like Gordon's paper. We
+first make a wilcoxon test to decipher which genera are significantly
+different from zero. Then we plot as balloon plot using ggplot.
+:::
+
+```{r eval=F}
 library(rstatix)
 tmp= IgA_all %>% 
   group_by(Genus, donor)%>% 
@@ -464,31 +815,52 @@ tmp= IgA_all %>%
 
 tmp2= IgA_all %>%
   group_by(Genus, donor)%>%
-  mutate(n=n())%>%
+   mutate(n=n())%>%
   filter(n>5, Genus!="NA")%>%
   dplyr::select(Genus, score, donor)%>%
-    summarise(mean_score= mean(score))%>%
+    mutate(mean_score= median(score))%>%
   left_join(tmp)
+
+  tmp2$mean_score[tmp2$mean_score <= (-5)]= (-5)
   alpha= ifelse(tmp2$p<0.05, -log10(tmp2$p), 0.5)
   
   tmp2$donor= factor(tmp2$donor, levels = c("child_delivery","child_2_months","child_24_months", "mother_24_months"))
-  tmp2%>%
-  ggplot(aes(donor, Genus))+
-  geom_point(aes(size=alpha, fill=mean_score), alpha=alpha , shape=21)+
-    scale_size_binned(range=c(0,10), trans = "log10")+
-    scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0, breaks=c(-15,-10,-5,-2,1,0,1,2,5,10))+
-    # scale_x_discrete(labels=c("Delivery", "2 months", "24 months", "Mothers"))+
-    labs(fill="IgAseq mean score", x="Age", size="Level of significance")+
-       theme(axis.text.y = element_text(size=15, face="bold"),
-         axis.text.x=element_text(size=25, face="bold"),
-         strip.text.y = element_text(angle = 0, size=15, face="bold"),
+  
+tmp2= tmp2%>%
+    ungroup()%>%
+     select(p, score, mean_score, Genus, donor)%>%
+    mutate(alpha= ifelse(tmp2$p<0.05, -log10(tmp2$p), 0),
+      alpha2= ifelse(tmp2$mean_score<0, -alpha, alpha),
+      mean_score2= rescale(c(abs(mean_score)), to=c(0,5)))
+   
+ tmp2 %>%
+   ggplot(aes(0, Genus,  fill=alpha2, size=mean_score2)) +
+      geom_point(shape=21) +
+       scale_fill_gradient2(low = "olivedrab4", mid = "white", high = "brown", midpoint = 0, guide=F)+
+      scale_size_continuous(breaks=c(0,3,3,4,4,5,5),labels=c(-5,-4,-3,0,3,4,5),range = c(0,5))+
+      guides(size = guide_legend( override.aes = list(fill =colorRampPalette(c("darkgreen", "white", "brown"))(7), 
+                                                      size=c(5,4,3,1,3,4,5)), nrow=1,
+                                 direction = "horizontal", 
+                                 title.position = "top", 
+                                 label.position = "bottom", 
+                                 label.hjust = 0.5, 
+                                 label.vjust = 1))+
+      labs(fill="", x="Age", size="IgAseq median score")+
+    facet_grid(Phylum~donor, scales="free", space = "free", labeller = labeller(donor=fac))+
+         theme(axis.text.y = element_text(size=8, face="bold"),
+         axis.text.x=element_blank(),
+         axis.ticks.x = element_blank(),
+         strip.text.y = element_blank(),
          axis.title.x = element_blank(), 
          axis.title.y = element_blank(),
          legend.position = 'bottom',
-         legend.title = element_text(size=20, face="bold"), 
-         legend.text = element_text(size=20, face="bold"), 
+         legend.title = element_text(size=10, face="bold"), 
+         legend.text = element_text(size=10, face="bold"), 
          legend.box = "vertical",
-         legend.key.size = unit(2,"cm")
+         legend.box.background =  element_rect(colour = "black"),
+         strip.background = element_blank(),
+         strip.text = element_text(size=12, face="bold"),
+         panel.grid.major.y = element_line(linetype = 2, size=.05)
         )
 
 ```
