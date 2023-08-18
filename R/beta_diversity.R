@@ -1,4 +1,4 @@
-#' Plot alpha diversity with numerous aspect.
+#' Plot beta-diversity with numerous aspect.
 #'
 #'@param physeq (Required). A phyloseq object to analyse your data.
 #'
@@ -30,9 +30,6 @@ beta_diversity= function(physeq,  dist= "wunifrac", nf= 5, method= "PCoA",
                          permanova= F, where="topleft", ...)
 {
   old <- par()
-
-
-
 
   if(is.null(access(physeq, "tax_table"))){
     stop("Need a phyloseq object")}

@@ -34,6 +34,7 @@ library(phyloseq)
 
 # Introduction
 <div style="text-align: justify">
+
 This package is based on the code of Dr. Villette and Dr. Larsen. The package is written and maintained by Dr. Villette. This package is meant to facilitate microbiome exploration and ensuring nice plotting.\
 This package covers :
 

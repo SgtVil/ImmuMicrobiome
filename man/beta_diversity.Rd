@@ -2,7 +2,7 @@
 % Please edit documentation in R/beta_diversity.R
 \name{beta_diversity}
 \alias{beta_diversity}
-\title{Plot alpha diversity with numerous aspect.}
+\title{Plot beta-diversity with numerous aspect.}
 \usage{
 beta_diversity(
   physeq,
@@ -56,5 +56,5 @@ Default : c("cyan4","brown","deepskyblue", "black","red")}
 \item{distance}{A character string. The default is "wunifrac" from the phyloseq package.}
 }
 \description{
-Plot alpha diversity with numerous aspect.
+Plot beta-diversity with numerous aspect.
 }

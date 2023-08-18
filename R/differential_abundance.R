@@ -50,7 +50,8 @@ differential_abundance <- function(physeq, group, paired= F, col1="Genus", col2=
    p1=  ggplot(x, aes(y= diff.btw,
                       x= reorder(rownames(x), X = diff.btw),
                       fill=diff.btw<0))+
-     geom_bar(stat = "identity", )+coord_flip()+
+     geom_bar(stat = "identity", )+
+     coord_flip()+
      scale_fill_manual(labels= c(name[1], name[2]), name=NULL,
                        values = c(col1,col2))
 
@@ -64,6 +65,8 @@ differential_abundance <- function(physeq, group, paired= F, col1="Genus", col2=
                          ifelse(x_fin$diff.btw>0 & x_fin$we.eBH<0.05, col2,"black")), shape=21)+
      geom_hline(yintercept = -log10(0.05))+
      geom_label_repel(aes(label=ifelse(we.eBH<0.05, taxa, "")), max.overlaps = 40)+
+     scale_fill_manual(labels= c(name[1], name[2]), name=NULL,
+                       values = c(col1,col2))+
      labs(y= "-log10(p.value) BH corrected", size="Mean relative abundance")
 
    return(list(all_features= x_fin, signif_features= x, barplot=p1, volcano= p2))

@@ -46,10 +46,10 @@ seq_table <- function(physeq, sample_name, sorting_names, cols_to_keep="all") {
   for(i in unique(sample_meta[, sample_name])){
 
     iD <- rownames(sample_meta[sample_meta[, sample_name]==i,])
-    # meta = tmp = sample_meta %>% as.data.frame %>%filter(samplen ==i)
+
 
     tmp = count_table[,iD]
-# print(iD)
+
     if(is.null(dim(tmp))){
       cat("sample",i, "is alone", "\n")
       next
