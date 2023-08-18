@@ -1,3 +1,16 @@
+#' Title
+#'
+#' @param fastq_list
+#' @param filt_list
+#' @param cutting_param
+#' @param maxEE
+#' @param trimleft
+#' @param cores
+#'
+#' @return
+#' @export
+#'
+#' @examples
 filter_fastq = function(fastq_list, filt_list,  cutting_param, maxEE, trimleft=0, cores )
 {
 

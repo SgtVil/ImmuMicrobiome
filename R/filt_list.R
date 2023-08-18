@@ -1,3 +1,11 @@
+#' Title
+#'
+#' @param fastq_list
+#'
+#' @return
+#' @export
+#'
+#' @examples
 filt_list <- function(fastq_list){
  path= unique(dirname(fastq_list[[1]]))
   if(length(fastq_list)<3){

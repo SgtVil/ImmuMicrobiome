@@ -1,3 +1,14 @@
+#' Title
+#'
+#' @param filt_fastq_list
+#' @param err_list
+#' @param cores
+#' @param pool
+#'
+#' @return
+#' @export
+#'
+#' @examples
 dereplicate <- function(filt_fastq_list, err_list, cores=1, pool=F){
   if(!is.list(filt_fastq_list)){
    dd= dada(filt_fastq_list, err = err_list, pool = pool, multithread = cores)

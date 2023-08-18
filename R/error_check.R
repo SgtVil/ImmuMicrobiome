@@ -1,3 +1,14 @@
+#' Title
+#'
+#' @param filt_fastq_list
+#' @param cores
+#' @param save_plot
+#' @param name
+#'
+#' @return
+#' @export
+#'
+#' @examples
 error_check <- function(filt_fastq_list, cores=1, save_plot=F, name=NULL){
 
   if(length(filt_fastq_list)!=2){
