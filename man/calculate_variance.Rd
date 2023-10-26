@@ -4,13 +4,38 @@
 \alias{calculate_variance}
 \title{Calculate the variance for each factors.}
 \usage{
-calculate_variance(meta, feat, cores = 1)
+calculate_variance(mat, clinical_data, cores = 1)
 }
 \arguments{
-\item{meta}{Metadata containing the factors to be used.}
+\item{mat}{Features matrix}
 
-\item{feat}{Features matrix}
+\item{clinical_data}{Metadata containing the factors to be used.}
+
+\item{cores}{Number of threads to use. Default = 1.}
+}
+\value{
+A list of data.frames :
+\itemize{
+\item variance: data.frame containing the values of variance for each factors with the var.tot (total variance of a features),
+the var.grp (variance explained by the groups in each factor) and var.exp (explained variance by the groups out of the total variance).
+\item p.value = p value calculated by either Kruskal test or Wilcoxon test and corrected with FDR
+\item mean.feat = Mean value for the features
+\item all = a data.frame with var.tot, mean.feat, var.grp and var.exp
+}
 }
 \description{
-Calculate the variance for each factors.
+Calculate the variance of a given clinical (discrete value) on a given feature. This function allows you to quantify the variance
+explained by a given factor for each features with the formula: \deqn{ explained variance= 1 - group variance / total variance}
+This function will take count of missing data. If you have any \code{NA} for a given factor, the total variance for each feature will be calcultaed without the \code{NAs}.
+}
+\examples{
+var = calculate_variance(metabolomic[,1:4], feature = metabolomic[,5:217])
+# show variance data.frame
+ head(var$variance, 5)
+
+ # show p.value data.frame
+  head(var$variance, 5)
+
+  # show mean.feat data.frame
+   head(var$variance, 5)
 }

@@ -28,10 +28,11 @@ alpha_diversity= function(physeq, measure= "Shannon", x, group=NULL, plot_type="
   ad = estimate_richness(physeq, measures = measure)
   ad = cbind(as(sample_data(physeq), "data.frame"), ad)
   ad[, x] = factor(ad[,x])
+
   if(plot_type=="boxplot"){
     p = ggplot(ad,aes_string(y=measure, x))+
       geom_boxplot(alpha=0, size=1.5)+
-      geom_jitter(aes_string(fill=group), shape=21, size=size, width=0.35)
+      geom_jitter(aes_string(fill=group), position = position_jitterdodge(jitter.width = 0.25), shape=21, size=size)
     if(stat==TRUE){
       p= p+
         stat_compare_means()
@@ -52,11 +53,11 @@ alpha_diversity= function(physeq, measure= "Shannon", x, group=NULL, plot_type="
     ad$depth = sample_sums(physeq)
    p1= ggplot(ad, aes_string(y=measure, x))+
       geom_boxplot(alpha=0, size=1.5)+
-      geom_jitter(aes_string(fill=group, size= "depth"), shape=21,  width=0.35)
+      geom_jitter(aes_string(fill=group, size= "depth"), position = position_jitterdodge(jitter.width = 0.25), shape=21)
    p2= ggplot(ad, aes_string(y=measure, "depth", color=group))+
      geom_point()
      # facet_wrap(facets = group)
-   p= ggarrange(p1, p2)
+   p= ggarrange(p1, p2, common.legend = T)
   }
   return(p)
 }
