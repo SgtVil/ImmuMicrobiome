@@ -4,9 +4,25 @@
 \alias{filter_fastq}
 \title{Title}
 \usage{
-filter_fastq(fastq_list, filt_list, cutting_param, maxEE, trimleft = 0, cores)
+filter_fastq(
+  fastq_list,
+  filt_list,
+  cutting_param,
+  maxEE,
+  trimleft = 0,
+  cores,
+  ...
+)
 }
 \arguments{
+\item{fastq_list}{List of fastq returned by \link{list_fastq}.}
+
+\item{filt_list}{List of filtered fastq names givent by \link{filt_list}.}
+
+\item{cutting_param}{Equivalent to \code{truncLen} in \link{filterAndTrim}.}
+
+\item{maxEE}{Equivalent to \code{maxEE} in \link{filterAndTrim}.}
+
 \item{cores}{}
 }
 \description{

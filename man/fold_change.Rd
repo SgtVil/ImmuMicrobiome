@@ -4,15 +4,30 @@
 \alias{fold_change}
 \title{Calculate fold change and p.value for your data.}
 \usage{
-fold_change(meta, feat, cores = 2)
+fold_change(mat, clinical_data, cores = 2, ...)
 }
 \arguments{
-\item{meta}{A metadata containing the factors you want to test.}
+\item{mat}{A features/ASV table with the sample in rows.}
 
-\item{feat}{A features/ASV table with the sample in rows.}
+\item{clinical_data}{A metadata containing the factors you want to test.}
 
 \item{cores}{Number of cores you want to use. Default = 1.}
+
+\item{...}{Argument passed to \link{kruskal_test} or  \link{wilcoxon_test} depending on the number of groups to compare.}
+}
+\value{
+This function will return a list of data.frames. Each factor present in your \code{clinical_data} will be processed
+and give an independent data.frame. Each dataframe contains:
+\itemize{
+\item p = p value calculated by either Kruskal test or Wilcoxon test
+\item p.adj = p value corrected with FDR
+\item fold = fold change calculated as : log2(group1/group2)
+}
 }
 \description{
 Accepts a metadata and a feature/microbiome matrix.
+}
+\examples{
+fold= fold= fold_change(metabolomic[,1:4], features = metabolomic[,5:217], cores = 5)
+head(fold$birth_type, 5)
 }

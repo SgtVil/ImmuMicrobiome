@@ -53,7 +53,7 @@ plot_all_variance = function(variance, top=30, plot_type= "boxplot",  col= c("br
       pivot_longer(names_to = "factor", values_to = "value", cols = !features:variable)%>%
       group_by(features)%>%
       summarise(mean.fac= mean(value, na.rm=T)) %>%
-      top_n(50, wt = mean.fac)
+      top_n(top, wt = mean.fac)
 
     p = var.exp %>%
       filter(features %in% top$features)%>%

@@ -2,13 +2,15 @@
 % Please edit documentation in R/rng_fastq.R
 \name{rng_fastq}
 \alias{rng_fastq}
-\title{Title}
+\title{Randomly select fastq files}
 \usage{
 rng_fastq(fastq_list, n = 10)
 }
 \arguments{
-\item{n}{}
+\item{fastq_list}{List of fastq returned by \code{\link[vegan]{list_fastq}}}
+
+\item{n}{Number of fastq to select}
 }
 \description{
-Title
+Randomly select fastq files
 }

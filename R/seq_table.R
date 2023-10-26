@@ -54,6 +54,10 @@ seq_table <- function(physeq, sample_name, sorting_names, cols_to_keep="all") {
       cat("sample",i, "is alone", "\n")
       next
     }
+    if(anyNA(tmp) | any(apply(tmp, 2, sum) == 0)){
+      cat("One sample belonging to", i, "has no reads\n")
+      next
+    }
 
     if(dim(tmp)[2] > 2 & dim(tmp)[2]<5){
     tmp2 = data.frame(taxonomy = unite(col = taxonomy, as.data.frame(tax_table(physeq)), 1:dim(tax_table(physeq))[2], sep = "#"))

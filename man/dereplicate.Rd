@@ -2,13 +2,25 @@
 % Please edit documentation in R/dereplicate.R
 \name{dereplicate}
 \alias{dereplicate}
-\title{Title}
+\title{Dereplicate sequences in a dada2 manner}
 \usage{
 dereplicate(filt_fastq_list, err_list, cores = 1, pool = F)
 }
 \arguments{
-\item{pool}{}
+\item{filt_fastq_list}{List of filtered fastq returned by \link{filt_list()}}
+
+\item{err_list}{Error object returned by \link{error_check()}}
+
+\item{cores}{Number of threads to use. Default = 1}
+
+\item{pool}{Pool, pseudo-pool or no pool. See \code{\link[dada2]{dada()}}. Default = F.}
 }
 \description{
-Title
+A wrapper function for \code{\link[dada2]{dada()}}.
+
+BE CAREFULL, THIS FUNCTIONS HAS BEEN WRITTEN FOR LARGE AMOUNT OF RAM.
+Currently the function might not scale efficiently for laptops.
+}
+\examples{
+# See Vignette.
 }

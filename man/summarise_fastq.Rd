@@ -16,3 +16,6 @@ summarise_fastq(fastq, cores = 1, number_of_fastq = 10)
 \description{
 This function is heavy and depends a lot on the depth of your fastq. Be careful when setting the cores, this function can saturate the RAM.
 }
+\examples{
+# See Vignette.
+}

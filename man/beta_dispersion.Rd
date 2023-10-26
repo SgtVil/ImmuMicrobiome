@@ -11,10 +11,11 @@ beta_dispersion(
   dist = "bray",
   nf = 5,
   method = "PCoA",
+  type = "boxplot",
   group = NULL,
+  stat = "none",
   color_vector = c("cyan4", "brown", "deepskyblue", "black", "red"),
   legend_title = NULL,
-  title = NULL,
   lwd = 1,
   conf = 0.9,
   cex = 2,
@@ -28,11 +29,10 @@ beta_dispersion(
   species = F,
   x.intersp = 1,
   y.intersp = 0.5,
-  permanova = F,
   where = "topleft",
   inset = 0.2,
-  boxplot = T,
   pca = T,
+  stat.cex = 2,
   ...
 )
 }
@@ -51,7 +51,11 @@ Default= "bray".}
 \item{method}{Method use to plot the beta diversity. Currently this function
 supports only "PCoA".}
 
-\item{group}{String defining the groups you want to plot on the beta diversity.}
+\item{type}{Chose the type of plot you want, choices are : "boxplot", "pure" or "arrows". Default="boxplot".}
+
+\item{group}{String defining the groups you want to plot on the beta diversity}
+
+\item{stat}{Either permanova \code{\link[vegan]{adonis2}} with default parameter or \code{\link[vegan]{envfit}} function.}
 
 \item{color_vector}{Optionnal. A color vector you wish to use for plotting}
 
@@ -77,23 +81,46 @@ supports only "PCoA".}
 
 \item{ncol}{Number of columns for the legend. Default = 1.}
 
-\item{species}{Not implemented yet}
+\item{species}{NMDS only, will plot the species loadings on the graph.}
 
 \item{x.intersp}{character interspacing factor for horizontal (x) spacing between symbol and legend text.}
 
 \item{y.intersp}{vertical (y) distances (in lines of text shared above/below each legend entry). A vector with one element for each row of the legend can be used.}
 
-\item{permanova}{Make the permanova analysis. Default = FALSE.}
-
 \item{where}{Where you want the permanova result.}
 
 \item{inset}{Permanova legend adjustment see \link{legend}}
 
-\item{boxplot}{Draw boxplot for each axis. Default = T}
+\item{pca}{Argument for t-SNE, does the t-SNE needs to run on a PCA first or not ? Default=FAL}
 
-\item{pca}{Argument for t-SNE, does the t-SNE needs to run on a PCA first or not ? Default=FALSE}
+\item{stat.cex}{ize of the stats text.}
+
+\item{...}{}
+}
+\value{
+A plot rendered using the \code{base} package and vegan functions :
+\itemize{
+\item \code{\link[vegan]{ordispider}}
+\item \code{\link[vegan]{ordiellipse}}
+}
 }
 \description{
 This a wrapper function to plot beta diversity directly from a phyloseq
 object. This is based on the base package and mostly \link{vegan}.
+}
+\examples{
+
+data(enterotype)
+# PCoA based on
+beta_dispersion(enterotype, dist = "bray", method = "PCoA", group = "SeqTech",
+color_vector = c("#777711", "#117777", "#DD7788"),
+legend_title = "Sequencing tech", lwd = 2,
+font = 2, draw = "polygon", text = T, permanova = T,
+y.intersp = 0.7)
+
+}
+\seealso{
+\code{\link[=plot_reduction]{plot_reduction()}}
+\code{\link[=plot_constrained_reduction]{plot_constrained_reduction()}}
+\code{\link[=constrained_beta_dispersion]{constrained_beta_dispersion()}}
 }

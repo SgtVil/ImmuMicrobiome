@@ -1,3 +1,14 @@
+#' Merge reads and remove chimera
+#'
+#' @param dd
+#' @param filt_fastq_list
+#' @param cores
+#' @param ...
+#'
+#' @return
+#' @export
+#'
+#' @examples
 merge_and_remove_chim= function(dd, filt_fastq_list, cores, ...){
   if(!is.list(filt_fastq_list)){
      pseudo_mergers <- dd %>%

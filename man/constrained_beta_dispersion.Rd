@@ -12,6 +12,8 @@ constrained_beta_dispersion(
   dist = "bray",
   nf = 5,
   method = "CCA",
+  type = "boxplot",
+  stat = "none",
   group = NULL,
   color_vector = c("cyan4", "brown", "deepskyblue", "black", "red"),
   legend_title = NULL,
@@ -28,10 +30,8 @@ constrained_beta_dispersion(
   species = F,
   x.intersp = 1,
   y.intersp = 0.5,
-  permanova = F,
   where = "topleft",
   inset = 0.2,
-  boxplot = T,
   ...
 )
 }
@@ -50,6 +50,10 @@ Default= "bray".}
 \item{nf}{Number of component to keep. Default= 5.}
 
 \item{method}{The mathematical method to reduce the dimensions. Currently this function supports CCA, RDA and dbRDA}
+
+\item{type}{Chose the type of plot you want, choices are : "boxplot", "pure" or "arrows". Default="boxplot".}
+
+\item{stat}{Either permanova \code{\link[vegan]{adonis2}} with default parameter or \code{\link[vegan]{envfit}} function.}
 
 \item{group}{String defining the groups you want to plot on the beta diversity.}
 
@@ -83,13 +87,14 @@ Default= "bray".}
 
 \item{y.intersp}{vertical (y) distances (in lines of text shared above/below each legend entry). A vector with one element for each row of the legend can be used.}
 
-\item{permanova}{Make the permanova analysis. Default = FALSE.}
-
 \item{where}{Where you want the permanova result.}
 
 \item{inset}{Permanova legend adjustment see \link{legend}}
 
-\item{boxplot}{Draw boxplot for each axis. Default = T}
+\item{...}{}
+}
+\value{
+Return a plot and the result of the constrained analysis.
 }
 \description{
 A wrapper function to use cca, rda and capscale in the same manner as beta_dispersion.

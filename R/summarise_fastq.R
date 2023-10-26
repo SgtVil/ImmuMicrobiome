@@ -13,6 +13,7 @@
 #' @export
 #'
 #' @examples
+#' # See Vignette.
 summarise_fastq<- function(fastq, cores= 1, number_of_fastq=10){
 require(ShortRead)
 require(parallel)
@@ -29,15 +30,15 @@ if(length(fastq)>2){
 fwd <- mclapply(X= fastq$fastq_fwd, readFastq, mc.cores = cores)
 rev = mclapply(X= fastq$fastq_rv, readFastq, mc.cores = cores)
 
-width_fwd <- map(fwd, ShortRead::width)%>%
-  map(sample, size=1000)%>%
+width_fwd <- purrr::map(fwd, ShortRead::width)%>%
+  purrr::map(sample, size=1000)%>%
   unlist
 
-width_rev <- map(rev, ShortRead::width)%>%
-  map(sample, size=1000)%>%
+width_rev <- purrr::map(rev, ShortRead::width)%>%
+  purrr::map(sample, size=1000)%>%
   unlist
 
-df_fwd= map(fwd, function(x){
+df_fwd= purrr::map(fwd, function(x){
   tmp= as(quality(x), 'matrix')
   data.frame(median= apply(tmp, 2, median, na.rm=T),
              mean = apply(tmp, 2, mean, na.rm=T),
@@ -47,7 +48,7 @@ df_fwd= map(fwd, function(x){
 
 names(df_fwd)= fastq$names
 
-df_rev= map(rev, function(x){
+df_rev= purrr::map(rev, function(x){
   tmp= as(quality(x), 'matrix')
   data.frame(median= apply(tmp, 2, median, na.rm=T),
              mean = apply(tmp, 2, mean, na.rm=T),
@@ -75,6 +76,21 @@ p_fwd= df_fwd%>%
 scale_y_continuous(labels = function(x)x*100)+
   labs(x="Base",
 y="Quality Score")
+p_rev= df_rev %>%
+  group_by(bp) %>%
+  mutate(median=mean(median),
+         variance=mean(variance),
+         mean=mean(mean))%>%
+  ggplot()+
+  geom_line(aes(y=median/100, bp, color="Median"), linewidth=1)+
+  geom_line(aes(y=variance, bp, color="Variance"), linetype=2, linewidth=1)+
+  geom_point(aes(y=mean/100, bp, color="Mean"), size=2)+
+  geom_density(data= as.data.frame(width_fwd), aes(width_fwd, after_stat(count/sum(count)), fill="Density"), adjust=.10, alpha=0.3, position="identity")+
+  scale_colour_manual("", breaks = c("Median", "Variance", "Mean"), values = c("orange", "darkgreen", "salmon"))+
+  scale_fill_manual("", breaks = c("Density"), values=c("grey"))+
+  scale_y_continuous(labels = function(x)x*100)+
+  labs(x="Base",
+       y="Quality Score")
 p= ggpubr::ggarrange(p_fwd, p_rev, nrow = 1, common.legend = T)
 
 df = list(depth= list(fwd=as.numeric( summary(fwd)[,1]), rev =as.numeric(summary(rev)[,1])), # length of each sample
@@ -86,11 +102,11 @@ df = list(depth= list(fwd=as.numeric( summary(fwd)[,1]), rev =as.numeric(summary
 
   print("single end analysis")
 fwd <- mclapply(X= fastq$fastq_fwd, readFastq, mc.cores = cores)
-width_fwd <- map(fwd, ShortRead::width)%>%
-  # map(sample, size=1000)%>%
+width_fwd <- purrr::map(fwd, ShortRead::width)%>%
+  # purrr::map(sample, size=1000)%>%
   unlist
 
-df_fwd= map(fwd, function(x){
+df_fwd= purrr::map(fwd, function(x){
   tmp= as(quality(x), 'matrix')
   data.frame(median= apply(tmp, 2, median, na.rm=T),
              mean = apply(tmp, 2, mean, na.rm=T),

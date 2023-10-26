@@ -2,18 +2,19 @@
 % Please edit documentation in R/plot_constrained_reduction.R
 \name{plot_constrained_reduction}
 \alias{plot_constrained_reduction}
-\title{Make a constrained reduction of your dataset.}
+\title{Make a constrained reduction on matrices and data.frame.}
 \usage{
 plot_constrained_reduction(
   mat,
-  cat_data,
+  clinical_data,
   axis_x = 1,
   axis_y = 2,
   model,
   nf = 5,
   method = "CCA",
+  type = "boxplot",
   group = NULL,
-  permanova = F,
+  stat = "none",
   color_vector = c("cyan4", "brown", "deepskyblue", "black", "red"),
   legend_title = NULL,
   lwd = 1,
@@ -30,14 +31,14 @@ plot_constrained_reduction(
   y.intersp = 0.5,
   where = "topleft",
   inset = 0.2,
-  boxplot = T,
+  stat.cex = 2,
   ...
 )
 }
 \arguments{
 \item{mat}{A numeric matrix with samples as rows}
 
-\item{cat_data}{The categorical datasets containing the factors to build the model}
+\item{clinical_data}{An integer specifying the columns that are discrete values.}
 
 \item{axis_x}{Which component for axis x. Default = 1}
 
@@ -49,9 +50,11 @@ plot_constrained_reduction(
 
 \item{method}{The mathematical method to reduce the dimensions. Currently this function supports CCA, RDA and dbRDA}
 
+\item{type}{Chose the type of plot you want, choices are : "boxplot", "pure" or "arrows". Default="boxplot".}
+
 \item{group}{String defining the groups you want to plot on the beta diversity.}
 
-\item{permanova}{Make the permanova analysis. Default = FALSE.}
+\item{stat}{Either permanova \code{\link[vegan]{adonis2}} with default parameter or \code{\link[vegan]{envfit}} function.}
 
 \item{color_vector}{Optionnal. A color vector you wish to use for plotting}
 
@@ -59,11 +62,15 @@ plot_constrained_reduction(
 
 \item{lwd}{Line width}
 
+\item{conf}{Confidence interval. Default = 0.9.}
+
 \item{cex}{Text size}
 
 \item{font}{Font type}
 
 \item{pch}{Shape type}
+
+\item{draw}{Categorical, draw ellipses as lines or as polygons#'}
 
 \item{ylimits}{Limits for Y axis, if not specified they will be automatically set}
 
@@ -81,10 +88,23 @@ plot_constrained_reduction(
 
 \item{inset}{Permanova legend adjustment see \link{legend}}
 
-\item{boxplot}{Draw boxplot for each axis. Default = T}
+\item{stat.cex}{Size of the stats text.}
 
 \item{...}{}
 }
+\value{
+A plot rendered using the \code{base} package and vegan functions :
+\itemize{
+\item \code{\link[vegan]{ordispider}}
+\item \code{\link[vegan]{ordiellipse}}
+}
+}
 \description{
-Currently the function supports only the constrained reduction around categorical data. It's not possible yet to give two different Omics datasets to find correlation between them.
+Currently the function supports only the constrained reduction around categorical data.
+It's not possible yet to give two different Omics datasets to find correlation between them.
+}
+\seealso{
+\code{\link[=plot_reduction]{plot_reduction()}}
+\code{\link[=plot_constrained_reduction]{plot_constrained_reduction()}}
+\code{\link[=beta_dispersion]{beta_dispersion()}}
 }

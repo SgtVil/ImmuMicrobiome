@@ -2,19 +2,21 @@
 % Please edit documentation in R/plot_reduction.R
 \name{plot_reduction}
 \alias{plot_reduction}
-\title{Plot reduction}
+\title{Use multidimensional reduction on matrices and data.frame.}
 \usage{
 plot_reduction(
   mat,
+  clinical_data,
   axis_x = 1,
   axis_y = 2,
   nf = 5,
   method = "PCA",
+  type = "boxplot",
   group = NULL,
-  permanova = F,
+  dist = "euclidean",
+  stat = "none",
   color_vector = c("cyan4", "brown", "deepskyblue", "black", "red"),
   legend_title = NULL,
-  title = NULL,
   lwd = 1,
   conf = 0.9,
   cex = 2,
@@ -25,18 +27,19 @@ plot_reduction(
   xlimits = "auto",
   text = F,
   ncol = 1,
-  species = F,
   x.intersp = 1,
   y.intersp = 0.5,
   where = "topleft",
   inset = 0.2,
-  boxplot = T,
   pca = T,
+  stat.cex = 2,
   ...
 )
 }
 \arguments{
 \item{mat}{A matrix with samples in rows}
+
+\item{clinical_data}{An integer specifying the columns that are discrete values.}
 
 \item{axis_x}{Number of the component for X axis}
 
@@ -46,15 +49,17 @@ plot_reduction(
 
 \item{method}{Method of reduction to use. Currently available : "PCA", "CA", "DCA", "tsne"}
 
+\item{type}{Chose the type of plot you want, choices are : "boxplot", "pure" or "arrows". Default="boxplot".}
+
 \item{group}{The group to colorise and put ellipse}
 
-\item{permanova}{Logical}
+\item{dist}{The distance method to be used for PCoA, NMDS and PERMANOVA analysis, distance are directly given to \code{\link[vegan]{vegdist}}. Default = "euclidean".}
+
+\item{stat}{Either permanova \code{\link[vegan]{adonis2}} with default parameter or \code{\link[vegan]{envfit}} function.}
 
 \item{color_vector}{Color vector}
 
 \item{legend_title}{Legend title}
-
-\item{title}{Title}
 
 \item{lwd}{Line width}
 
@@ -72,20 +77,52 @@ plot_reduction(
 
 \item{ncol}{Number of columns for the legend. Default = 1}
 
-\item{x.intersp}{Adjust the legend: character interspacing factor for horizontal (x)
-spacing between symbol and legend text.
+\item{x.intersp}{Adjust the legend: character interspacing factor for horizontal (x) spacing between symbol and legend text.
 @param y.intersp Adjust the legend: vertical (y) distances (in lines of text shared above/below each legend entry). A vector with one element for each row of the legend can be used.}
 
 \item{where}{Position for the permanova value. Default = "topleft"}
 
 \item{inset}{Adjust the legend: inset distance(s) from the margins as a fraction of the plot region when legend is placed by keyword.}
 
-\item{boxplot}{Logical. Plot the marginal boxplots or not. Default= T}
+\item{pca}{Logical. For tsne only. Does the \link{tsne} need to be run on a PCA first ?}
 
-\item{pca}{Logical. For tsne only. Does the tsne need to be run on a PCA first ?}
+\item{stat.cex}{Size of the stats text.}
 
 \item{...}{}
 }
+\value{
+A plot rendered using the \code{base} package and vegan functions :
+\itemize{
+\item \code{\link[vegan]{ordispider}}
+\item \code{\link[vegan]{ordiellipse}}
+}
+}
 \description{
-Plot reduction
+\code{plot_reduction()} stands in place of \link{beta_dispersion} for non phyloseq objects.
+The purpose is to allow users to plot main reduction algorithm on data.frames or matrices.
+}
+\examples{
+data(metabolomic)
+# Reduction with boxplot on the sides
+
+plot_reduction(mat= metabolomic, clinical_data = 1:4, axis_x=1, axis_y=2, nf= 5,
+ method= "PCA", type= "boxplot", group="birth_type", stat="permanova")
+
+# Reduction without boxplots
+ plot_reduction(mat= metabolomic, clinical_data = 1:4, axis_x=1, axis_y=2, nf= 5,
+ method= "PCA", type= "pure", group="birth_type", stat="permanova")
+
+# Reduction with arrows for the vectors loading
+plot_reduction(mat= metabolomic, clinical_data = 1:4, axis_x=1, axis_y=2, nf= 5,
+ method= "PCA", type= "arrows", group="birth_type", stat="permanova")
+
+# Test permanova or envift
+plot_reduction(mat= metabolomic, clinical_data = 1:4, axis_x=1, axis_y=2, nf= 5,
+ method= "PCA", type= "arrows", group="birth_type", stat="envfit")
+
+
+
+}
+\seealso{
+\code{\link[=plot_constrained_reduction]{plot_constrained_reduction()}} \link[=plot_constrained_reduction]{beta_dispersion()}
 }

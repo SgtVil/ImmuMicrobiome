@@ -1,8 +1,12 @@
-#' Title
+#' Error estimation according to dada2
+#' @description
+#' A wrapper function that will directly pass argument to  \code{\link[dada2]{learnErrors}}. If `save_plot=T` the plots will
 #'
-#' @param filt_fastq_list
-#' @param cores
-#' @param save_plot
+#'
+#'
+#' @param filt_fastq_list List of filtered fastq returned by  \code{\link[ImmuMicrobiome]{filt_list}}.
+#' @param cores Number of threads to use. Default = 1.
+#' @param save_plot Logical. Save the plot in the current directory.
 #' @param name
 #'
 #' @return

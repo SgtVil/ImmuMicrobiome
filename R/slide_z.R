@@ -74,14 +74,17 @@ slide_z = function(df, positive_sorted_sample= "pos", negative_sorted_sample="ne
 
 
     if(plot==TRUE){
-      df= res@ig_seq_all
+      df= res$ig_seq_all
       df = mutate(df, tooltip = paste(taxonomy, "\nslide_z: ",
                                             round(score, digits=3)))
-      ell= res@ellipse_data
+      ell= ellipse$values
       ell= ell %>% mutate(tooltip = df$tooltip)
+      df = df %>%
+        full_join(ellipse$boolean)
       stat = df$score>=2 | df$score <= -2
       dir.create("./IgAseq plots/png", recursive = T)
       dir.create("./IgAseq plots/plotly", recursive = T)
+
       p <- ggplot(df)+
         geom_polygon(data = ell, aes(ell[,1], ell[,2]), alpha=0.2, fill="burlywood", linetype=2)+
         geom_path(data = ell, aes(ell[,3], ell[,4]), color="chocolate1", linetype=2)+

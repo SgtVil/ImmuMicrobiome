@@ -1,7 +1,7 @@
-#' Title
+#' Randomly select fastq files
 #'
-#' @param fastq_list
-#' @param n
+#' @param fastq_list List of fastq returned by \code{\link[vegan]{list_fastq}}
+#' @param n Number of fastq to select
 #'
 #' @return
 #' @export

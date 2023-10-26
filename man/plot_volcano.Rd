@@ -13,6 +13,14 @@ plot_volcano(volcano, size = 2, col = c("#771155", "#77CCCC", "grey"), ...)
 
 \item{...}{Addtionnal arguments passed to \link{geom_point(aes(...))}}
 }
+\value{
+A ggplot2 object with features labelled depending on the p-values and the corrected p-values.
+}
 \description{
-Make a volcano plot
+Make a volcano plot based on the object returned by \link{fold_change}
+}
+\examples{
+fold= fold_change(clinical_data = metabolomic[,1:4], metabolomic[,6:217], cores = 10)
+lapply(fold, plot_volcano)
+plot_volcano(fold$MeCT, size=2)
 }

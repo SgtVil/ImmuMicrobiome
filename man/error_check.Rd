@@ -2,13 +2,19 @@
 % Please edit documentation in R/error_check.R
 \name{error_check}
 \alias{error_check}
-\title{Title}
+\title{Error estimation according to dada2}
 \usage{
 error_check(filt_fastq_list, cores = 1, save_plot = F, name = NULL)
 }
 \arguments{
+\item{filt_fastq_list}{List of filtered fastq returned by  \code{\link[ImmuMicrobiome]{filt_list}}.}
+
+\item{cores}{Number of threads to use. Default = 1.}
+
+\item{save_plot}{Logical. Save the plot in the current directory.}
+
 \item{name}{}
 }
 \description{
-Title
+A wrapper function that will directly pass argument to  \code{\link[dada2]{learnErrors}}. If \code{save_plot=T} the plots will
 }

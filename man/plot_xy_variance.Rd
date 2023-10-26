@@ -8,9 +8,10 @@ plot_xy_variance(
   variance,
   x,
   y,
-  fac,
-  col = c("brown", "orange", "grey"),
-  max.overlap = 20
+  corrected = F,
+  col_vector = c("purple", "orange", "brown", "grey"),
+  max.overlap = 20,
+  size = 3
 )
 }
 \arguments{
@@ -20,8 +21,7 @@ plot_xy_variance(
 
 \item{y}{Factor to be plotted as y.}
 
-\item{fac}{The factor to depict p.values. Only the points with p.adj < 0.05
-and p < 0.05 will be colorized and labelled}
+\item{corrected}{Use p value adjusted by FDR or not. Default=F.}
 
 \item{col}{Color vector.}
 }

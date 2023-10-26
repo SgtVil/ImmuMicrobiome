@@ -7,14 +7,16 @@
 check_length(fastq, names, cores = 1)
 }
 \arguments{
-\item{fastq}{To do}
+\item{fastq}{List of fastq}
 
-\item{names}{TBD}
+\item{names}{Names of the samples}
 
-\item{cores}{TBD}
+\item{cores}{Number of threads to use. Default=1}
 }
 \value{
 TBD
+
+A dataframe with the length of sequences for each fastq.
 }
 \description{
 Check the length of reads in fastq.
