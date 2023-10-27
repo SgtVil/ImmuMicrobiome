@@ -1,1 +1,7 @@
 .Rproj.user/
+ImmuMicrobiome_book_cache/
+ImmuMicrobiome_book_files/
+ImmuMicrobiome.Rproj
+.Rdata
+.Rbuildignore
+.Rhistory
