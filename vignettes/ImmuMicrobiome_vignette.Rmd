@@ -1008,7 +1008,7 @@ tmp = slide_z(seq.tab[[1]], positive_sorted_sample = "pos", negative_sorted_samp
 
 ```{r eval=T, echo=F, fig.height= 5, fig.width=7, fig.cap="Example of the plots output, a .png and a .html are saved"}
 # knitr::include_graphics("Igaseq plots/plotly/MO101sample_id_vs_new_vs_pos_random generation_ratio_intensity_ellipse.html")
-knitr::include_graphics("Igaseq plots/png/MO101_random generation_.png")
+knitr::include_graphics("~/ImmuMicrobiome/vignettes/MO101_random generation_.png")
 ```
 
 
