@@ -40,10 +40,6 @@ cross_validate_data(
 }
 \value{
 A list containing of ml class object.
-\item{res_model}{The \code{\link[caret:train]{caret::train()}} value}
-\item{res_prediction}{The prediction of the model}
-\item{res_conf_matrix}{The confusion matrix and associated values, see \code{\link[caret:confusionMatrix]{caret::confusionMatrix()}}.
-\item{data}{The data used in each models}
 }
 \description{
 Cross validate the training data.
