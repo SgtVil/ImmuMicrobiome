@@ -1,7 +1,7 @@
 Package: ImmuMicrobiome
 Type: Package
 Title: Analyse microbiome, metabolome and IgASeq.
-Version: 0.1.1
+Version: 1.0.1
 Author: Rémy Villette
 Maintainer: The package maintainer <remy.villette@upmc.fr>
 Description: This package is created to analyse microbiome data with phyloseq objects. Plot function are based on publication of Villette et al. and propose a core plotting outcome. This package also implement wrapper functions for dada2 and a IgASeq pipeline.Function in this package allows to : analyse alha-diversity, beta-diversity, correlations, differential abundance, etc. 
