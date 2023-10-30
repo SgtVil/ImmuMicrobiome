@@ -8,17 +8,30 @@
 #' @param Y Numeric matrix to be correlated to the X matrix
 #' @param method Statistical method used to
 #' @param cutoff Minimum correlation value to plot
-#' @param cluster
-#' @param mid
-#' @param low
-#' @param high
-#' @param ratio
-#' @param return_df
+#' @param cluster Boolean. True will cluster both rows and columns using \link{hclust} with the `ward.D2` method.
+#' @param mid Color for the mid value.
+#' @param low Color for the high value.
+#' @param high Color for the low value.
+#' @param ratio Not implemented yet.
+#' @param return_df Boolean. If True the function will return the plot and a list of objects.
+
 #'
 #' @return
+#' The function will either return a plot or a list of data.frames + the plot.\
+#' If you selected `return_df=T`:
+#' \item{r} The correlation matrix
+#' \item{p} p values for the correlation
+#' \item{long} r and p matrix melted as a long format. This dataframe will take in account the `cutoff` parameters and return the filtered values.
+#' \item{plot} The correlation plot.
 #' @export
 #'
 #' @examples
+#' rng = sample(x = 5:217, 30)
+#' rng2 = sample(x = 5:217, 30)
+#'
+#' plot_corr_heatmap(X = metabolomic[, rng], Y = metabolomic[, rng2], ratio = 0.5) +
+#' theme(text = element_text(size = 10))
+
 plot_corr_heatmap = function(X, Y, method= "spearman", cutoff=0,  cluster= F, mid= "white", low="lightcyan4", high="lightsalmon4", ratio=0.3, return_df= F){
 
   cr= Hmisc::rcorr(x = as.matrix(X), y = as.matrix(Y), type = method)
@@ -74,7 +87,7 @@ plot_corr_heatmap = function(X, Y, method= "spearman", cutoff=0,  cluster= F, mi
 
   if(return_df == T){
 
-    return(list(r= cr$r, p= cr$P, long= r, clust= list(h1 = h, h2= h2), plot= p))
+    return(list(r= cr$r, p= cr$P, long= r, plot= p))
   } else return(p)
 }
 

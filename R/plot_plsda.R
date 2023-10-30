@@ -13,6 +13,7 @@
 #' will keep the top10 features of component 1 and the top 10 features of the component 2.
 #'
 #' @return
+#'  A `ggplot2` object.
 #' @export
 #'
 #' @examples

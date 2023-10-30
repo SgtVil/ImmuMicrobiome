@@ -13,6 +13,7 @@
 #' @param pool Pool, pseudo-pool or no pool. See \code{\link[dada2]{dada()}}. Default = F.
 #'
 #' @return
+#' An list of \link{dada} objects.
 #' @export
 #'
 #' @examples

@@ -7,14 +7,25 @@
 #' - Heatmap : all factors will be plotted as rows. Currently doesn't shows which features ar significant.
 #'
 #' @param variance An object returned by the \link{calculate_variance}
-#' @param top The top N features to plot. Default = 30
-#' @param plot_type Categorical. Plot as boxplots or heatmap. Default= "boxplot"
+#' @param plot_type Categorical. Plot as boxplots or heatmap. Default= "boxplot".
+#' @param top For heatmap plotting only. The top N features to plot. Default = 30.
+#'
 #'
 #' @return
+#' A ggplot.
 #' @export
 #'
 #' @examples
-plot_all_variance = function(variance, top=30, plot_type= "boxplot",  col= c("brown", "orange", "grey")){
+#' var = metabolomic %>%
+#' dplyr::select(!child_id) %>%
+#' calculate_variance(clinical_data = 1:3, cores = 1)
+#'
+#' # A boxplot with jitter.
+#' plot_all_variance(var, col = c("brown", "darkgreen", "grey"))
+#'
+#' # alternatively you can plot the results as a Heatmap
+#' plot_all_variance(var, plot_type = "heatmap")
+plot_all_variance = function(variance, plot_type= "boxplot", top=30, col= c("brown", "orange", "grey")){
   var.exp = variance$variance %>%
     filter(variable=="var.exp")%>%
     pivot_longer(names_to = "factor", values_to = "value", cols = !features:variable)%>%

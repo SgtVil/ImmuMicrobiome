@@ -2,13 +2,24 @@
 % Please edit documentation in R/clean_sra_metadata.R
 \name{clean_sra_metadata}
 \alias{clean_sra_metadata}
-\title{Title}
+\title{Function to remove sample from sra files.}
 \usage{
 clean_sra_metadata(dir, regex_match, output_path = "./curated_metadata")
 }
 \arguments{
-\item{output_path}{}
+\item{dir}{Metadata directory}
+
+\item{regex_match}{The regex needed to remove unwanted files.}
+
+\item{output_path}{Directory for the new files. Default = "./curated_metadata".}
+}
+\value{
+This function will search for your regex and remove the rows matching your regex. It will create curated files in a new directory.
 }
 \description{
-Title
+SRA repository can contain metagenomic files, metatranscriptomic or 16S files. Depending of which type of files you wan't to work
+you can use a regex to remove unwanted samples.
+}
+\examples{
+No example.
 }

@@ -36,8 +36,9 @@ Check the dispersion of your samples and the impact of the zero management you w
 There are three possibilities \code{\link[=random_generation]{random_generation()}}, \code{\link[=no_zero]{no_zero()}} and \code{\link[=minimum_count]{minimum_count()}}.
 It will produce a list of plots were you will find the \eqn{neg1/neg2} ratio and the \eqn{pos/neg1} ratio.
 This is particularly important to check once you're working on a new set of data.
-Take into account that
-\item random_generation will be usefull for samples with a few taxa. If you samples are from healthy adults you might want to use
+}
+\details{
+Take into account that random_generation will be usefull for samples with a few taxa. If you samples are from healthy adults you might want to use
 }
 \examples{
 Check url to come.

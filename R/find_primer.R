@@ -1,17 +1,22 @@
-#' Title
+#' Find primer sequences in the fastq.
 #'
-#' @param fastq_list
-#' @param fwd_primer
-#' @param rv_primer
-#' @param max.mismatch
-#' @param allow.indels
-#' @param pair_end
-#' @param fixed
+#' @description
+#' A short function to verify if the primers are still in the fastq. Usually primers are kept in the reads after the removal of adapters.
+#'
+#' @param fastq_list List of fastq
+#' @param fwd_primer String of the forward primer
+#' @param rv_primer String of the reverse primer
+#' @param max.mismatch Max number of mismatches. This needs to be adapted depending on the number of wobble nucleotides from you primers
+#' @param allow.indels Indels stands for insertion-deletion. Refers to \link{matchPattern} for more information on this parameter.
+#' @param pair_end Logical.
+#' @param fixed See \link{matchPattern} for full informations.
 #'
 #' @return
+#' An object \link{vcountPattern}.
 #' @export
 #'
 #' @examples
+#' No example.
 find_primer <- function(fastq_list, fwd_primer, rv_primer, max.mismatch, allow.indels=FALSE, pair_end= T, fixed=F){
   require(Biostrings)
   require(ShortRead)

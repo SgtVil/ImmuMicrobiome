@@ -7,9 +7,17 @@
 #' @param col Color vector.
 #'
 #' @return
+#' A ggplot.
+#'
 #' @export
 #'
 #' @examples
+#'
+#' var = metabolomic %>%
+#' dplyr::select(!child_id) %>%
+#' calculate_variance(clinical_data = 1:3, cores = 1)
+#' plot_xy_variance(var, x = "birth_type", y = "breastfeeding", corrected = F)
+#'
 plot_xy_variance = function(variance, x, y, corrected=F, col_vector= c("purple", "orange", "brown","grey"), max.overlap=20, size=3){
 
   # OLD WAY

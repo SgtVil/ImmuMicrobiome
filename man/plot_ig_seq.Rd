@@ -2,13 +2,17 @@
 % Please edit documentation in R/plot_ig_seq.R
 \name{plot_ig_seq}
 \alias{plot_ig_seq}
-\title{Title}
+\title{Plot ig_seq for by sample. (DEPRECATED)}
 \usage{
 plot_ig_seq(ig_seq, type = c("plotly", "ggplot"), save = F)
 }
 \arguments{
-\item{save}{}
+\item{ig_seq}{An object of class IgASeq}
+
+\item{type}{Two choices : plotly or ggplot. For speed prefer ggplot.}
+
+\item{save}{Logical. Save the plot or not. If TRUE the plots will be saved in the current directory. Default= F.}
 }
 \description{
-Title
+This function will plot the slide_z approach for each sample.
 }

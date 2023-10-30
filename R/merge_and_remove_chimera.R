@@ -1,15 +1,17 @@
 #' Merge reads and remove chimera
 #'
-#' @param dd
-#' @param filt_fastq_list
-#' @param cores
-#' @param ...
+#' @param dd Object returned by \link{dereplicate} or \link{dada}.
+#' @param filt_fastq_list The list of filtered fastq
+#' @param cores Number of cores. Default=1
+#' @param ... Parameter passed to \link{removeBimeraDenovo}
 #'
 #' @return
+#' Return a count matrix.
 #' @export
 #'
 #' @examples
-merge_and_remove_chim= function(dd, filt_fastq_list, cores, ...){
+#' No example.
+merge_and_remove_chim= function(dd, filt_fastq_list, cores=1, ...){
   if(!is.list(filt_fastq_list)){
      pseudo_mergers <- dd %>%
      makeSequenceTable(.)%>%

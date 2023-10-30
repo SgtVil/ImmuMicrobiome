@@ -25,6 +25,17 @@ plot_xy_variance(
 
 \item{col}{Color vector.}
 }
+\value{
+A ggplot.
+}
 \description{
 Plot the variance for two factors.
+}
+\examples{
+
+var = metabolomic \%>\%
+dplyr::select(!child_id) \%>\%
+calculate_variance(clinical_data = 1:3, cores = 1)
+plot_xy_variance(var, x = "birth_type", y = "breastfeeding", corrected = F)
+
 }

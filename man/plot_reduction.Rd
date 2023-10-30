@@ -75,6 +75,8 @@ plot_reduction(
 
 \item{ylimits}{@param xlimits Limits for the axis}
 
+\item{text}{Should the labels be printed}
+
 \item{ncol}{Number of columns for the legend. Default = 1}
 
 \item{x.intersp}{Adjust the legend: character interspacing factor for horizontal (x) spacing between symbol and legend text.

@@ -2,13 +2,19 @@
 % Please edit documentation in R/filt_list.R
 \name{filt_list}
 \alias{filt_list}
-\title{Title}
+\title{Create a list of filtered fastq names.}
 \usage{
 filt_list(fastq_list)
 }
 \arguments{
-\item{fastq_list}{}
+\item{fastq_list}{A list of fastq returned by \link{list_fastq}}
+}
+\value{
+A list of filtered fastq.
 }
 \description{
-Title
+Create a list of filtered fastq names.
+}
+\examples{
+No example.
 }

@@ -2,7 +2,7 @@
 #'
 #' @description
 #' Currently the function supports only the constrained reduction around categorical data.
-#'It's not possible yet to give two different Omics datasets to find correlation between them.
+#' It's not possible yet to give two different Omics datasets to find correlation between them.
 #'
 #' @param mat A numeric matrix with samples as rows
 #' @param clinical_data An integer specifying the columns that are discrete values.
@@ -39,20 +39,33 @@
 #' @return A plot rendered using the `base` package and vegan functions :
 #' - \code{\link[vegan]{ordispider}}
 #' - \code{\link[vegan]{ordiellipse}}
+#'
 #' @seealso
 #' [plot_reduction()]
 #' [plot_constrained_reduction()]
 #' [beta_dispersion()]
+#'
 #' @examples
 #'
-#'data(enterotype)
-#'# RDA based on metabolomic data and constrained to breastfeeding status and gender.
+#'
+#'
+#' data(metabolomic)
+#'
+#' # RDA based on metabolomic data and constrained to breastfeeding status and gender.
 #'
 #' res= plot_constrained_reduction( metabolomic, clinical_data = 1:5,
 #'                                  stat="envfit", method = "RDA", model = "breastfeeding+sex",
 #'                                  group = "birth_type", type="arrows")
 #'
-#' anova(res, by="term)
+#' # CCA
+#' res = plot_constrained_reduction(metabolomic,  clinical_data = 1:4, stat="permanova", method = "RDA", model = "breastfeeding+sex",
+#'                                  group = "birth_type", type="arrows")
+#'
+#'
+#' # dbRDA
+#' res = plot_constrained_reduction(metabolomic, clinical_data = 1:4, stat="envfit", method = "CCA", model = "breastfeeding+sex",
+#'                                  group = "birth_type", type="arrows")
+#' anova(res, by="term")
 
 
 plot_constrained_reduction= function(mat, clinical_data, axis_x=1, axis_y=2, model, nf= 5, method= "CCA", type="boxplot",
@@ -73,18 +86,6 @@ plot_constrained_reduction= function(mat, clinical_data, axis_x=1, axis_y=2, mod
     fac= as.factor(mat[,group])
 
 
-    if(stat=="permanova"){
-      res =adonis2(as.formula(as.formula(paste0("mat[, -clinical_data] ~" , group))),
-                   data = as(mat, "data.frame"),
-                   permutations = 999, na.action = na.exclude,
-                   method = dist)
-      p.val= paste("PERMANOVA\np=",res$`Pr(>F)`[1])
-    }
-
-    if(stat== "envfit") {
-      res= vegan::envfit(formula=as.formula(paste0("p ~", group)), data=mat)
-      p.val = paste("Goodness of fit\np=", res$factors$pvals)
-    }
     if(method=="CCA"){
       p= cca(mod, data=mat[,clinical_data], na.action=na.exclude)
       p_li= scores(p, display = "sites", choices=c(axis_x, axis_y) )
@@ -118,6 +119,19 @@ plot_constrained_reduction= function(mat, clinical_data, axis_x=1, axis_y=2, mod
     } else{
       ylimits= ylim
       xlimits= ylim
+    }
+
+    if(stat=="permanova"){
+      res =adonis2(as.formula(as.formula(paste0("mat[, -clinical_data] ~" , group))),
+                   data = as(mat, "data.frame"),
+                   permutations = 999, na.action = na.exclude,
+                   method = dist)
+      p.val= paste("PERMANOVA\np=",res$`Pr(>F)`[1])
+    }
+
+    if(stat== "envfit") {
+      res= vegan::envfit(formula=as.formula(paste0("p ~", group)), data=mat)
+      p.val = paste("Goodness of fit\np=", res$factors$pvals)
     }
 
     col1= color_vector

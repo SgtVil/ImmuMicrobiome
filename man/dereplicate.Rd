@@ -15,6 +15,9 @@ dereplicate(filt_fastq_list, err_list, cores = 1, pool = F)
 
 \item{pool}{Pool, pseudo-pool or no pool. See \code{\link[dada2]{dada()}}. Default = F.}
 }
+\value{
+An list of \link{dada} objects.
+}
 \description{
 A wrapper function for \code{\link[dada2]{dada()}}.
 

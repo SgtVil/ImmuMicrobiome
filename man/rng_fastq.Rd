@@ -11,6 +11,12 @@ rng_fastq(fastq_list, n = 10)
 
 \item{n}{Number of fastq to select}
 }
+\value{
+A list of fastq randomly selected.
+}
 \description{
 Randomly select fastq files
+}
+\examples{
+TBD
 }

@@ -4,11 +4,23 @@
 \alias{merge_and_remove_chim}
 \title{Merge reads and remove chimera}
 \usage{
-merge_and_remove_chim(dd, filt_fastq_list, cores, ...)
+merge_and_remove_chim(dd, filt_fastq_list, cores = 1, ...)
 }
 \arguments{
-\item{...}{}
+\item{dd}{Object returned by \link{dereplicate} or \link{dada}.}
+
+\item{filt_fastq_list}{The list of filtered fastq}
+
+\item{cores}{Number of cores. Default=1}
+
+\item{...}{Parameter passed to \link{removeBimeraDenovo}}
+}
+\value{
+Return a count matrix.
 }
 \description{
 Merge reads and remove chimera
+}
+\examples{
+No example.
 }

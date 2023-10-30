@@ -4,9 +4,11 @@
 #' @param n Number of fastq to select
 #'
 #' @return
+#' A list of fastq randomly selected.
 #' @export
 #'
 #' @examples
+#' TBD
 rng_fastq= function(fastq_list, n=10){
   if(length(fastq_list$names)<n){
     ret = fastq_list

@@ -103,6 +103,28 @@ A plot rendered using the \code{base} package and vegan functions :
 Currently the function supports only the constrained reduction around categorical data.
 It's not possible yet to give two different Omics datasets to find correlation between them.
 }
+\examples{
+
+
+
+data(metabolomic)
+
+# RDA based on metabolomic data and constrained to breastfeeding status and gender.
+
+res= plot_constrained_reduction( metabolomic, clinical_data = 1:5,
+                                 stat="envfit", method = "RDA", model = "breastfeeding+sex",
+                                 group = "birth_type", type="arrows")
+
+# CCA
+res = plot_constrained_reduction(metabolomic,  clinical_data = 1:4, stat="permanova", method = "RDA", model = "breastfeeding+sex",
+                                 group = "birth_type", type="arrows")
+
+
+# dbRDA
+res = plot_constrained_reduction(metabolomic, clinical_data = 1:4, stat="envfit", method = "CCA", model = "breastfeeding+sex",
+                                 group = "birth_type", type="arrows")
+anova(res, by="term")
+}
 \seealso{
 \code{\link[=plot_reduction]{plot_reduction()}}
 \code{\link[=plot_constrained_reduction]{plot_constrained_reduction()}}

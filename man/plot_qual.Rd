@@ -7,12 +7,18 @@
 plot_qual(list, n = 5, color_vector = NULL, project_names)
 }
 \arguments{
-\item{list}{An object returned by \link{list_fastq}}
+\item{list}{An object returned by \link{summarise_fastq}}
 
-\item{n}{Number of fastq you used in summarise_fastq()}
+\item{n}{Number of fastq you used in \link{summarise_fastq}}
 
 \item{color_vector}{A color vector}
 }
+\value{
+A ggplot.
+}
 \description{
 Check the length of your reads.
+}
+\examples{
+TBD
 }

@@ -1,11 +1,13 @@
-#' Title
+#' Create a list of filtered fastq names.
 #'
-#' @param fastq_list
+#' @param fastq_list A list of fastq returned by \link{list_fastq}
 #'
 #' @return
+#' A list of filtered fastq.
 #' @export
 #'
 #' @examples
+#' No example.
 filt_list <- function(fastq_list){
  path= unique(dirname(fastq_list[[1]]))
   if(length(fastq_list)<3){

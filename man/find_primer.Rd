@@ -2,7 +2,7 @@
 % Please edit documentation in R/find_primer.R
 \name{find_primer}
 \alias{find_primer}
-\title{Title}
+\title{Find primer sequences in the fastq.}
 \usage{
 find_primer(
   fastq_list,
@@ -15,8 +15,26 @@ find_primer(
 )
 }
 \arguments{
-\item{fixed}{}
+\item{fastq_list}{List of fastq}
+
+\item{fwd_primer}{String of the forward primer}
+
+\item{rv_primer}{String of the reverse primer}
+
+\item{max.mismatch}{Max number of mismatches. This needs to be adapted depending on the number of wobble nucleotides from you primers}
+
+\item{allow.indels}{Indels stands for insertion-deletion. Refers to \link{matchPattern} for more information on this parameter.}
+
+\item{pair_end}{Logical.}
+
+\item{fixed}{See \link{matchPattern} for full informations.}
+}
+\value{
+An object \link{vcountPattern}.
 }
 \description{
-Title
+A short function to verify if the primers are still in the fastq. Usually primers are kept in the reads after the removal of adapters.
+}
+\examples{
+No example.
 }

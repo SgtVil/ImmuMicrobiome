@@ -1,12 +1,14 @@
 #' Check the length of your reads.
 #'
-#' @param list An object returned by \link{list_fastq}
+#' @param list An object returned by \link{summarise_fastq}
 #' @param color_vector A color vector
-#' @param n Number of fastq you used in summarise_fastq()
+#' @param n Number of fastq you used in \link{summarise_fastq}
 #' @return
+#' A ggplot.
 #' @export
-#'
+#' @import ggridges
 #' @examples
+#' TBD
 plot_qual= function(list, n=5, color_vector=NULL, project_names){
   if(is.null(color_vector)) color_vector= c("#771155", "#AA4488", "#CC99BB", "#114477", "#4477AA", "#77AADD",
                                             "#117777", "#44AAAA", "#77CCCC", "#117744", "#44AA77",

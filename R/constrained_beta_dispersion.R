@@ -29,12 +29,9 @@
 #' @param text Boolean. Plot the names of the group on the graph.
 #' @param species Not implemented.
 #' @param inset Permanova legend adjustment see \link{legend}
-#' @param type
-#' @param stat
-#' @param ...
+#' @param ... Parameters passed to base plotting.
 #'
 #' @return Return a plot and the result of the constrained analysis.
-#' @import ade4
 #' @import phyloseq
 #' @import magrittr
 #' @export

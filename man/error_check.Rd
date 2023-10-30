@@ -13,7 +13,10 @@ error_check(filt_fastq_list, cores = 1, save_plot = F, name = NULL)
 
 \item{save_plot}{Logical. Save the plot in the current directory.}
 
-\item{name}{}
+\item{name}{Name for the plot saving. If NULL the plot will be named only with \code{Sys.Date} and "errors.png".}
+}
+\value{
+Objects from the \link{learnErrors} function. If save_plot selected then plots based based on \link{plotErrors} function will be saved
 }
 \description{
 A wrapper function that will directly pass argument to  \code{\link[dada2]{learnErrors}}. If \code{save_plot=T} the plots will

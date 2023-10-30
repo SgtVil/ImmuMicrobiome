@@ -23,7 +23,7 @@
 #' @param pch Shape
 #' @param draw Categorical, draw ellipses as lines or as polygons
 #' @param ylimits @param xlimits Limits for the axis
-#' @param text
+#' @param text Should the labels be printed
 #' @param ncol Number of columns for the legend. Default = 1
 #' @param x.intersp Adjust the legend: character interspacing factor for horizontal (x) spacing between symbol and legend text.
 #'  @param y.intersp Adjust the legend: vertical (y) distances (in lines of text shared above/below each legend entry). A vector with one element for each row of the legend can be used.
@@ -79,21 +79,6 @@ plot_reduction = function(mat,  clinical_data, axis_x=1, axis_y=2, nf= 5, method
   } else {
     d= vegan::vegdist(mat[, -clinical_data], method = dist)
   }
-
-  if(stat=="permanova"){
-    res =adonis2(as.formula(as.formula(paste0("mat[, -clinical_data] ~" , group))),
-                 data = as(mat, "data.frame"),
-                 permutations = 999, na.action = na.exclude,
-                 method = dist)
-    p.val= paste("PERMANOVA\np=",res$`Pr(>F)`[1])
-  }
-
-  if(stat== "envfit") {
-    res= vegan::envfit(formula=as.formula(paste0("p ~", group)), data=mat)
-    p.val = paste("Goodness of fit\np=", res$factors$pvals)
-  }
-#
-
 
   if(is.null(group)){
     stop("Need factor to segregate result.")
@@ -154,6 +139,18 @@ if(method=="NMDS"){
     xlimits= ylim
   }
 
+  if(stat=="permanova"){
+    res =adonis2(as.formula(as.formula(paste0("mat[, -clinical_data] ~" , group))),
+                 data = as(mat, "data.frame"),
+                 permutations = 999, na.action = na.exclude,
+                 method = dist)
+    p.val= paste("PERMANOVA\np=",res$`Pr(>F)`[1])
+  }
+
+  if(stat== "envfit") {
+    res= vegan::envfit(formula=as.formula(paste0("p ~", group)), data=mat)
+    p.val = paste("Goodness of fit\np=", res$factors$pvals)
+  }
   col1= color_vector
   col1= col1[unique(fac)]
   col2=  color_vector

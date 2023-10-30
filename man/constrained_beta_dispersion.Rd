@@ -91,7 +91,7 @@ Default= "bray".}
 
 \item{inset}{Permanova legend adjustment see \link{legend}}
 
-\item{...}{}
+\item{...}{Parameters passed to base plotting.}
 }
 \value{
 Return a plot and the result of the constrained analysis.

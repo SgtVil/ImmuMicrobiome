@@ -26,8 +26,33 @@ plot_corr_heatmap(
 
 \item{cutoff}{Minimum correlation value to plot}
 
-\item{return_df}{}
+\item{cluster}{Boolean. True will cluster both rows and columns using \link{hclust} with the \code{ward.D2} method.}
+
+\item{mid}{Color for the mid value.}
+
+\item{low}{Color for the high value.}
+
+\item{high}{Color for the low value.}
+
+\item{ratio}{Not implemented yet.}
+
+\item{return_df}{Boolean. If True the function will return the plot and a list of objects.}
+}
+\value{
+The function will either return a plot or a list of data.frames + the plot.\
+If you selected \code{return_df=T}:
+\item{r} The correlation matrix
+\item{p} p values for the correlation
+\item{long} r and p matrix melted as a long format. This dataframe will take in account the \code{cutoff} parameters and return the filtered values.
+\item{plot} The correlation plot.
 }
 \description{
 A heatmap of correlation coefficient based on matrices.
+}
+\examples{
+rng = sample(x = 5:217, 30)
+rng2 = sample(x = 5:217, 30)
+
+plot_corr_heatmap(X = metabolomic[, rng], Y = metabolomic[, rng2], ratio = 0.5) +
+theme(text = element_text(size = 10))
 }

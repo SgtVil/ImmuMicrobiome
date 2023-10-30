@@ -4,8 +4,8 @@
 #' There are three possibilities [random_generation()], [no_zero()] and [minimum_count()].
 #' It will produce a list of plots were you will find the \eqn{neg1/neg2} ratio and the \eqn{pos/neg1} ratio.
 #' This is particularly important to check once you're working on a new set of data.
-#' Take into account that
-#' \item random_generation will be usefull for samples with a few taxa. If you samples are from healthy adults you might want to use
+#'
+#' Take into account that random_generation will be usefull for samples with a few taxa. If you samples are from healthy adults you might want to use
 #'
 #' @param df A element of the [seq_table()] returned object. You can run this function using a loop or lapply to make the plots for every samples.
 #' @param positive_sorted_sample The pattern of the positive fraction. Default = "pos"

@@ -13,13 +13,14 @@
 #'
 #'
 #' @import foreach
-#' @return A list containing of ml class object.
-#' @item{res_model}{The [caret::train()] value}
-#' @item{res_prediction}{The prediction of the model}
-#' @item{res_conf_matrix}{The confusion matrix and associated values, see [caret::confusionMatrix()].
-#' @item{data}{The data used in each models}
 #'
-#' @export
+#' @return A list containing of ml class object.
+#' \item{res_model}{The [caret::train()] value}
+#' \item{res_prediction}{The prediction of the model}
+#' \item{res_conf_matrix}{The confusion matrix and associated values, see [caret::confusionMatrix()].
+#' \item{data}{The data used in each models}
+#'
+#'
 #' @import doParallel
 #' @import foreach
 #' @examples TBD

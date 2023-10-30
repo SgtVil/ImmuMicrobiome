@@ -23,7 +23,7 @@
 #' \item{train_x}{The values used to train the model}
 #' \item{pred_x}{The predicted values}
 #' \item{pred_y}{The predicted classification}
-#' @export
+#'
 #'
 #' @examples
 #' screen_models(enterotype, model="glmnet", prop=0.5, ncomp=20)

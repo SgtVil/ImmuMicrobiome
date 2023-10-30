@@ -1,8 +1,11 @@
-#' Title
+#' Plot ig_seq for by sample. (DEPRECATED)
 #'
-#' @param ig_seq
-#' @param type
-#' @param save
+#' @description
+#' This function will plot the slide_z approach for each sample.
+#'
+#' @param ig_seq An object of class IgASeq
+#' @param type Two choices : plotly or ggplot. For speed prefer ggplot.
+#' @param save Logical. Save the plot or not. If TRUE the plots will be saved in the current directory. Default= F.
 #'
 #' @return
 #' @export

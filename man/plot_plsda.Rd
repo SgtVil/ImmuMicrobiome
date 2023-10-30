@@ -25,6 +25,9 @@ plot_plsda(
 Loads are defined by the absolute value of each features for each components. If \code{top.loads = 10} the function
 will keep the top10 features of component 1 and the top 10 features of the component 2.}
 }
+\value{
+A \code{ggplot2} object.
+}
 \description{
 A ggplot2 based function to plot PLS-DA based on the object returned by \code{\link[mixOmics]{plsda}}.
 The function will also plot the features loadings, a biplot then. This function can also handle results of a \code{splsda}.
