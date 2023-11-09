@@ -42,7 +42,7 @@ fold_change = function(mat, clinical_data, cores = 2, ...){
         select_at(vars(features, value, i))%>%
         rstatix::kruskal_test(formula= as.formula(paste("value~", i)), ...) %>%
         rstatix::adjust_pvalue(method = "fdr")%>%
-        dplyr::select(features,  p, p.adj)%>%
+        dplyr::select(p, p.adj)%>%
         mutate(factor= i)%>%
         labelled::remove_attributes('all')
       # attributes(tmp)= NULL
@@ -53,7 +53,7 @@ fold_change = function(mat, clinical_data, cores = 2, ...){
         select_at(vars(features, value, i))%>%
         rstatix::wilcox_test(formula= as.formula(paste("value~", i)), ...) %>%
         rstatix::adjust_pvalue(method = "fdr")%>%
-        dplyr::select(features, p, p.adj)%>%
+        dplyr::select(p, p.adj)%>%
         mutate(factor= i)%>%
         labelled::remove_attributes( 'all')
       # attributes(tmp)= NULL
@@ -78,7 +78,7 @@ fold_change = function(mat, clinical_data, cores = 2, ...){
         summarise(fold= log2(mean_val[2]/mean_val[1]),
                   mean_val= mean(mean_val))%>%
         ungroup%>%
-        dplyr::select(fold) %>%
+        dplyr::select(features, fold) %>%
         mutate(comp = paste0(i, " : ","log2(", comp[2], "/", comp[1], ')'))
 
     } else if(length(unique(df[,i]))>2){
@@ -110,7 +110,7 @@ fold_change = function(mat, clinical_data, cores = 2, ...){
       select_at(vars(features, value, i))%>%
       summarise(mean_val = mean(value),
                 median_val= median(value))%>%
-        select(median_val, mean_val)
+        dplyr::select(median_val, mean_val)
       })
 
 

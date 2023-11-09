@@ -49,5 +49,5 @@ A list containing of ml class object.
 Cross validate the training data.
 }
 \examples{
-TBD
+TBD.
 }
