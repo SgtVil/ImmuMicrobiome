@@ -35,7 +35,6 @@
 #' @param stat.cex ize of the stats text.
 #' @param ...
 #'
-#' @import ade4
 #' @import phyloseq
 #' @import magrittr
 #' @import Rtsne

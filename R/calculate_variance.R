@@ -16,7 +16,9 @@
 #' - mean.feat = Mean value for the features
 #' - all = a data.frame with var.tot, mean.feat, var.grp and var.exp
 #' @import reshape2
-#' @import rstatix
+#' @importFrom rstatix wilcox_test
+#' @importFrom rstatix t_test
+#' @importFrom rstatix function
 #' @export
 #'
 #' @examples

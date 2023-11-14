@@ -18,7 +18,6 @@
 #'
 #'@import vegan
 #'@import phyloseq
-#'@import ade4
 
 #'
 #'@export

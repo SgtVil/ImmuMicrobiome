@@ -27,13 +27,14 @@
 #' plot_all_variance(var, plot_type = "heatmap")
 plot_all_variance = function(variance, plot_type= "boxplot", top=30, col= c("brown", "orange", "grey")){
   var.exp = variance$variance %>%
-    filter(variable=="var.exp")%>%
-    pivot_longer(names_to = "factor", values_to = "value", cols = !features:variable)%>%
-    full_join(variance$p.value, by=c("features","factor"))%>%
-    full_join(variance$variance %>%
-                filter(variable=="mean.feat") %>%
-                pivot_longer(names_to = "factor", values_to = "mean.feat", cols = !features:variable),
+    dplyr::filter(variable=="var.exp")%>%
+    tidyr::pivot_longer(names_to = "factor", values_to = "value", cols = !features:variable)%>%
+    dplyr::full_join(variance$p.value, by=c("features","factor"))%>%
+    dplyr::full_join(variance$variance %>%
+                       dplyr:: filter(variable=="mean.feat") %>%
+                       tidyr::pivot_longer(names_to = "factor", values_to = "mean.feat", cols = !features:variable),
               by=c("features", "factor"))
+
   if(plot_type=="boxplot"){
 
     p =var.exp %>%
@@ -60,14 +61,14 @@ plot_all_variance = function(variance, plot_type= "boxplot", top=30, col= c("bro
   if(plot_type=="heatmap"){
 
     top= variance$variance %>%
-      filter(variable=="var.tot")%>%
-      pivot_longer(names_to = "factor", values_to = "value", cols = !features:variable)%>%
-      group_by(features)%>%
-      summarise(mean.fac= mean(value, na.rm=T)) %>%
+      dplyr::filter(variable=="var.tot")%>%
+      tidyrt::pivot_longer(names_to = "factor", values_to = "value", cols = !features:variable)%>%
+      dplyr::group_by(features)%>%
+      dplyr::summarise(mean.fac= mean(value, na.rm=T)) %>%
       top_n(top, wt = mean.fac)
 
     p = var.exp %>%
-      filter(features %in% top$features)%>%
+      dplyr::filter(features %in% top$features)%>%
       ggplot(aes(fct_reorder(features, mean.feat), factor))+
       geom_tile(aes(fill=value))+
       scale_fill_gradient(high = col[1], low = "white", name="Percent of variance")+
