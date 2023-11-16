@@ -32,6 +32,7 @@ plot_reduction(
   where = "topleft",
   inset = 0.2,
   pca = T,
+  scale = T,
   stat.cex = 2,
   ...
 )

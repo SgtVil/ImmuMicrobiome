@@ -62,7 +62,7 @@ plot_all_variance = function(variance, plot_type= "boxplot", top=30, col= c("bro
 
     top= variance$variance %>%
       dplyr::filter(variable=="var.tot")%>%
-      tidyrt::pivot_longer(names_to = "factor", values_to = "value", cols = !features:variable)%>%
+      tidyr::pivot_longer(names_to = "factor", values_to = "value", cols = !features:variable)%>%
       dplyr::group_by(features)%>%
       dplyr::summarise(mean.fac= mean(value, na.rm=T)) %>%
       top_n(top, wt = mean.fac)
