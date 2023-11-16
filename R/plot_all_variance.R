@@ -26,7 +26,7 @@
 #' # alternatively you can plot the results as a Heatmap
 #' plot_all_variance(var, plot_type = "heatmap")
 plot_all_variance = function(variance, plot_type= "boxplot", top=30, col= c("brown", "orange", "grey")){
-  var.exp = variance$variance %>%
+  var_exp = variance$variance %>%
     dplyr::filter(variable=="var.exp")%>%
     tidyr::pivot_longer(names_to = "factor", values_to = "value", cols = !features:variable)%>%
     dplyr::full_join(variance$p.value, by=c("features","factor"))%>%
@@ -37,8 +37,8 @@ plot_all_variance = function(variance, plot_type= "boxplot", top=30, col= c("bro
 
   if(plot_type=="boxplot"){
 
-    p =var.exp %>%
-      ggplot(aes(y = value, fct_reorder(factor, var.exp%>%
+    p =var_exp %>%
+      ggplot(aes(y = value, fct_reorder(factor, var_exp%>%
                                           group_by(factor)%>%
                                           mutate(mean.fac = median(value, na.rm=T))%>%
                                           pull(mean.fac))))+
@@ -67,7 +67,7 @@ plot_all_variance = function(variance, plot_type= "boxplot", top=30, col= c("bro
       dplyr::summarise(mean.fac= mean(value, na.rm=T)) %>%
       top_n(top, wt = mean.fac)
 
-    p = var.exp %>%
+    p = var_exp %>%
       dplyr::filter(features %in% top$features)%>%
       ggplot(aes(fct_reorder(features, mean.feat), factor))+
       geom_tile(aes(fill=value))+
