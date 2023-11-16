@@ -70,7 +70,7 @@ plot_reduction = function(mat,  clinical_data, axis_x=1, axis_y=2, nf= 5, method
                           font=2, pch=20, draw= "lines",
                           ylimits="auto", xlimits= "auto", text=F, ncol=1,
                           x.intersp = 1, y.intersp=0.5,
-                          where="topleft", inset=0.2,  pca= T, stat.cex= 2, ...){
+                          where="topleft", inset=0.2,  pca= T, scale =T,  stat.cex= 2, ...){
   old.par = par()
   on.exit(layout(matrix(c(1,1))))
 
@@ -102,7 +102,7 @@ if(method=="NMDS"){
 
   if(method== "PCA"){
     # p= dudi.pca(as(mat, 'matrix'), scannf = F, nf=5, scale = T, center = T)
-    p = vegan::rda(as(mat[, -clinical_data], "matrix"), scale=T)
+    p = vegan::rda(as(mat[, -clinical_data], "matrix"), scale= scale)
     p_li = p$CA$u
     # p_li= p$li
     ca1 = scores(p, display = "species", scaling="species")[,1]
@@ -117,7 +117,7 @@ if(method=="NMDS"){
   }
 
   if(method=="DCA"){
-    p = decorana( as(mat[, -clinical_data], 'matrix'), )
+    p = decorana( as(mat[, -clinical_data], 'matrix'))
     p_li= scores(p)
     ca1 = scores(p, display = "species", scaling="species")[,1]
     ca2 = scores(p, display = "species", scaling="species")[,2]

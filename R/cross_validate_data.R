@@ -23,7 +23,8 @@
 #'
 #' @import doParallel
 #' @import foreach
-#' @examples TBD
+#' @examples
+#' TBD.
 cross_validate_data = function(obj, y, model="plsda", repetition= 1000, cores=1, ncomp=10, number=10,
                                repeats=3,  prop= 0.5, ...){
 

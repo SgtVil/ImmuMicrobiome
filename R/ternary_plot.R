@@ -10,7 +10,7 @@
 #' @param stat Not implemented yet.
 #'
 #' @return
-#' @export
+#'
 #'
 #' @examples
 ternary_plot = function(fold, adjusted.p.val = T, measure="fold.change", stat="median"){
