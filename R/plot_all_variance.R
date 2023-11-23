@@ -26,22 +26,25 @@
 #' # alternatively you can plot the results as a Heatmap
 #' plot_all_variance(var, plot_type = "heatmap")
 plot_all_variance = function(variance, plot_type= "boxplot", top=30, col= c("brown", "orange", "grey")){
+  var_exp = variance$variance %>%
+    dplyr::filter(variable=="var.exp")%>%
+    tidyr::pivot_longer(names_to = "factor", values_to = "value", cols = !features:variable)%>%
+    dplyr::full_join(variance$p.value, by=c("features","factor"))%>%
+    dplyr::full_join(variance$variance %>%
+                       dplyr::filter(variable=="mean.feat") %>%
+                       tidyr::pivot_longer(names_to = "factor", values_to = "mean.feat", cols = !features:variable),
+                     by=c("features", "factor"))
+
 
   if(plot_type=="boxplot"){
-    var_exp = variance$variance %>%
-      dplyr::filter(variable=="var.exp")%>%
-      tidyr::pivot_longer(names_to = "factor", values_to = "value", cols = !features:variable)%>%
-      dplyr::full_join(variance$p.value, by=c("features","factor"))%>%
-      dplyr::full_join(variance$variance %>%
-                         dplyr:: filter(variable=="mean.feat") %>%
-                         tidyr::pivot_longer(names_to = "factor", values_to = "mean.feat", cols = !features:variable),
-                       by=c("features", "factor"))
+    ord = var_exp %>%
+      dplyr::group_by(factor)%>%
+      dplyr::mutate(mean.fac = median(value, na.rm=T))%>%
+      dplyr::pull(mean.fac)
+  # head(ord)
 
-    p =var_exp %>%
-      ggplot(aes(y = value, fct_reorder(factor, var_exp%>%
-                                          group_by(factor)%>%
-                                          mutate(mean.fac = median(value, na.rm=T))%>%
-                                          pull(mean.fac))))+
+    p = var_exp %>%
+      ggplot(aes(y = value, forcats::fct_reorder(factor, ord)))+
 
       geom_jitter(aes(size=mean.feat, fill= ifelse(p.adj<0.05, col[1],
                                                    ifelse(p<0.05, col[2], col[3]))),
@@ -57,16 +60,9 @@ plot_all_variance = function(variance, plot_type= "boxplot", top=30, col= c("bro
       theme(axis.text.y = element_text(face="bold"),
             axis.title.y = element_blank(),
             legend.position = "bottom")
+    p
   }
   if(plot_type=="heatmap"){
-    var_exp = variance$variance %>%
-      dplyr::filter(variable=="var.exp")%>%
-      tidyr::pivot_longer(names_to = "factor", values_to = "value", cols = !features:variable)%>%
-      dplyr::full_join(variance$p.value, by=c("features","factor"))%>%
-      dplyr::full_join(variance$variance %>%
-                         dplyr:: filter(variable=="mean.feat") %>%
-                         tidyr::pivot_longer(names_to = "factor", values_to = "mean.feat", cols = !features:variable),
-                       by=c("features", "factor"))
 
     top= variance$variance %>%
       dplyr::filter(variable=="var.tot")%>%

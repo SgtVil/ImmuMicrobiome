@@ -3,8 +3,11 @@
 #' @param variance An object returned by \link{calculate_variance}.
 #' @param x Factor to be plotted as x.
 #' @param y Factor to be plotted as y.
-#' @param corrected Use p value adjusted by FDR or not. Default=F.
-#' @param col Color vector.
+#' @param col_vector A color vector for the plotting.
+#' @param max.overlap The text repelling overlap
+#' @param size Size of the dots.
+#' @param corrected Use p value adjusted by FDR or not for the text only. Default=F. IMPORTANT, by default the corrected value is settled as FALSE, this mean
+#' it will print the labels for the features significant before correction.
 #'
 #' @return
 #' A ggplot.
@@ -38,7 +41,7 @@ plot_xy_variance = function(variance, x, y, corrected=F, col_vector= c("purple",
                                         no="None")))
     labels = variance$p.value %>%
       # filter(factor==fac & p.adj<0.05)
-      filter(p<0.05)
+      filter(factor==x | factor==y,  p<0.05)
   } else {
     col.val = variance$p.value %>%
       filter(factor==x | factor==y) %>%
@@ -50,7 +53,7 @@ plot_xy_variance = function(variance, x, y, corrected=F, col_vector= c("purple",
                                         no="None")))
     labels = variance$p.value %>%
       # filter(factor==fac & p.adj<0.05)
-      filter(p.adj<0.05)
+      filter(factor==x | factor==y, p.adj<0.05)
   }
 
 col.val$col= tmp
