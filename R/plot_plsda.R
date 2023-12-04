@@ -7,10 +7,10 @@
 #' @param res.plsda An object returned by \code{\link[mixOmics]{plsda}}.
 #' @param comp Which component to plot.
 #' @param color_vector Color vector
-#' @param shape Shape of the dots.
 #' @param top.loads Top N features to plot. Default = 10.
 #' Loads are defined by the absolute value of each features for each components. If `top.loads = 10` the function
 #' will keep the top10 features of component 1 and the top 10 features of the component 2.
+#' @param size Size of the dots. Default=3.
 #'
 #' @return
 #'  A `ggplot2` object.
@@ -34,11 +34,11 @@
 #'        legend.text = element_text(size=15),
 #'        legend.title = element_text(size=20, face="bold"),
 #'        axis.text = element_text(size=15))
-#'
-#'
 
 
-plot_plsda = function(res.plsda, comp= c(1, 2), color_vector=  tol21rainbow, shape, top.loads= 10){
+
+plot_plsda <- function(res.plsda, comp= c(1, 2), color_vector=  c("brown", "orange", "deepskyblue2", "salmon"), top.loads= 10, size=3){
+
   loads = res.plsda$loadings$X%>%
     as.data.frame()%>%
     arrange(desc(abs(comp1))) %>%
@@ -50,17 +50,17 @@ plot_plsda = function(res.plsda, comp= c(1, 2), color_vector=  tol21rainbow, sha
                 top_n(top.loads, wt= abs(comp2))%>%
                 rownames_to_column())
   scaler <- max(res.plsda$variates$X, na.rm = TRUE)/ max(abs(res.plsda$loadings$X), na.rm = TRUE)
-  variates = res.plsda$variates$X %>%
+  var = res.plsda$variates$X %>%
     bind_cols(res.plsda$Y)%>%
     as.data.frame()
 
   var.exp = round(res.plsda$prop_expl_var$X*100, 1)
 
-  variates %>%
-  ggplot(aes(x = variates[, comp[1]],
-              y = variates[, comp[2]]))+
-    geom_point(shape=21, aes(fill=variates[,length(colnames(variates))]), size=3)+
-    stat_ellipse(aes(fill=variates[,length(colnames(variates))]), color="black", geom = "polygon", alpha=0.3)+
+  var %>%
+    ggplot(aes(x = var[, comp[1]],
+               y = var[, comp[2]]))+
+    geom_point(shape=21, aes(fill=var[,length(colnames(var))]), size=size)+
+    stat_ellipse(aes(fill=var[,length(colnames(var))]), color="black", geom = "polygon", alpha=0.3)+
     geom_segment(data = loads , aes(xend=comp1*scaler*2, yend=comp2*scaler*2, x=0, y=0), alpha=0.3,
                  arrow = arrow(angle = 30, length  = unit(0.25, "cm"),
                                ends = "last", type = "open"))+
