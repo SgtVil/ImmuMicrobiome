@@ -10,7 +10,8 @@
 #' @param axis_y Which component for axis y. Default = 2
 #' @param model Specify here the model to be used for regression
 #' @param stat Either permanova \code{\link[vegan]{adonis2}} with default parameter or \code{\link[vegan]{envfit}} function.
-#' @param type  Chose the type of plot you want, choices are : "boxplot", "pure" or "arrows". Default="boxplot".
+#' @param type  Chose the type of plot you want, choices are : "boxplot", "pure" or "arrows". Default="boxplot". Here arrows will return the vectors/factors used for the
+#' constrained analysis.
 #' @param nf Number of components
 #' @param method The mathematical method to reduce the dimensions. Currently this function supports CCA, RDA and dbRDA
 #' @param group String defining the groups you want to plot on the beta diversity.
@@ -73,7 +74,7 @@ plot_constrained_reduction= function(mat, clinical_data, axis_x=1, axis_y=2, mod
            legend_title= NULL, lwd=1, conf=0.9, cex=2,
            font=2, pch=20, draw= "lines",
            ylimits="auto", xlimits= "auto", text=F, ncol=1,
-           x.intersp = 1, y.intersp=0.5, where="topleft", inset=0.2, stat.cex=2, ...){
+           x.intersp = 1, y.intersp=0.5, where="topleft", inset=0.2, stat.cex=2, axis.prop=T, cex.arrows=1, ...){
     # asv= as(otu_table(reverseASV(physeq)), 'matrix')
 
     old.par = par()
@@ -132,6 +133,12 @@ plot_constrained_reduction= function(mat, clinical_data, axis_x=1, axis_y=2, mod
     if(stat== "envfit") {
       res= vegan::envfit(formula=as.formula(paste0("p ~", group)), data=mat)
       p.val = paste("Goodness of fit\np=", res$factors$pvals)
+    #
+    #   if(is.null(res$factor)){
+    #     arr= scores(res, dis="vectors")
+    #     } else{
+    #       arr= scores(res, dis="factors")
+    #         }
     }
 
     col1= color_vector
@@ -156,7 +163,7 @@ plot_constrained_reduction= function(mat, clinical_data, axis_x=1, axis_y=2, mod
       disp= ordispider(p_li, groups = fac, col = adjustcolor(color_vector, alpha=0.3), lwd=lwd,  ylim=ylimits, xlim=xlimits)
       ordiellipse(p_li, groups= fac, conf= conf, col = color_vector, lwd = lwd, draw= draw,  ylim=ylimits, xlim=xlimits)
       points(p_li[,axis_x], p_li[,axis_y], bg= col2, xlab="", ylab="", las=2, pch=21, cex=cex, ylim=ylimits, xlim=xlimits, ...)
-
+      # arrows(x1 = arr[,1], y1=arr[,2], x0 = 0, y0 = 0)
       if(text){
         text(x= unique(disp[,1:2]),  labels=unique(group), col="black", cex=cex, font=font)
       }
@@ -194,6 +201,8 @@ plot_constrained_reduction= function(mat, clinical_data, axis_x=1, axis_y=2, mod
 
       text(x= unique(disp[,1:2]),  labels=unique(fac), col="black", cex=cex, font=font)
 
+      legend(where, legend=unique(fac), col = col1, title= legend_title, pch= 20,
+             cex= cex, bty="n", ncol= ncol, y.intersp = y.intersp)
       # return( head(p$eig/sum(p$eig)*100, 5))
       if(stat=="permanova" | stat=="envfit"){
 
@@ -204,14 +213,7 @@ plot_constrained_reduction= function(mat, clinical_data, axis_x=1, axis_y=2, mod
     if(type== "arrows"){
       if(method=="PCoA") stop("Can't plot loadings for a PCoA, use NMDS for that purpose")
 
-      l.pos <-ca2# Create a vector of y axis coordinates
-      lo <- which(ca2< 0) # Get the variables on the bottom half of the plot
-      hi <- which(ca2> 0) # Get variables on the top half
-      # Replace values in the vector
-      l.pos <- replace(l.pos, lo, "1")
-      l.pos <- replace(l.pos, hi, "3")
-
-      plot(p, type="n",  axes=F, xlab="", ylab="",  bty="n")
+      plot(p, type="n")
       abline(h = 0, v = 0, col = "white", lwd = 3)
       # plot(p_li[ ,axis_x], p_li[ ,axis_y], xlim= c(min(ca1), max(ca1)), ylim = c(min(ca2), max(ca2)), bg= col2, axes=F, xlab="", ylab="", las=2, pch=21, cex=cex)
       disp= ordiellipse(p, groups= fac, conf= conf,  col = adjustcolor(color_vector, alpha=0.3),
@@ -220,9 +222,15 @@ plot_constrained_reduction= function(mat, clinical_data, axis_x=1, axis_y=2, mod
 
       points(p, display = "sites",  bg= col2,  xlab="", ylab="", las=2, pch=21, cex=cex)
       # points(p_li[,axis_x], p_li[,axis_y], bg= col2,  xlab="", ylab="", las=2, pch=21, cex=cex, xlim= c(min(ca1), max(ca1)), ylim = c(min(ca2), max(ca2)), ...)
-      arrows(x0=0, x1=ca1, y0= 0, y1= ca2, lwd=lwd/1.5)
-      text(ca1, ca2, labels=names(ca1), col="black", pos=l.pos, lwd=lwd/1.5, cex=cex/1.5, font=2)
-
+      # arrows(x0=0, x1=ca1, y0= 0, y1= ca2, lwd=lwd/1.5)
+      # text(ca1, ca2, labels=names(ca1), col="black", pos=l.pos, lwd=lwd/1.5, cex=cex/1.5, font=2)
+      text(p, dis="reg", choices = c(axis_x, axis_y), cex=cex.arrows, lwd= cex.arrows, font=font)
+      legend(where, legend=unique(fac), col = col1, title= legend_title, pch= 20,
+             cex= cex, bty="n", ncol= ncol, y.intersp = y.intersp)
+      if(axis.prop==T){
+        eig= as.matrix(eigenvals(p)/sum(eigenvals(p)))
+        title(xlab=eig[1], ylab = round(eig[2],3))
+      }
       if(text){
         text(x= unique(disp[,1:2]),  labels=unique(fac), col="black", cex=cex, font=font)
       }

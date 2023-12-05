@@ -24,7 +24,7 @@ plot_volcano = function(volcano, size=2, col= c("#771155", "#77CCCC","grey"), ..
     mutate(col.val =ifelse( volcano %>%
                               pull(p.adj)<0.05, col[1], ifelse( volcano %>%
                                                                   pull(p)<0.05, col[2], col[3])))%>%
-    ggplot(aes(fold, -log10(p.adj)))+
+    ggplot(aes(fold, -log10(p)))+
     geom_point(aes(fill= col.val, ...), size=size, shape=21)+
     geom_hline(yintercept = 1.3)+
     scale_fill_identity(name = "P values",

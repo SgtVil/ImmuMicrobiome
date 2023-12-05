@@ -35,29 +35,18 @@ fold_change = function(mat, clinical_data, cores = 2, ...){
 
 
   p.value = parallel::mclapply(colnames(clinical_data), function(i){
-      if(length(unique(clinical_data[,i]))>2){
+
       tmp= df  %>%
         drop_na(i)%>%
         group_by(features) %>%
         select_at(vars(features, value, i))%>%
-        rstatix::kruskal_test(formula= as.formula(paste("value~", i)), ...) %>%
-        rstatix::adjust_pvalue(method = "fdr")%>%
-        dplyr::select(p, p.adj)%>%
-        mutate(factor= i)%>%
-        labelled::remove_attributes('all')
-      # attributes(tmp)= NULL
-    } else {
-      tmp= df  %>%
-        drop_na(i)%>%
-        group_by(features) %>%
-        select_at(vars(features, value, i))%>%
-        rstatix::wilcox_test(formula= as.formula(paste("value~", i)), ...) %>%
+        rstatix::wilcox_test(formula= as.formula(paste("value~", i)), p.adjust.method = "none", ...) %>%
         rstatix::adjust_pvalue(method = "fdr")%>%
         dplyr::select(p, p.adj)%>%
         mutate(factor= i)%>%
         labelled::remove_attributes( 'all')
       # attributes(tmp)= NULL
-    }
+
     return(tmp)
   }, mc.cores= cores)
   names(p.value)= colnames(clinical_data)

@@ -12,7 +12,8 @@
 #' @param method Method of reduction to use. Currently available : "PCA", "CA", "DCA", "tsne"
 #' @param type Chose the type of plot you want, choices are : "boxplot", "pure" or "arrows". Default="boxplot".
 #' @param dist The distance method to be used for PCoA, NMDS and PERMANOVA analysis, distance are directly given to \code{\link[vegan]{vegdist}}. Default = "euclidean".
-#' @param stat Either permanova \code{\link[vegan]{adonis2}} with default parameter or \code{\link[vegan]{envfit}} function.
+#' @param stat Either permanova \code{\link[vegan]{adonis2}} with default parameter or \code{\link[vegan]{envfit}} function. Envfit will fit the grouping factor to the multiple
+#' reduction.
 #' @param group The group to colorise and put ellipse
 #' @param color_vector Color vector
 #' @param legend_title Legend title
@@ -38,6 +39,7 @@
 #' @return A plot rendered using the `base` package and vegan functions :
 #' - \code{\link[vegan]{ordispider}}
 #' - \code{\link[vegan]{ordiellipse}}
+#'
 #' @seealso  [plot_constrained_reduction()] [beta_dispersion()][plot_constrained_reduction()]
 #' @import vegan
 #' @export
@@ -240,6 +242,8 @@ if(method=="NMDS"){
     arrows(x0=0, x1=ca1, y0= 0, y1= ca2, lwd=lwd/1.5)
     text(ca1, ca2, labels=names(ca1), col="black", pos=l.pos, lwd=lwd/1.5, cex=cex/1.5, font=2)
 
+    legend(where, legend=unique(fac), col = col1, title= legend_title, pch= 20,
+           cex= cex, bty="n", ncol= ncol, y.intersp = y.intersp)
     if(text){
       text(x= unique(disp[,1:2]),  labels=unique(fac), col="black", cex=cex, font=font)
     }
@@ -249,5 +253,5 @@ if(method=="NMDS"){
     }
   }
 
-
+return(p)
 }
