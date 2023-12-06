@@ -7,9 +7,9 @@
 plot_plsda(
   res.plsda,
   comp = c(1, 2),
-  color_vector = tol21rainbow,
-  shape,
-  top.loads = 10
+  color_vector = c("brown", "orange", "deepskyblue2", "salmon"),
+  top.loads = 10,
+  size = 3
 )
 }
 \arguments{
@@ -19,11 +19,11 @@ plot_plsda(
 
 \item{color_vector}{Color vector}
 
-\item{shape}{Shape of the dots.}
-
 \item{top.loads}{Top N features to plot. Default = 10.
 Loads are defined by the absolute value of each features for each components. If \code{top.loads = 10} the function
 will keep the top10 features of component 1 and the top 10 features of the component 2.}
+
+\item{size}{Size of the dots. Default=3.}
 }
 \value{
 A \code{ggplot2} object.
@@ -50,6 +50,4 @@ theme(legend.position = "bottom",
        legend.text = element_text(size=15),
        legend.title = element_text(size=20, face="bold"),
        axis.text = element_text(size=15))
-
-
 }

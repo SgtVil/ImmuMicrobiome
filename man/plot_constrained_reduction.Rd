@@ -32,6 +32,8 @@ plot_constrained_reduction(
   where = "topleft",
   inset = 0.2,
   stat.cex = 2,
+  axis.prop = T,
+  cex.arrows = 1,
   ...
 )
 }
@@ -50,7 +52,8 @@ plot_constrained_reduction(
 
 \item{method}{The mathematical method to reduce the dimensions. Currently this function supports CCA, RDA and dbRDA}
 
-\item{type}{Chose the type of plot you want, choices are : "boxplot", "pure" or "arrows". Default="boxplot".}
+\item{type}{Chose the type of plot you want, choices are : "boxplot", "pure" or "arrows". Default="boxplot". Here arrows will return the vectors/factors used for the
+constrained analysis.}
 
 \item{group}{String defining the groups you want to plot on the beta diversity.}
 

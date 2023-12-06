@@ -56,7 +56,8 @@ plot_reduction(
 
 \item{dist}{The distance method to be used for PCoA, NMDS and PERMANOVA analysis, distance are directly given to \code{\link[vegan]{vegdist}}. Default = "euclidean".}
 
-\item{stat}{Either permanova \code{\link[vegan]{adonis2}} with default parameter or \code{\link[vegan]{envfit}} function.}
+\item{stat}{Either permanova \code{\link[vegan]{adonis2}} with default parameter or \code{\link[vegan]{envfit}} function. Envfit will fit the grouping factor to the multiple
+reduction.}
 
 \item{color_vector}{Color vector}
 

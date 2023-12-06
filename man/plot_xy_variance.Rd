@@ -21,9 +21,14 @@ plot_xy_variance(
 
 \item{y}{Factor to be plotted as y.}
 
-\item{corrected}{Use p value adjusted by FDR or not. Default=F.}
+\item{corrected}{Use p value adjusted by FDR or not for the text only. Default=F. IMPORTANT, by default the corrected value is settled as FALSE, this mean
+it will print the labels for the features significant before correction.}
 
-\item{col}{Color vector.}
+\item{col_vector}{A color vector for the plotting.}
+
+\item{max.overlap}{The text repelling overlap}
+
+\item{size}{Size of the dots.}
 }
 \value{
 A ggplot.
