@@ -57,7 +57,7 @@ alpha_diversity= function(physeq, measure= "Shannon", x, group=NULL, plot_type="
       geom_boxplot(alpha=0, size=1.5)+
       geom_jitter(aes_string(fill=group, size= "depth"), position = position_jitterdodge(jitter.width = 0.25), shape=21)+
      scale_fill_manual(values = color_vector)
-   p2= ggplot(ad, aes_string(y=measure, "depth", color=group))+
+   p2= ggplot(ad, aes_string(y=measure, "depth", fill=group))+
      geom_point(shape=21)+
      scale_fill_manual(values = color_vector)
      # facet_wrap(facets = group)
