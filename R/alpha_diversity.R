@@ -24,7 +24,7 @@
 #' alpha_diversity(GlobalPatterns, measure="Shannon", x="SampleType", plot_type="boxplot", check_depth=T)
 
 
-alpha_diversity= function(physeq, measure= "Shannon", x, group=NULL, plot_type="boxplot", stat=FALSE, check_depth=F, size=1.5 ){
+alpha_diversity= function(physeq, measure= "Shannon", x, group=NULL, plot_type="boxplot", color_vector=  c("brown","darkgreen","orange","violet"), stat=FALSE, check_depth=F, size=1.5 ){
   ad = estimate_richness(physeq, measures = measure)
   ad = cbind(as(sample_data(physeq), "data.frame"), ad)
   ad[, x] = factor(ad[,x])
@@ -32,7 +32,8 @@ alpha_diversity= function(physeq, measure= "Shannon", x, group=NULL, plot_type="
   if(plot_type=="boxplot"){
     p = ggplot(ad,aes_string(y=measure, x))+
       geom_boxplot(alpha=0, size=1.5)+
-      geom_jitter(aes_string(fill=group), position = position_jitterdodge(jitter.width = 0.25), shape=21, size=size)
+      geom_jitter(aes_string(fill=group), position = position_jitterdodge(jitter.width = 0.25), shape=21, size=size)+
+      scale_fill_manual(values = color_vector)
     if(stat==TRUE){
       p= p+
         stat_compare_means()
@@ -43,7 +44,8 @@ alpha_diversity= function(physeq, measure= "Shannon", x, group=NULL, plot_type="
     p = ggplot(ad,aes_string(y=measure, x))+
       geom_jitter(aes_string(color=group))+
       stat_summary(geom = "line", aes_string(color=group, group=group), linewidth=size)+
-      stat_summary(geom="pointrange", aes_string(color=group, group=group), linewidth=size, size=size)
+      stat_summary(geom="pointrange", aes_string(color=group, group=group), linewidth=size, size=size)+
+      scale_fill_manual(values = color_vector)
     if(stat==TRUE){
       p= p+
         stat_compare_means(aes_string(group=group))
@@ -53,9 +55,11 @@ alpha_diversity= function(physeq, measure= "Shannon", x, group=NULL, plot_type="
     ad$depth = sample_sums(physeq)
    p1= ggplot(ad, aes_string(y=measure, x))+
       geom_boxplot(alpha=0, size=1.5)+
-      geom_jitter(aes_string(fill=group, size= "depth"), position = position_jitterdodge(jitter.width = 0.25), shape=21)
+      geom_jitter(aes_string(fill=group, size= "depth"), position = position_jitterdodge(jitter.width = 0.25), shape=21)+
+     scale_fill_manual(values = color_vector)
    p2= ggplot(ad, aes_string(y=measure, "depth", color=group))+
-     geom_point()
+     geom_point(shape=21)+
+     scale_fill_manual(values = color_vector)
      # facet_wrap(facets = group)
    p= ggarrange(p1, p2, common.legend = T)
   }

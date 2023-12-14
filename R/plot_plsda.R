@@ -11,6 +11,7 @@
 #' Loads are defined by the absolute value of each features for each components. If `top.loads = 10` the function
 #' will keep the top10 features of component 1 and the top 10 features of the component 2.
 #' @param size Size of the dots. Default=3.
+#' @param labe.size Size of the labels. Default = 1
 #'
 #' @return
 #'  A `ggplot2` object.
@@ -37,7 +38,7 @@
 
 
 
-plot_plsda <- function(res.plsda, comp= c(1, 2), color_vector=  c("brown", "orange", "deepskyblue2", "salmon"), top.loads= 10, size=3){
+plot_plsda <- function(res.plsda, comp= c(1, 2), color_vector=  c("brown", "orange", "deepskyblue2", "salmon"), top.loads= 10, size=3, label.size=1){
 
   loads = res.plsda$loadings$X%>%
     as.data.frame()%>%
@@ -64,7 +65,7 @@ plot_plsda <- function(res.plsda, comp= c(1, 2), color_vector=  c("brown", "oran
     geom_segment(data = loads , aes(xend=comp1*scaler*2, yend=comp2*scaler*2, x=0, y=0), alpha=0.3,
                  arrow = arrow(angle = 30, length  = unit(0.25, "cm"),
                                ends = "last", type = "open"))+
-    geom_label_repel(data= loads, aes(label=rowname, x=comp1*scaler*2, y=comp2*scaler*2))+
+    geom_label_repel(data= loads, aes(label=rowname, x=comp1*scaler*2, y=comp2*scaler*2), size=label.size)+
     scale_fill_manual(values = color_vector)+
     labs(x=paste("Component 1:", var.exp[1],"%"),
          y= paste("Component 2:", var.exp[2], "%"))

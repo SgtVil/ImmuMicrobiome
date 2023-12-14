@@ -23,7 +23,7 @@
 #'@export
 
 beta_diversity= function(physeq,  dist= "wunifrac", nf= 5, method= "PCoA",
-                         group=NULL, color_vector= c("cyan4","brown","deepskyblue", "black","red"),
+                         group=NULL, color_vector= c("brown","darkgreen","orange","violet"),
                          factor_to_plot= NULL, second_factor_to_plot= NULL, lwd=1, cpoint=2,
                          clabel=1, addaxes= F, axesell=T, csub= 2, font=2, pch=20, species=F,
                          permanova= F, where="topleft", ...)

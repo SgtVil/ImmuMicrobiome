@@ -14,7 +14,8 @@
 #' constrained analysis.
 #' @param nf Number of components
 #' @param method The mathematical method to reduce the dimensions. Currently this function supports CCA, RDA and dbRDA
-#' @param group String defining the groups you want to plot on the beta diversity.
+#' @param group String d
+#' efining the groups you want to plot on the beta diversity.
 #' @param color_vector Optionnal. A color vector you wish to use for plotting
 #' @param legend_title Optionnal. A legend title.
 #' @param conf Confidence interval. Default = 0.9.
@@ -213,7 +214,7 @@ plot_constrained_reduction= function(mat, clinical_data, axis_x=1, axis_y=2, mod
     if(type== "arrows"){
       if(method=="PCoA") stop("Can't plot loadings for a PCoA, use NMDS for that purpose")
 
-      plot(p, type="n", bty="n", axes = F, xlab = "", ylab = "")
+      plot(p, type="n")
       abline(h = 0, v = 0, col = "white", lwd = 3)
       # plot(p_li[ ,axis_x], p_li[ ,axis_y], xlim= c(min(ca1), max(ca1)), ylim = c(min(ca2), max(ca2)), bg= col2, axes=F, xlab="", ylab="", las=2, pch=21, cex=cex)
       disp= ordiellipse(p, groups= fac, conf= conf,  col = adjustcolor(color_vector, alpha=0.3),

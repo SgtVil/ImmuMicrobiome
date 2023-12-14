@@ -55,7 +55,8 @@ plot_constrained_reduction(
 \item{type}{Chose the type of plot you want, choices are : "boxplot", "pure" or "arrows". Default="boxplot". Here arrows will return the vectors/factors used for the
 constrained analysis.}
 
-\item{group}{String defining the groups you want to plot on the beta diversity.}
+\item{group}{String d
+efining the groups you want to plot on the beta diversity.}
 
 \item{stat}{Either permanova \code{\link[vegan]{adonis2}} with default parameter or \code{\link[vegan]{envfit}} function.}
 

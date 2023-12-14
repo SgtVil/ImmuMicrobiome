@@ -9,7 +9,8 @@ plot_plsda(
   comp = c(1, 2),
   color_vector = c("brown", "orange", "deepskyblue2", "salmon"),
   top.loads = 10,
-  size = 3
+  size = 3,
+  label.size = 1
 )
 }
 \arguments{
@@ -24,6 +25,8 @@ Loads are defined by the absolute value of each features for each components. If
 will keep the top10 features of component 1 and the top 10 features of the component 2.}
 
 \item{size}{Size of the dots. Default=3.}
+
+\item{labe.size}{Size of the labels. Default = 1}
 }
 \value{
 A \code{ggplot2} object.
