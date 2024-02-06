@@ -65,17 +65,17 @@ plot_corr_heatmap = function(X, Y, method= "spearman", cutoff=0,  cluster= F, mi
     scale_fill_gradient2(midpoint = 0, mid = mid,
                          limits = c(-round(max(abs(r$value)),1),
                                     round(max(abs(r$value)),1)),
-                         low =low, high = high, name="Correlation") +
-    theme(plot.title = element_text(size=20, face="bold", hjust=0.5),
-          axis.text.x = element_text(angle=30 , hjust=1, size=10, face="bold"),
-          axis.text.y = element_text( size=10, face="bold"),
-          axis.title = element_blank())
+                         low =low, high = high, name="Correlation")
+    # theme(plot.title = element_text(size=20, face="bold", hjust=0.5),
+    #       axis.text.x = element_text(angle=30 , hjust=1, size=10, face="bold"),
+    #       axis.text.y = element_text( size=10, face="bold"),
+    #       axis.title = element_blank())
 
     if(cluster == T){
       tmp= r %>%
         select(Var1, Var2, value)%>%
         pivot_wider(values_from = value, names_from = Var2)%>%
-        set_rownames(.$Var1)
+        magrittr::set_rownames(.$Var1)
       h= hclust(d = dist(t(tmp[,-1])), method = "ward.D2")
       h2= hclust(d = dist(tmp[,-1]), method = "ward.D2")
 

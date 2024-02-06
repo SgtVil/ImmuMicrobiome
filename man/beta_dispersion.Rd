@@ -33,6 +33,7 @@ beta_dispersion(
   inset = 0.2,
   pca = T,
   stat.cex = 2,
+  legend.cex = 2,
   ...
 )
 }
@@ -94,6 +95,8 @@ supports only "PCoA".}
 \item{pca}{Argument for t-SNE, does the t-SNE needs to run on a PCA first or not ? Default=FAL}
 
 \item{stat.cex}{ize of the stats text.}
+
+\item{legend.cex}{Size of the legend text.}
 
 \item{...}{}
 }

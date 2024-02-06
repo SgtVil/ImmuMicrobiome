@@ -10,7 +10,7 @@ beta_diversity(
   nf = 5,
   method = "PCoA",
   group = NULL,
-  color_vector = c("cyan4", "brown", "deepskyblue", "black", "red"),
+  color_vector = c("brown", "darkgreen", "orange", "violet"),
   factor_to_plot = NULL,
   second_factor_to_plot = NULL,
   lwd = 1,

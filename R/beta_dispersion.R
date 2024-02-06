@@ -33,6 +33,7 @@
 #' @param inset Permanova legend adjustment see \link{legend}
 #' @param pca Argument for t-SNE, does the t-SNE needs to run on a PCA first or not ? Default=FAL
 #' @param stat.cex ize of the stats text.
+#' @param legend.cex Size of the legend text.
 #' @param ...
 #'
 #' @import phyloseq
@@ -63,7 +64,7 @@ beta_dispersion = function(physeq, axis_x=1, axis_y=2,  dist= "bray", nf= 5, met
                            legend_title= NULL, lwd=1, conf=0.9, cex=2,
                            font=2, pch=20, draw= "lines",
                            ylimits="auto", xlimits= "auto", text=F, ncol=1, species=F,
-                           x.intersp = 1, y.intersp=0.5, where="topleft", inset=0.2, pca=T, stat.cex= 2,...){
+                           x.intersp = 1, y.intersp=0.5, where="topleft", inset=0.2, pca=T, stat.cex= 2, legend.cex=2,...){
   old.par = par()
   on.exit(layout(matrix(c(1,1))))
 
@@ -199,7 +200,7 @@ beta_dispersion = function(physeq, axis_x=1, axis_y=2,  dist= "bray", nf= 5, met
     # #4
     plot(NULL, xlim=c(0,1), ylim=c(0,1), ylab="", xlab="", axes=F)
     legend("center", legend=unique(fac), col = col1, title= legend_title, pch= 20,
-           cex= cex, bty="n", ncol= ncol, y.intersp = y.intersp)
+           cex= legend.cex, bty="n", ncol= ncol, y.intersp = y.intersp)
 
     # return(head(p$eig/sum(p$eig)*100,5))
 
@@ -213,8 +214,9 @@ beta_dispersion = function(physeq, axis_x=1, axis_y=2,  dist= "bray", nf= 5, met
     ordiellipse(p_li, groups= fac, conf= conf, col = adjustcolor(color_vector, alpha=0.3), lwd = lwd, draw= draw,  ylim=ylimits, xlim=xlimits)
     points(p_li[,axis_x], p_li[,axis_y], bg= col2,  xlab="", ylab="", las=2, pch=21, cex=cex, ylim=ylimits, xlim=xlimits, ...)
 
-    text(x= unique(disp[,1:2]),  labels=unique(fac), col="black", cex=cex, font=font)
-
+    # text(x= unique(disp[,1:2]),  labels=unique(fac), col="black", cex=cex, font=font)
+    legend(where, legend = unique(fac), col = col1, title = legend_title,
+           pch = 20, cex = legend.cex, bty = "n", ncol = ncol, y.intersp = y.intersp)
     # return( head(p$eig/sum(p$eig)*100, 5))
     if(stat=="permanova" | stat=="envfit"){
 
@@ -242,7 +244,9 @@ beta_dispersion = function(physeq, axis_x=1, axis_y=2,  dist= "bray", nf= 5, met
     points(p, display = "sites",  bg= col2,  xlab="", ylab="", las=2, pch=21, cex=cex)
     # points(p_li[,axis_x], p_li[,axis_y], bg= col2,  xlab="", ylab="", las=2, pch=21, cex=cex, xlim= c(min(ca1), max(ca1)), ylim = c(min(ca2), max(ca2)), ...)
     arrows(x0=0, x1=ca1, y0= 0, y1= ca2, lwd=lwd/1.5)
-    text(ca1, ca2, labels=names(ca1), col="black", pos=l.pos, lwd=lwd/1.5, cex=cex/1.5, font=2)
+    # text(ca1, ca2, labels=names(ca1), col="black", pos=l.pos, lwd=lwd/1.5, cex=cex/1.5, font=2)
+    legend(where, legend = unique(fac), col = col1, title = legend_title,
+           pch = 20, cex = legend.cex, bty = "n", ncol = ncol, y.intersp = y.intersp)
 
     if(text){
       text(x= unique(disp[,1:2]),  labels=unique(fac), col="black", cex=cex, font=font)

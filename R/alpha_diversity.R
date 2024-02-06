@@ -24,7 +24,8 @@
 #' alpha_diversity(GlobalPatterns, measure="Shannon", x="SampleType", plot_type="boxplot", check_depth=T)
 
 
-alpha_diversity= function(physeq, measure= "Shannon", x, group=NULL, plot_type="boxplot", color_vector=  c("brown","darkgreen","orange","violet"), stat=FALSE, check_depth=F, size=1.5 ){
+alpha_diversity= function(physeq, measure= "Shannon", x, group=NULL, plot_type="boxplot", color_vector=  c("brown","darkgreen","orange","violet"),
+                          stat=FALSE, check_depth=F, size=1.5 ){
   ad = estimate_richness(physeq, measures = measure)
   ad = cbind(as(sample_data(physeq), "data.frame"), ad)
   ad[, x] = factor(ad[,x])
@@ -57,9 +58,16 @@ alpha_diversity= function(physeq, measure= "Shannon", x, group=NULL, plot_type="
       geom_boxplot(alpha=0, size=1.5)+
       geom_jitter(aes_string(fill=group, size= "depth"), position = position_jitterdodge(jitter.width = 0.25), shape=21)+
      scale_fill_manual(values = color_vector)
-   p2= ggplot(ad, aes_string(y=measure, "depth", fill=group))+
-     geom_point(shape=21)+
-     scale_fill_manual(values = color_vector)
+
+   p2= ggplot(ad, aes_string(y=measure, "depth"))+
+     geom_point(aes_string(fill=group), shape=21, size = size)+
+     stat_smooth(aes_string(color= group), method = "lm", alpha=0.1 )+
+     scale_fill_manual(values = color_vector)+
+     scale_color_manual(values = color_vector)
+   if(stat==TRUE){
+    p2 = p2+
+      ggpubr::stat_cor()
+   }
      # facet_wrap(facets = group)
    p= ggarrange(p1, p2, common.legend = T)
   }

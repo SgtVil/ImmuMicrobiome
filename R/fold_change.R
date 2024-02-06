@@ -63,8 +63,9 @@ fold_change = function(mat, clinical_data, cores = 2, ...){
         drop_na(i)%>%
         group_by(features, !!sym(i)) %>%
         dplyr::select(features, !!sym(i), value)%>%
-        summarise(mean_val=mean(value))%>%
-        summarise(fold= log2(mean_val[2]/mean_val[1]),
+        summarise(mean_val=median(value))%>%
+        summarise(fold= mean_val[2]/mean_val[1],
+                  fold = log2(fold),
                   mean_val= mean(mean_val))%>%
         ungroup%>%
         dplyr::select(features, fold) %>%
@@ -81,10 +82,14 @@ fold_change = function(mat, clinical_data, cores = 2, ...){
         drop_na(i)%>%
         group_by(features, !!sym(i)) %>%
         dplyr::select(features, !!sym(i), value)%>%
-        summarise(mean_val=mean(value))%>%
-        summarise(fold.1= log2(mean_val[2]/mean_val[1]),
-                  fold.2= log2(mean_val[3]/mean_val[1]),
-                  fold.3= log2(mean_val[3]/mean_val[2]))%>%
+        summarise(mean_val=median(value))%>%
+        summarise(fold.1= mean_val[2]/mean_val[1],
+                  fold.2= mean_val[3]/mean_val[1],
+                  fold.3= mean_val[3]/mean_val[2])%>%
+        mutate(
+          fold.1= log2(fold.1),
+          fold.2= log2(fold.2),
+          fold.3= log2(fold.3))%>%
         ungroup%>%
         magrittr::set_colnames(value = c("features",  paste0(i, " : ","log2(", comp[2], "/", comp[1], ')'),
                                paste0(i, " : ","log2(", comp[3], "/", comp[1], ')'),

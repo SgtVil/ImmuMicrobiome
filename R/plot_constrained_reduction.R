@@ -214,7 +214,7 @@ plot_constrained_reduction= function(mat, clinical_data, axis_x=1, axis_y=2, mod
     if(type== "arrows"){
       if(method=="PCoA") stop("Can't plot loadings for a PCoA, use NMDS for that purpose")
 
-      plot(p, type="n")
+      plot(p_li[,axis_x], p_li[,axis_y], type="n", axes=F, xlab="", ylab="",  bty="n", xaxt="n", yaxt="n")
       abline(h = 0, v = 0, col = "white", lwd = 3)
       # plot(p_li[ ,axis_x], p_li[ ,axis_y], xlim= c(min(ca1), max(ca1)), ylim = c(min(ca2), max(ca2)), bg= col2, axes=F, xlab="", ylab="", las=2, pch=21, cex=cex)
       disp= ordiellipse(p, groups= fac, conf= conf,  col = adjustcolor(color_vector, alpha=0.3),
@@ -225,9 +225,10 @@ plot_constrained_reduction= function(mat, clinical_data, axis_x=1, axis_y=2, mod
       # points(p_li[,axis_x], p_li[,axis_y], bg= col2,  xlab="", ylab="", las=2, pch=21, cex=cex, xlim= c(min(ca1), max(ca1)), ylim = c(min(ca2), max(ca2)), ...)
       # arrows(x0=0, x1=ca1, y0= 0, y1= ca2, lwd=lwd/1.5)
       # text(ca1, ca2, labels=names(ca1), col="black", pos=l.pos, lwd=lwd/1.5, cex=cex/1.5, font=2)
-      text(p, dis="reg", choices = c(axis_x, axis_y), cex=cex.arrows, lwd= cex.arrows, font=font)
+      text(p, dis="reg", choices = c(axis_x, axis_y), cex=cex.arrows, lwd= cex.arrows*2, font=font)
       legend(where, legend=unique(fac), col = col1, title= legend_title, pch= 20,
              cex= cex, bty="n", ncol= ncol, y.intersp = y.intersp)
+
       if(axis.prop==T){
         eig= as.matrix(eigenvals(p)/sum(eigenvals(p)))
         title(xlab=eig[1], ylab = round(eig[2],3))

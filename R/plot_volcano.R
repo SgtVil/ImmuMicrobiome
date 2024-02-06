@@ -31,7 +31,7 @@ plot_volcano = function(volcano, size=2, col= c("#771155", "#77CCCC","grey"), ..
                         breaks = c(col),
                         labels = c("FDR < 0.05", "nFDR < 0.05", "NS"),
                         guide = "legend")+
-      geom_label_repel(data = volcano%>%
+      ggrepel::geom_label_repel(data = volcano%>%
                          filter(features %in% labels$features)
                        , aes(label=features))+
     scale_x_continuous(limits=c(-max.fold, max.fold))+

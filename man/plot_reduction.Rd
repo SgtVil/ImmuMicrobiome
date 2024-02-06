@@ -34,6 +34,7 @@ plot_reduction(
   pca = T,
   scale = T,
   stat.cex = 2,
+  legend.cex = 2,
   ...
 )
 }
@@ -91,6 +92,8 @@ reduction.}
 \item{pca}{Logical. For tsne only. Does the \link{tsne} need to be run on a PCA first ?}
 
 \item{stat.cex}{Size of the stats text.}
+
+\item{legend.cex}{Size of the legend text.}
 
 \item{...}{}
 }

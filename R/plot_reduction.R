@@ -32,6 +32,7 @@
 #' @param inset Adjust the legend: inset distance(s) from the margins as a fraction of the plot region when legend is placed by keyword.
 #' @param pca Logical. For tsne only. Does the \link{tsne} need to be run on a PCA first ?
 #' @param stat.cex Size of the stats text.
+#' @param legend.cex Size of the legend text.
 #' @param ...
 
 #'
@@ -72,7 +73,7 @@ plot_reduction = function(mat,  clinical_data, axis_x=1, axis_y=2, nf= 5, method
                           font=2, pch=20, draw= "lines",
                           ylimits="auto", xlimits= "auto", text=F, ncol=1,
                           x.intersp = 1, y.intersp=0.5,
-                          where="topleft", inset=0.2,  pca= T, scale =T,  stat.cex= 2, ...){
+                          where="topleft", inset=0.2,  pca= T, scale =T,  stat.cex= 2, legend.cex= 2, ...){
   old.par = par()
   on.exit(layout(matrix(c(1,1))))
 
@@ -197,7 +198,7 @@ if(method=="NMDS"){
     # #4
     plot(NULL, xlim=c(0,1), ylim=c(0,1), ylab="", xlab="", axes=F)
     legend("center", legend=unique(fac), col = col1, title= legend_title, pch= 20,
-           cex= cex, bty="n", ncol= ncol, y.intersp = y.intersp)
+           cex= legend.cex, bty="n", ncol= ncol, y.intersp = y.intersp)
 
     # return(head(p$eig/sum(p$eig)*100,5))
 
@@ -211,8 +212,9 @@ if(method=="NMDS"){
     ordiellipse(p_li, groups= fac, conf= conf, col = adjustcolor(color_vector, alpha=0.3), lwd = lwd, draw= draw,  ylim=ylimits, xlim=xlimits)
     points(p_li[,axis_x], p_li[,axis_y], bg= col2,  xlab="", ylab="", las=2, pch=21, cex=cex, ylim=ylimits, xlim=xlimits, ...)
 
-    text(x= unique(disp[,1:2]),  labels=unique(fac), col="black", cex=cex, font=font)
-
+    # text(x= unique(disp[,1:2]),  labels=unique(fac), col="black", cex=cex, font=font)
+    legend(where, legend=unique(fac), col = col1, title= legend_title, pch= 20,
+           cex= legend.cex, bty="n", ncol= ncol, y.intersp = y.intersp)
     # return( head(p$eig/sum(p$eig)*100, 5))
     if(stat=="permanova" | stat=="envfit"){
 
@@ -230,7 +232,7 @@ if(method=="NMDS"){
     l.pos <- replace(l.pos, lo, "1")
     l.pos <- replace(l.pos, hi, "3")
 
-    plot(p, type="n",  axes=F, xlab="", ylab="",  bty="n")
+    plot(p, type="n",  axes=F, xlab="", ylab="",  bty="n", xaxt="n", yaxt="n")
     abline(h = 0, v = 0, col = "white", lwd = 3)
     # plot(p_li[ ,axis_x], p_li[ ,axis_y], xlim= c(min(ca1), max(ca1)), ylim = c(min(ca2), max(ca2)), bg= col2, axes=F, xlab="", ylab="", las=2, pch=21, cex=cex)
     disp= ordiellipse(p, groups= fac, conf= conf,  col = adjustcolor(color_vector, alpha=0.3),
@@ -243,7 +245,7 @@ if(method=="NMDS"){
     text(ca1, ca2, labels=names(ca1), col="black", pos=l.pos, lwd=lwd/1.5, cex=cex/1.5, font=2)
 
     legend(where, legend=unique(fac), col = col1, title= legend_title, pch= 20,
-           cex= cex, bty="n", ncol= ncol, y.intersp = y.intersp)
+           cex= legend.cex, bty="n", ncol= ncol, y.intersp = y.intersp)
     if(text){
       text(x= unique(disp[,1:2]),  labels=unique(fac), col="black", cex=cex, font=font)
     }

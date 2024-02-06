@@ -10,6 +10,7 @@ alpha_diversity(
   x,
   group = NULL,
   plot_type = "boxplot",
+  color_vector = c("brown", "darkgreen", "orange", "violet"),
   stat = FALSE,
   check_depth = F,
   size = 1.5
