@@ -35,6 +35,7 @@ plot_reduction(
   scale = T,
   stat.cex = 2,
   legend.cex = 2,
+  layout = "not wide",
   ...
 )
 }
@@ -94,6 +95,8 @@ reduction.}
 \item{stat.cex}{Size of the stats text.}
 
 \item{legend.cex}{Size of the legend text.}
+
+\item{layout}{Parameter to get thin boxplots on the side or not. Default = "not wide"}
 
 \item{...}{}
 }

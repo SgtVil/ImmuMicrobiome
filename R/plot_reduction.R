@@ -27,14 +27,16 @@
 #' @param text Should the labels be printed
 #' @param ncol Number of columns for the legend. Default = 1
 #' @param x.intersp Adjust the legend: character interspacing factor for horizontal (x) spacing between symbol and legend text.
-#'  @param y.intersp Adjust the legend: vertical (y) distances (in lines of text shared above/below each legend entry). A vector with one element for each row of the legend can be used.
+#' @param y.intersp Adjust the legend: vertical (y) distances (in lines of text shared above/below each legend entry). A vector with one element for each row of the legend can be used.
 #' @param where Position for the permanova value. Default = "topleft"
 #' @param inset Adjust the legend: inset distance(s) from the margins as a fraction of the plot region when legend is placed by keyword.
 #' @param pca Logical. For tsne only. Does the \link{tsne} need to be run on a PCA first ?
 #' @param stat.cex Size of the stats text.
 #' @param legend.cex Size of the legend text.
+#' @param layout Parameter to get thin boxplots on the side or not. Default = "not wide"
 #' @param ...
 
+#'
 #'
 #'
 #' @return A plot rendered using the `base` package and vegan functions :
@@ -73,7 +75,8 @@ plot_reduction = function(mat,  clinical_data, axis_x=1, axis_y=2, nf= 5, method
                           font=2, pch=20, draw= "lines",
                           ylimits="auto", xlimits= "auto", text=F, ncol=1,
                           x.intersp = 1, y.intersp=0.5,
-                          where="topleft", inset=0.2,  pca= T, scale =T,  stat.cex= 2, legend.cex= 2, ...){
+                          where="topleft", inset=0.2,  pca= T, scale =T,  stat.cex= 2, legend.cex= 2,
+                          widths= c(1,1), heights= c(1,1), margins= c(1,1,1,1), ...){
   old.par = par()
   on.exit(layout(matrix(c(1,1))))
 
@@ -132,11 +135,11 @@ if(method=="NMDS"){
 
 
   if(xlimits=="auto"){
-    xlimits = c(p_li[,axis_x] %>% max  /0.5, p_li[,1] %>% min  /0.8)
+    xlimits = c(p_li[,axis_x] %>% max  /0.9, p_li[,1] %>% min  /0.9)
   }
 
   if(ylimits=="auto"){
-    ylimits = c(p_li[,axis_y] %>% max  /0.5, p_li[,2] %>% min  /0.8)
+    ylimits = c(p_li[,axis_y] %>% max  /0.9, p_li[,2] %>% min  /0.9)
   } else {
     ylimits= ylim
     xlimits= ylim
@@ -167,7 +170,11 @@ if(method=="NMDS"){
                     1,1,1,3),
                   nrow = 4,
                   ncol = 4,
-                  byrow = TRUE))
+                  byrow = TRUE),
+           widths = widths,
+           heights = heights)
+
+    par(mar= margins)
 
     par(mar=c(0,0,0,0))
 
@@ -187,11 +194,12 @@ if(method=="NMDS"){
     }
     #2
     boxplot(p_li[,axis_x]~fac, data=p_li, horizontal=T, axes=F,  xlab=NULL, ylab=NULL,
-            col= color_vector , xaxt="n", lwd=lwd/2,  ylim=xlimits)
+            col= adjustcolor(color_vector, alpha=0.7) , xaxt="n", lwd=lwd/2,  ylim=xlimits)
+
     stripchart(p_li[,axis_x]~fac, data=p_li, method = "jitter", vertical=F, add=T, pch=21,
                col= "black", bg="gray", lwd=lwd/2,  ylim=xlimits)
     #3
-    boxplot(p_li[,axis_y]~fac, data=p_li, axes=F,  ylab="", xlab="", col= color_vector, lwd=lwd/2,  ylim=ylimits)
+    boxplot(p_li[,axis_y]~fac, data=p_li, axes=F,  ylab="", xlab="", col= adjustcolor(color_vector, alpha=0.7), lwd=lwd/2,  ylim=ylimits)
     stripchart(p_li[,axis_y]~fac, data=p_li, method = "jitter", vertical=T, add=T, pch=21,
                col= "black", bg="gray", lwd=lwd/2,  ylim=ylimits)
 
@@ -255,5 +263,7 @@ if(method=="NMDS"){
     }
   }
 
-return(p)
+  return(list(reduction = p,
+              stat = res))
 }
+
