@@ -50,7 +50,7 @@ if(normalisation !="none" & normalisation != "all")  {
     p_list = list()
 
     for(normalisation in c("log", "clr", "scaling", "sum scaling", "sqrt", "pareto", "crt",
-               "vast",  "level",  "median centering", "gm_centering")){
+               "vast",  "level",  "median centering", "gm centering")){
 # "powerTransform",
 # print(normalisation)
       p_list[[normalisation]]=  df %>%
