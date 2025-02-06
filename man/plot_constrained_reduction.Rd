@@ -13,6 +13,7 @@ plot_constrained_reduction(
   nf = 5,
   method = "CCA",
   type = "boxplot",
+  scale = T,
   group = NULL,
   stat = "none",
   color_vector = c("cyan4", "brown", "deepskyblue", "black", "red"),

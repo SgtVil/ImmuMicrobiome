@@ -4,8 +4,8 @@
 #' @param filt_list List of filtered fastq names givent by \link{filt_list}.
 #' @param cutting_param Equivalent to `truncLen` in \link{filterAndTrim}.
 #' @param maxEE Equivalent to `maxEE` in \link{filterAndTrim}.
-#' @param trimleft
-#' @param cores
+#' @param trimleft Left length
+#' @param cores Number of cores to used (Windows user cannot change this argument)
 #'
 #' @return
 #' @export

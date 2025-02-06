@@ -9,10 +9,10 @@
 #' @param measure Should the function use fold change measure or the mean measures. Default = "fold.change".
 #' @param stat Not implemented yet.
 #'
-#' @return
+#' @return Return a plot
 #'
 #'
-#' @examples
+#' @examples No example
 ternary_plot = function(fold, adjusted.p.val = T, measure="fold.change", stat="median"){
   if(length(unique(fold$comp))!=3) stop("ternary_plot is meant for comparisons between three factors")
 require(ggtern)

@@ -70,7 +70,7 @@
 #' anova(res, by="term")
 
 
-plot_constrained_reduction= function(mat, clinical_data, axis_x=1, axis_y=2, model, nf= 5, method= "CCA", type="boxplot",
+plot_constrained_reduction= function(mat, clinical_data, axis_x=1, axis_y=2, model, nf= 5, method= "CCA", type="boxplot", scale=T,
            group=NULL, stat="none", color_vector= c("cyan4","brown","deepskyblue", "black","red"),
            legend_title= NULL, lwd=1, conf=0.9, cex=2,
            font=2, pch=20, draw= "lines",
@@ -89,7 +89,7 @@ plot_constrained_reduction= function(mat, clinical_data, axis_x=1, axis_y=2, mod
 
 
     if(method=="CCA"){
-      p= cca(mod, data=mat[,clinical_data], na.action=na.exclude)
+      p= cca(mod, data=mat[,clinical_data], na.action=na.exclude, scale= scale)
       p_li= scores(p, display = "sites", choices=c(axis_x, axis_y) )
 
       ca1 = scores(p, display = "species", scaling="species")[,1]
@@ -97,7 +97,7 @@ plot_constrained_reduction= function(mat, clinical_data, axis_x=1, axis_y=2, mod
     }
 
     if(method=="RDA"){
-      p= rda(mod, data=mat[,clinical_data], na.action=na.exclude)
+      p= rda(mod, data=mat[,clinical_data], na.action=na.exclude, scale= scale)
       p_li= scores(p, display = "sites", choices=c(axis_x, axis_y) )
 
       ca1 = scores(p, display = "species", scaling="species")[,1]
@@ -105,7 +105,8 @@ plot_constrained_reduction= function(mat, clinical_data, axis_x=1, axis_y=2, mod
     }
 
     if(method=="dbRDA"){
-      p = capscale(mod, data=mat, na.action=na.exclude, dist="bray")
+      p = dbrda(mod, data=mat, na.action=na.exclude, dist="bray")
+      #  p = capscale(mod, data=mat, na.action=na.exclude, dist="bray")
       p_li= scores(p, display = "sites", choices=c(axis_x, axis_y) )
 
     ca1 = scores(p, display = "species", scaling="species")[,1]

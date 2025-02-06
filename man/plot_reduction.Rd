@@ -35,7 +35,9 @@ plot_reduction(
   scale = T,
   stat.cex = 2,
   legend.cex = 2,
-  layout = "not wide",
+  widths = c(1, 1),
+  heights = c(1, 1),
+  margins = c(1, 1, 1, 1),
   ...
 )
 }
@@ -50,7 +52,7 @@ plot_reduction(
 
 \item{nf}{Number of component to calculate}
 
-\item{method}{Method of reduction to use. Currently available : "PCA", "CA", "DCA", "tsne"}
+\item{method}{Method of reduction to use. Currently available : "PCoA", "NMDS", "PCA", "CA", "DCA", "tsne".}
 
 \item{type}{Chose the type of plot you want, choices are : "boxplot", "pure" or "arrows". Default="boxplot".}
 
@@ -83,8 +85,9 @@ reduction.}
 
 \item{ncol}{Number of columns for the legend. Default = 1}
 
-\item{x.intersp}{Adjust the legend: character interspacing factor for horizontal (x) spacing between symbol and legend text.
-@param y.intersp Adjust the legend: vertical (y) distances (in lines of text shared above/below each legend entry). A vector with one element for each row of the legend can be used.}
+\item{x.intersp}{Adjust the legend: character interspacing factor for horizontal (x) spacing between symbol and legend text.}
+
+\item{y.intersp}{Adjust the legend: vertical (y) distances (in lines of text shared above/below each legend entry). A vector with one element for each row of the legend can be used.}
 
 \item{where}{Position for the permanova value. Default = "topleft"}
 
@@ -96,9 +99,9 @@ reduction.}
 
 \item{legend.cex}{Size of the legend text.}
 
-\item{layout}{Parameter to get thin boxplots on the side or not. Default = "not wide"}
-
 \item{...}{}
+
+\item{layout}{Parameter to get thin boxplots on the side or not. Default = "not wide"}
 }
 \value{
 A plot rendered using the \code{base} package and vegan functions :

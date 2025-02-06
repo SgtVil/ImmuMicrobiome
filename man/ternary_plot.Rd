@@ -21,6 +21,12 @@ Be aware that you need to specify which dataframe you want or use a \code{lapply
 
 \item{stat}{Not implemented yet.}
 }
+\value{
+Return a plot
+}
 \description{
 A wrapper function using \link{ggtern} function to produce a nice ternary plot.
+}
+\examples{
+No example
 }

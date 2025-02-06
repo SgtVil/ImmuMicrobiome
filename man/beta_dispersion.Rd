@@ -34,7 +34,9 @@ beta_dispersion(
   pca = T,
   stat.cex = 2,
   legend.cex = 2,
-  layout = "not wide",
+  widths = c(1, 1),
+  heights = c(1, 1),
+  margins = c(1, 1, 1, 1),
   ...
 )
 }
@@ -99,7 +101,7 @@ supports only "PCoA".}
 
 \item{legend.cex}{Size of the legend text.}
 
-\item{layout}{Parameter to get thin boxplots on the side or not. Default = "not wide"}
+\item{widths, heights}{Parameter to control the size of the boxplots. Default = c(1,1)}
 
 \item{...}{}
 }

@@ -23,7 +23,9 @@ filter_fastq(
 
 \item{maxEE}{Equivalent to \code{maxEE} in \link{filterAndTrim}.}
 
-\item{cores}{}
+\item{trimleft}{Left length}
+
+\item{cores}{Number of cores to used (Windows user cannot change this argument)}
 }
 \description{
 Title

@@ -9,7 +9,7 @@
 #' @param axis_x Number of the component for X axis
 #' @param axis_y Number of the component for Y axis
 #' @param nf Number of component to calculate
-#' @param method Method of reduction to use. Currently available : "PCA", "CA", "DCA", "tsne"
+#' @param method Method of reduction to use. Currently available : "PCoA", "NMDS", "PCA", "CA", "DCA", "tsne".
 #' @param type Chose the type of plot you want, choices are : "boxplot", "pure" or "arrows". Default="boxplot".
 #' @param dist The distance method to be used for PCoA, NMDS and PERMANOVA analysis, distance are directly given to \code{\link[vegan]{vegdist}}. Default = "euclidean".
 #' @param stat Either permanova \code{\link[vegan]{adonis2}} with default parameter or \code{\link[vegan]{envfit}} function. Envfit will fit the grouping factor to the multiple
