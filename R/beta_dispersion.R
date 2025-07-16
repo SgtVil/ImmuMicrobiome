@@ -62,7 +62,7 @@
 #'
 
 beta_dispersion = function(physeq, axis_x=1, axis_y=2,  dist= "bray", nf= 5, method= "PCoA", type= "boxplot",
-                           group=NULL,  stat= "none", color_vector= c("cyan4","brown","deepskyblue", "black","red"),
+                           group=NULL,  stat= "permanova", color_vector= c("cyan4","brown","deepskyblue", "black","red"),
                            legend_title= NULL, lwd=1, conf=0.9, cex=2,
                            font=2, pch=20, draw= "lines",
                            ylimits="auto", xlimits= "auto", text=F, ncol=1, species=F,
@@ -184,7 +184,7 @@ par(mar= margins)
     points(p_li[,axis_x], p_li[,axis_y], bg= col2, xlab="", ylab="", las=2, pch=21, cex=cex, ylim=ylimits, xlim=xlimits, ...)
 
     if(text){
-      text(x= unique(disp[,1:2]),  labels=unique(group), col="black", cex=cex, font=font)
+      text(x= unique(disp[,1:2]),  labels=unique(fac), col="black", cex=cex, font=font)
     }
 
     if(stat=="permanova" | stat=="envfit"){

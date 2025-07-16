@@ -36,7 +36,7 @@ plot_corr_heatmap = function(X, Y, method= "spearman", cutoff=0,  cluster= F, mi
 
   cr= Hmisc::rcorr(x = as.matrix(X), y = as.matrix(Y), type = method)
   r= reshape2::melt(cr$r[1:ncol(X),ncol(X)+1:ncol(Y)]) %>%
-    mutate(p= melt(cr$P[1:ncol(X),ncol(X)+1:ncol(Y)], na.rm=F)$value)%>%
+    mutate(p= reshape2::melt(cr$P[1:ncol(X),ncol(X)+1:ncol(Y)], na.rm=F)$value)%>%
     rstatix::add_significance("p", symbols = c("****", "***", "**", "*", ""))%>%
     rstatix::adjust_pvalue("p", method = "fdr")%>%
     rstatix::add_significance("p.adj", symbols = c("****", "***", "**", "*", ""))
@@ -87,7 +87,7 @@ plot_corr_heatmap = function(X, Y, method= "spearman", cutoff=0,  cluster= F, mi
 
   if(return_df == T){
 
-    return(list(r= cr$r, p= cr$P, long= r, plot= p))
+    return(list(r= cr$r, p= cr$P, long= r, h= h2, plot= p))
   } else return(p)
 }
 

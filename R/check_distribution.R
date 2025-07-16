@@ -1,4 +1,7 @@
-#' Title
+#' Check the distribution of the data and normalisation approaches
+#'
+#' @description
+#' This function allows to plot the distribution of the numeric values quantified and test normalisation procedures.
 #'
 #' @param df Dataframe to be used
 #' @param values Values (numeric) to be used
@@ -17,7 +20,7 @@ source("~/Documents/ImmuMicrobiome/R/pareto_scale.R")
     switch(normalisation,
                    "log" = log(values),
                    "clr" = compositions::clr(values),
-                   "scaling"= scale(values),
+                   "scaling"= scale(values, ),
                    "sum scaling" = sum_scaling(values),
                    "sqrt" = sqrt(values),
                    "pareto"= pareto_scale(values),
@@ -29,8 +32,19 @@ source("~/Documents/ImmuMicrobiome/R/pareto_scale.R")
                    "median centering" = median_centering(values),
                    "gm centering"= geometric_mean(values))
   }
+  if (normalisation =="none"){
+    p=  df %>%
+      group_by(across(all_of(factor))) %>%
+      ggplot(aes(values))+
+      geom_density(aes_string(color=factor))+
+      theme(legend.position = "none",
+            plot.title = element_text(hjust = 0.5),
+            axis.title.x = element_blank())
 
-if(normalisation !="none" & normalisation != "all")  {
+    return(p)
+  }
+
+  if(normalisation !="none" & normalisation != "all")  {
   # print("one")
 
   p=  df %>%

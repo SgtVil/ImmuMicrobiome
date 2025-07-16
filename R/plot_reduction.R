@@ -31,13 +31,13 @@
 #' @param where Position for the permanova value. Default = "topleft"
 #' @param inset Adjust the legend: inset distance(s) from the margins as a fraction of the plot region when legend is placed by keyword.
 #' @param pca Logical. For tsne only. Does the \link{tsne} need to be run on a PCA first ?
+#' @param scale Logical, scale and center the data or not. Default= TRUE.
 #' @param stat.cex Size of the stats text.
 #' @param legend.cex Size of the legend text.
 #' @param layout Parameter to get thin boxplots on the side or not. Default = "not wide"
+#' @param widths @param heights @param margins Adapt the margins, width and height of the plot.
+#' @param by Argument for the permanova, see \code{\link[vegan]{adonis2}}. Accepts "terms", "margin" or "onedf". Default NULL.
 #' @param ...
-
-#'
-#'
 #'
 #' @return A plot rendered using the `base` package and vegan functions :
 #' - \code{\link[vegan]{ordispider}}
@@ -68,22 +68,22 @@
 #'
 #'
 #'
-plot_reduction = function(mat,  clinical_data, axis_x=1, axis_y=2, nf= 5, method= "PCA", type= "boxplot",
-                          group=NULL,  dist = "euclidean", stat= "none",
+plot_reduction = function(mat, clinical_data, axis_x=1, axis_y=2, nf= 5, method= "PCA", type= "boxplot",
+                          group=NULL,  dist = "euclidean", stat= "permanova",
                           color_vector= c("cyan4","brown","deepskyblue", "black","red"),
                           legend_title= NULL, lwd=1, conf=0.9, cex=2,
                           font=2, pch=20, draw= "lines",
                           ylimits="auto", xlimits= "auto", text=F, ncol=1,
                           x.intersp = 1, y.intersp=0.5,
                           where="topleft", inset=0.2,  pca= T, scale =T,  stat.cex= 2, legend.cex= 2,
-                          widths= c(1,1), heights= c(1,1), margins= c(1,1,1,1), ...){
+                          widths= c(1,1), heights= c(1,1), margins= c(1,1,1,1), by=NULL, ...){
   old.par = par()
   on.exit(layout(matrix(c(1,1))))
 
   if(class(dist)=="dist"){
     d= dist
   } else {
-    d= vegan::vegdist(mat[, -clinical_data], method = dist)
+    d= vegan::vegdist(mat[, -clinical_data], method = dist, na.rm=T)
   }
 
   if(is.null(group)){
@@ -176,7 +176,7 @@ if(method=="NMDS"){
 
     par(mar= margins)
 
-    par(mar=c(0,0,0,0))
+    # par(mar=c(0,0,0,0))
 
     #1
     plot(p_li[,axis_x], p_li[,axis_y], bg= col2, axes=F, xlab="", ylab="", las=2, pch=21, cex=cex, ylim=ylimits, xlim=xlimits, ...)
@@ -185,7 +185,7 @@ if(method=="NMDS"){
     points(p_li[,axis_x], p_li[,axis_y], bg= col2, xlab="", ylab="", las=2, pch=21, cex=cex, ylim=ylimits, xlim=xlimits, ...)
 
     if(text){
-      text(x= unique(disp[,1:2]),  labels=unique(group), col="black", cex=cex, font=font)
+      text(x= unique(disp[,1:2]),  labels=unique(fac), col="black", cex=cex, font=font)
     }
 
     if(stat=="permanova" | stat=="envfit"){

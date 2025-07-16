@@ -65,8 +65,8 @@ beta_diversity= function(physeq,  dist= "wunifrac", nf= 5, method= "PCoA",
 
   if( method== "PCoA"){
     # par(mfrow=c(1,1))
-    p= dudi.pco(d, scannf = F, nf=nf)
-    s.class(p$li, fac= fac, sub= paste(factor_to_plot, second_factor_to_plot),
+    p= ade4::dudi.pco(d, scannf = F, nf=nf)
+    ade4::s.class(p$li, fac= fac, sub= paste(factor_to_plot, second_factor_to_plot),
             col = color_vector, grid = F, axesell = axesell, addaxes = addaxes, cpoint=cpoint, clabel=clabel, csub=csub, pch=pch, ...)
     # title( xlab = paste(p$eig[1]/sum(p$eig)*100, "%"))
     # cat("Inertia. \n")
@@ -78,11 +78,11 @@ beta_diversity= function(physeq,  dist= "wunifrac", nf= 5, method= "PCoA",
     cat("Do you want PCA or PCoA based BCA ? Press [PCA] or [PCoA]. \n")
     Answer= readline(prompt="")
     if(Answer== "PCoA"){
-      p= dudi.pco(d, scannf=F, nf=nf)
-      b= bca(p, scannf=F, fac= fac)
+      p= ade4::dudi.pco(d, scannf=F, nf=nf)
+      b= ade4::bca(p, scannf=F, fac= fac)
        # par(mfrow=c(1,2))
 
-      s.class(b$ls, fac= fac, sub=  paste(factor_to_plot, second_factor_to_plot),
+      ade4::s.class(b$ls, fac= fac, sub=  paste(factor_to_plot, second_factor_to_plot),
               col = color_vector, grid = F, axesell = axesell, addaxes = addaxes, cpoint=cpoint,
               clabel=clabel, csub= csub, pch=pch, ...)
 
@@ -94,11 +94,11 @@ beta_diversity= function(physeq,  dist= "wunifrac", nf= 5, method= "PCoA",
     if(Answer=="PCA"){
       otu= as(otu_table(reverseASV(physeq)), 'matrix')
       colnames(otu)= paste0(tax_table(physeq)[,"Genus"], 1:length(tax_table(physeq)[,"Genus"]))
-      p= dudi.pca(otu, scannf = F, nf=nf, scale = T, center = T)
-      b= bca(p, scannf=F, fac= fac)
+      p= ade4::dudi.pca(otu, scannf = F, nf=nf, scale = T, center = T)
+      b= ade4::bca(p, scannf=F, fac= fac)
        # par(mfrow=c(1,2))
 
-      s.class(b$ls, fac= fac, sub=  paste(factor_to_plot, second_factor_to_plot),
+      ade4::s.class(b$ls, fac= fac, sub=  paste(factor_to_plot, second_factor_to_plot),
               col = color_vector, grid = F, axesell = axesell, addaxes = addaxes, cpoint=cpoint, clabel=clabel, csub= csub,
               add.plot = F, pch=pch, ...)
       # scatter(b, clab.row = 0.5, clab.col = 0.5, posieig = "none")
@@ -107,7 +107,7 @@ beta_diversity= function(physeq,  dist= "wunifrac", nf= 5, method= "PCoA",
       # reset.par()
       if(species==TRUE){
         # orditorp(b, display="species")
-        s.arrow(p$co)
+        ade4::s.arrow(p$co)
       }
     }
 
@@ -115,12 +115,12 @@ beta_diversity= function(physeq,  dist= "wunifrac", nf= 5, method= "PCoA",
   if(method=="NMDS"){
     # par(mfrow=c(1,1))
     otu= as(otu_table(reverseASV(physeq)), 'matrix')
-    m= metaMDS(otu )
-    s.class(m$points, fac=fac, sub=  paste(factor_to_plot, second_factor_to_plot),
+    m= vegan::metaMDS(otu )
+    ade4::s.class(m$points, fac=fac, sub=  paste(factor_to_plot, second_factor_to_plot),
             col = color_vector, grid = F, axesell = axesell, addaxes = addaxes,
             cpoint=cpoint, clabel=clabel, csub= csub, pch=pch, ...)
     if(species==TRUE){
-      orditorp(m, display="species")
+      vegan::orditorp(m, display="species")
     }
 
 
@@ -128,8 +128,8 @@ beta_diversity= function(physeq,  dist= "wunifrac", nf= 5, method= "PCoA",
   if(method== "PCA"){
     par(mfrow=c(1,1))
     otu= as(otu_table(reverseASV(physeq)), 'matrix')
-    p= dudi.pca(otu, scannf = F, nf=nf, scale = T, center = T)
-    s.class(p$li, fac= fac, sub=  paste(factor_to_plot, second_factor_to_plot),
+    p= ade4::dudi.pca(otu, scannf = F, nf=nf, scale = T, center = T)
+    ade4::s.class(p$li, fac= fac, sub=  paste(factor_to_plot, second_factor_to_plot),
             col = color_vector, grid = F, axesell = axesell, addaxes = addaxes, cpoint=cpoint, clabel=clabel, csub= csub, pch=pch, ...)
     # cat("Inertia. \n")
     return( head(p$eig/sum(p$eig)*100,5))

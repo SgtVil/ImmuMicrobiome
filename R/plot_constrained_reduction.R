@@ -71,11 +71,11 @@
 
 
 plot_constrained_reduction= function(mat, clinical_data, axis_x=1, axis_y=2, model, nf= 5, method= "CCA", type="boxplot", scale=T,
-           group=NULL, stat="none", color_vector= c("cyan4","brown","deepskyblue", "black","red"),
+           group=NULL, dist= "bray", stat="permanova", color_vector= c("cyan4","brown","deepskyblue", "black","red"),
            legend_title= NULL, lwd=1, conf=0.9, cex=2,
            font=2, pch=20, draw= "lines",
            ylimits="auto", xlimits= "auto", text=F, ncol=1,
-           x.intersp = 1, y.intersp=0.5, where="topleft", inset=0.2, stat.cex=2, axis.prop=T, cex.arrows=1, ...){
+           x.intersp = 1, y.intersp=0.5, where="topleft", inset=0.2, stat.cex=2, axis.prop=T, cex.arrows=1, by="margin", ...){
     # asv= as(otu_table(reverseASV(physeq)), 'matrix')
 
     old.par = par()
@@ -125,10 +125,10 @@ plot_constrained_reduction= function(mat, clinical_data, axis_x=1, axis_y=2, mod
     }
 
     if(stat=="permanova"){
-      res =adonis2(as.formula(as.formula(paste0("mat[, -clinical_data] ~" , group))),
+      res =adonis2(mod,
                    data = as(mat, "data.frame"),
                    permutations = 999, na.action = na.exclude,
-                   method = dist)
+                   method = dist, by=by)
       p.val= paste("PERMANOVA\np=",res$`Pr(>F)`[1])
     }
 
@@ -243,5 +243,5 @@ plot_constrained_reduction= function(mat, clinical_data, axis_x=1, axis_y=2, mod
       }
     }
 
-return(p)
+return(list(model = p, stat= res))
   }
